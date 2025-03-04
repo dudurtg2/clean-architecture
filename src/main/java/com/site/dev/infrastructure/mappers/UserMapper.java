@@ -1,5 +1,7 @@
 package com.site.dev.infrastructure.mappers;
 
+import java.util.List;
+
 import com.site.dev.core.domain.entity.User;
 import com.site.dev.infrastructure.persistence.entity.UserEntity;
 
@@ -18,5 +20,11 @@ public class UserMapper {
                 .email(user.getEmail())
                 .password(user.getPassword())
                 .build();
+    }
+
+    public List<User> toResponse(List<UserEntity> users) {
+        return users.stream()
+                .map(this::toUser)
+                .toList();
     }
 }

@@ -1,5 +1,7 @@
 package com.site.dev.infrastructure.gateways;
 
+import java.util.List;
+
 import com.site.dev.core.domain.entity.User;
 import com.site.dev.core.gateways.UserGateWay;
 import com.site.dev.infrastructure.mappers.UserMapper;
@@ -16,5 +18,13 @@ public class UserRepositoryGateways implements UserGateWay {
     @Override
     public User createUser(User user) {
         return userMapper.toUser(userRepository.save(userMapper.toUserEntity(user)));
+    }
+    @Override
+    public List<User> getAllUsers() {
+        return userMapper.toResponse(userRepository.findAll());
+    }
+    @Override
+    public User getUserById(Long id) {
+        return userMapper.toUser(userRepository.findById(id).get());
     }  
 }

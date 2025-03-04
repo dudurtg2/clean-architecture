@@ -1,6 +1,6 @@
 package com.site.dev.infrastructure.mappers;
 
-import org.springframework.http.HttpStatusCode;
+import java.util.List;
 
 import com.site.dev.core.domain.entity.User;
 import com.site.dev.infrastructure.persistence.controllers.DTO.response.CreateUserResponse;
@@ -20,5 +20,11 @@ public class UserDTOMapper {
                 .name(user.getName())
                 .email(user.getEmail())
                 .build();
+    }
+
+    public List<CreateUserResponse> toResponse(List<User> users) {
+        return users.stream()
+                .map(this::toResponse)
+                .toList();
     }
 }

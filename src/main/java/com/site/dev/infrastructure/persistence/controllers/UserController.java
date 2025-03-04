@@ -1,8 +1,12 @@
 package com.site.dev.infrastructure.persistence.controllers;
 
+
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.site.dev.core.domain.entity.User;
 import com.site.dev.core.domain.usecases.CreateUserUsecases;
+import com.site.dev.core.domain.usecases.FindUserUsecases;
 import com.site.dev.infrastructure.mappers.UserDTOMapper;
 import com.site.dev.infrastructure.persistence.controllers.DTO.response.CreateUserResponse;
 import com.site.dev.infrastructure.persistence.controllers.DTO.resquest.CreateUserRequest;
@@ -20,11 +25,13 @@ import com.site.dev.infrastructure.persistence.controllers.exception.ExceptionBo
 @RequestMapping("/api/user")
 public class UserController {
     private CreateUserUsecases createUserUsecases;
+    private FindUserUsecases findUserUsecases;
     private UserDTOMapper userMapper;
 
-    public UserController(CreateUserUsecases createUserUsecases, UserDTOMapper userMapper) {
+    public UserController(CreateUserUsecases createUserUsecases, UserDTOMapper userMapper, FindUserUsecases findUserUsecases) {
         this.createUserUsecases = createUserUsecases;
         this.userMapper = userMapper;
+        this.findUserUsecases = findUserUsecases;
     }
 
     @PostMapping("/create")
@@ -39,5 +46,30 @@ public class UserController {
             return new ResponseEntity<ExceptionBody>(body, HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping("/find/{id}")
+    ResponseEntity<?> findUser(@PathVariable Long id) {
+        try {
+            User user = findUserUsecases.execute(id);
+            CreateUserResponse response = userMapper.toResponse(user);
+            return new ResponseEntity<CreateUserResponse>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            ExceptionBody body = new ExceptionBody(e.getMessage(), e.getCause().hashCode());
+            return new ResponseEntity<ExceptionBody>(body, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/findAll")
+    ResponseEntity<?> findAll() {
+        try {
+            List<User> users = findUserUsecases.execute();
+            List<CreateUserResponse> response = userMapper.toResponse(users);
+            return new ResponseEntity<List<CreateUserResponse>>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            ExceptionBody body = new ExceptionBody(e.getMessage(), e.getCause().hashCode());
+            return new ResponseEntity<ExceptionBody>(body, HttpStatus.BAD_REQUEST);
+        }
+    }
+
 
 }
