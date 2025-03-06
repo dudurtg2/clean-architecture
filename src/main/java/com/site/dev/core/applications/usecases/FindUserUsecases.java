@@ -1,9 +1,10 @@
-package com.site.dev.core.domain.usecases;
+package com.site.dev.core.applications.usecases;
 
 import java.util.List;
 
+import com.site.dev.core.applications.gateway.UserGateWay;
 import com.site.dev.core.domain.entity.User;
-import com.site.dev.core.gateways.UserGateWay;
+
 
 public class FindUserUsecases {
      private UserGateWay userGateWay;

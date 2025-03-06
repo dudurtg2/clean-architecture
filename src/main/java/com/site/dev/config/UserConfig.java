@@ -3,9 +3,9 @@ package com.site.dev.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.site.dev.core.domain.usecases.CreateUserUsecases;
-import com.site.dev.core.domain.usecases.FindUserUsecases;
-import com.site.dev.core.gateways.UserGateWay;
+import com.site.dev.core.applications.gateway.UserGateWay;
+import com.site.dev.core.applications.usecases.CreateUserUsecases;
+import com.site.dev.core.applications.usecases.FindUserUsecases;
 import com.site.dev.infrastructure.gateways.UserRepositoryGateways;
 import com.site.dev.infrastructure.mappers.UserDTOMapper;
 import com.site.dev.infrastructure.mappers.UserMapper;

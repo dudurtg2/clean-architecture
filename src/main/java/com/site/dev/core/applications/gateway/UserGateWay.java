@@ -1,4 +1,4 @@
-package com.site.dev.core.gateways;
+package com.site.dev.core.applications.gateway;
 
 import java.util.List;
 

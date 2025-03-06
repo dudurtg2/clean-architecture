@@ -2,8 +2,8 @@ package com.site.dev.infrastructure.gateways;
 
 import java.util.List;
 
+import com.site.dev.core.applications.gateway.UserGateWay;
 import com.site.dev.core.domain.entity.User;
-import com.site.dev.core.gateways.UserGateWay;
 import com.site.dev.infrastructure.mappers.UserMapper;
 import com.site.dev.infrastructure.persistence.repository.UserRepository;
 

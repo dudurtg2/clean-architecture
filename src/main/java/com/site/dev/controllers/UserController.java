@@ -1,8 +1,9 @@
-package com.site.dev.infrastructure.persistence.controllers;
+package com.site.dev.controllers;
 
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,13 +13,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.site.dev.controllers.DTO.response.CreateUserResponse;
+import com.site.dev.controllers.DTO.resquest.CreateUserRequest;
+import com.site.dev.controllers.exception.ExceptionBody;
+import com.site.dev.core.applications.usecases.CreateUserUsecases;
+import com.site.dev.core.applications.usecases.FindUserUsecases;
 import com.site.dev.core.domain.entity.User;
-import com.site.dev.core.domain.usecases.CreateUserUsecases;
-import com.site.dev.core.domain.usecases.FindUserUsecases;
+
 import com.site.dev.infrastructure.mappers.UserDTOMapper;
-import com.site.dev.infrastructure.persistence.controllers.DTO.response.CreateUserResponse;
-import com.site.dev.infrastructure.persistence.controllers.DTO.resquest.CreateUserRequest;
-import com.site.dev.infrastructure.persistence.controllers.exception.ExceptionBody;
 
 
 @RestController
@@ -28,6 +30,7 @@ public class UserController {
     private FindUserUsecases findUserUsecases;
     private UserDTOMapper userMapper;
 
+    
     public UserController(CreateUserUsecases createUserUsecases, UserDTOMapper userMapper, FindUserUsecases findUserUsecases) {
         this.createUserUsecases = createUserUsecases;
         this.userMapper = userMapper;

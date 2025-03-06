@@ -1,8 +1,8 @@
-package com.site.dev.core.domain.usecases;
+package com.site.dev.core.applications.usecases;
 
 import com.site.dev.core.domain.entity.User;
-import com.site.dev.core.domain.exception.CustomException;
-import com.site.dev.core.gateways.UserGateWay;
+import com.site.dev.core.applications.exception.CustomException;
+import com.site.dev.core.applications.gateway.UserGateWay;
 
 public class CreateUserUsecases {
     private UserGateWay userGateWay;

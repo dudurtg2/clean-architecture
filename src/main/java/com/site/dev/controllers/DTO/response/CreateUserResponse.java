@@ -1,4 +1,4 @@
-package com.site.dev.infrastructure.persistence.controllers.DTO.response;
+package com.site.dev.controllers.DTO.response;
 
 import lombok.Builder;
 
