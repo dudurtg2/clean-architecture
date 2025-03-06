@@ -1,4 +1,4 @@
-package com.site.dev.core.applications.exception;
+package com.site.dev.core.domain.exception;
 
 public class CustomException extends RuntimeException {
 

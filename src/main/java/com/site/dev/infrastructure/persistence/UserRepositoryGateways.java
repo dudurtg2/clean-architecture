@@ -1,11 +1,11 @@
-package com.site.dev.infrastructure.gateways;
+package com.site.dev.infrastructure.persistence;
 
 import java.util.List;
 
 import com.site.dev.core.applications.gateway.UserGateWay;
 import com.site.dev.core.domain.entity.User;
 import com.site.dev.infrastructure.mappers.UserMapper;
-import com.site.dev.infrastructure.persistence.repository.UserRepository;
+import com.site.dev.infrastructure.repository.UserRepository;
 
 public class UserRepositoryGateways implements UserGateWay {
     private final UserRepository userRepository;

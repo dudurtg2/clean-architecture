@@ -1,7 +1,7 @@
 package com.site.dev.core.applications.usecases;
 
 import com.site.dev.core.domain.entity.User;
-import com.site.dev.core.applications.exception.CustomException;
+import com.site.dev.core.domain.exception.CustomException;
 import com.site.dev.core.applications.gateway.UserGateWay;
 
 public class CreateUserUsecases {
@@ -18,17 +18,9 @@ public class CreateUserUsecases {
     };
 
     public void validateUser(User user) throws CustomException {
-        if (user == null) {
-            throw new CustomException("User cannot be null", 400);
+        if (user.getName().isEmpty() || user.getEmail().isEmpty() || user.getPassword().isEmpty()) {
+            throw new CustomException("Campos obrigatórios não preenchidos", 400);
         }
-        if (user.getName() == null) {
-            throw new CustomException("User name cannot be null", 400);
-        }
-        if (user.getEmail() == null) {
-            throw new CustomException("User email cannot be null", 400);
-        }
-        if (user.getPassword() == null) {
-            throw new CustomException("User password cannot be null", 400);
-        }
+            
     }
 }

@@ -3,7 +3,7 @@ package com.site.dev.infrastructure.mappers;
 import java.util.List;
 
 import com.site.dev.core.domain.entity.User;
-import com.site.dev.infrastructure.persistence.entity.UserEntity;
+import com.site.dev.infrastructure.entity.UserEntity;
 
 public class UserMapper {
     public User toUser(UserEntity userEntity) {

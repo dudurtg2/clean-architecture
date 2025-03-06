@@ -1,4 +1,4 @@
-package com.site.dev.controllers.DTO.resquest;
+package com.site.dev.infrastructure.controllers.DTO.resquest;
 
 import lombok.Builder;
 
