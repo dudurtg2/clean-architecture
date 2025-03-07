@@ -18,7 +18,7 @@ import com.site.dev.core.applications.usecases.FindUserUsecases;
 import com.site.dev.core.domain.entity.User;
 import com.site.dev.infrastructure.controllers.DTO.response.CreateUserResponse;
 import com.site.dev.infrastructure.controllers.DTO.resquest.CreateUserRequest;
-import com.site.dev.infrastructure.controllers.exception.ExceptionBody;
+import com.site.dev.infrastructure.entity.ExceptionBody;
 import com.site.dev.infrastructure.mappers.UserDTOMapper;
 
 

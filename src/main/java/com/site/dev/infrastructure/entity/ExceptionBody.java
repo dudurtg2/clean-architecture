@@ -1,4 +1,4 @@
-package com.site.dev.infrastructure.controllers.exception;
+package com.site.dev.infrastructure.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
