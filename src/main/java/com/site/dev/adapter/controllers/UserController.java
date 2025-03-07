@@ -44,7 +44,7 @@ public class UserController {
             CreateUserResponse response = userMapper.toResponse(createdUser);
             return new ResponseEntity<CreateUserResponse>(response, HttpStatus.CREATED);
         } catch (Exception e) {
-            ExceptionBody body = new ExceptionBody(e.getMessage(), e.getCause().hashCode());
+            ExceptionBody body = new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value());
             return new ResponseEntity<ExceptionBody>(body, HttpStatus.BAD_REQUEST);
         }
     }
@@ -56,7 +56,7 @@ public class UserController {
             CreateUserResponse response = userMapper.toResponse(user);
             return new ResponseEntity<CreateUserResponse>(response, HttpStatus.OK);
         } catch (Exception e) {
-            ExceptionBody body = new ExceptionBody(e.getMessage(), e.getCause().hashCode());
+            ExceptionBody body = new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value());
             return new ResponseEntity<ExceptionBody>(body, HttpStatus.BAD_REQUEST);
         }
     }
@@ -68,7 +68,7 @@ public class UserController {
             List<CreateUserResponse> response = userMapper.toResponse(users);
             return new ResponseEntity<List<CreateUserResponse>>(response, HttpStatus.OK);
         } catch (Exception e) {
-            ExceptionBody body = new ExceptionBody(e.getMessage(), e.getCause().hashCode());
+            ExceptionBody body = new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value());
             return new ResponseEntity<ExceptionBody>(body, HttpStatus.BAD_REQUEST);
         }
     }

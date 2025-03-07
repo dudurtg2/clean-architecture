@@ -10,4 +10,5 @@ import com.site.dev.adapter.entity.UserEntity;
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
     List<UserEntity> findAll();
     Optional<UserEntity> findById(Long id);
+    Optional<UserEntity> findByEmail(String email);
 }

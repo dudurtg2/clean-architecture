@@ -1,7 +1,7 @@
 package com.site.dev.core.applications.usecases;
 
 import com.site.dev.core.domain.entity.User;
-import com.site.dev.core.domain.exception.CustomException;
+import com.site.dev.core.domain.exception.IncorretBoryUserException;
 import com.site.dev.core.applications.gateway.UserGateWay;
 
 public class CreateUserUsecases {
@@ -13,13 +13,20 @@ public class CreateUserUsecases {
     }
 
     public User execute(User user){
-        validateUser(user);
+        boryValidate(user);
+        verifyUserExists(user);
         return userGateWay.createUser(user);
     };
 
-    public void validateUser(User user) throws CustomException {
+    public void verifyUserExists(User user) throws IncorretBoryUserException {
+        if (userGateWay.getUserByEmail(user.getEmail()) != null) {
+            throw new IncorretBoryUserException();
+        }
+    }
+    
+    public void boryValidate(User user) throws IncorretBoryUserException {
         if (user.getName().isEmpty() || user.getEmail().isEmpty() || user.getPassword().isEmpty()) {
-            throw new CustomException("Campos obrigatórios não preenchidos", 400);
+            throw new IncorretBoryUserException();
         }
             
     }

@@ -26,5 +26,9 @@ public class UserRepositoryGateways implements UserGateWay {
     @Override
     public User getUserById(Long id) {
         return userMapper.toUser(userRepository.findById(id).get());
+    }
+    @Override
+    public User getUserByEmail(String email) {
+        return userMapper.toUser(userRepository.findByEmail(email).get());
     }  
 }
