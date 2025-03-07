@@ -1,10 +1,10 @@
-package com.site.dev.infrastructure.mappers;
+package com.site.dev.adapter.mappers;
 
 import java.util.List;
 
+import com.site.dev.adapter.controllers.DTO.response.CreateUserResponse;
+import com.site.dev.adapter.controllers.DTO.resquest.CreateUserRequest;
 import com.site.dev.core.domain.entity.User;
-import com.site.dev.infrastructure.controllers.DTO.response.CreateUserResponse;
-import com.site.dev.infrastructure.controllers.DTO.resquest.CreateUserRequest;
 
 public class UserDTOMapper {
     public User toUser(CreateUserRequest createUserRequest) {

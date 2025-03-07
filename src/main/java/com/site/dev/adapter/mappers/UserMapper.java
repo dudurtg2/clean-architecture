@@ -1,9 +1,9 @@
-package com.site.dev.infrastructure.mappers;
+package com.site.dev.adapter.mappers;
 
 import java.util.List;
 
+import com.site.dev.adapter.entity.UserEntity;
 import com.site.dev.core.domain.entity.User;
-import com.site.dev.infrastructure.entity.UserEntity;
 
 public class UserMapper {
     public User toUser(UserEntity userEntity) {
