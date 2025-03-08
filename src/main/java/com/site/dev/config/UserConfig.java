@@ -14,16 +14,6 @@ import com.site.dev.core.applications.usecases.FindUserUsecases;
 @Configuration
 public class UserConfig {
     @Bean
-    UserMapper userMapper() {
-        return new UserMapper();
-    }
-    
-    @Bean
-    UserDTOMapper userDTOMapper() {
-        return new UserDTOMapper();
-    }
-
-    @Bean
     UserGateWay userRepositoryGateways(UserMapper userMapper, UserRepository userRepository) {
         return new UserRepositoryGateways(userRepository, userMapper);
     }
@@ -36,5 +26,15 @@ public class UserConfig {
     @Bean
     FindUserUsecases findUserUsecases(UserGateWay userGateWay) {
         return new FindUserUsecases(userGateWay);
+    }
+
+    @Bean
+    UserMapper userMapper() {
+        return new UserMapper();
+    }
+    
+    @Bean
+    UserDTOMapper userDTOMapper() {
+        return new UserDTOMapper();
     }
 }
