@@ -1,7 +1,6 @@
 package com.site.dev.core.applications.usecases;
 
 import java.util.List;
-
 import com.site.dev.core.applications.gateway.UserGateWay;
 import com.site.dev.core.domain.entity.User;
 

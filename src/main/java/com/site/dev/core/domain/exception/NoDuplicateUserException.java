@@ -1,7 +1,6 @@
 package com.site.dev.core.domain.exception;
 
 public class NoDuplicateUserException extends RuntimeException {
-
     private final int statusCode;
 
     public NoDuplicateUserException() {

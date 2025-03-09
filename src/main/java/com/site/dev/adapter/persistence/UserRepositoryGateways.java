@@ -1,11 +1,8 @@
 package com.site.dev.adapter.persistence;
 
 import java.util.List;
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import com.site.dev.adapter.mappers.UserMapper;
 import com.site.dev.adapter.repository.UserRepository;
 import com.site.dev.core.applications.gateway.UserGateWay;

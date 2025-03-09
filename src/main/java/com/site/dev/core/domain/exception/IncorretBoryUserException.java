@@ -1,7 +1,6 @@
 package com.site.dev.core.domain.exception;
 
 public class IncorretBoryUserException extends RuntimeException {
-
     private final int statusCode;
 
     public IncorretBoryUserException() {
