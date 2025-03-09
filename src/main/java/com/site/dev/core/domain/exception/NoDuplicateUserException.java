@@ -5,7 +5,7 @@ public class NoDuplicateUserException extends RuntimeException {
     private final int statusCode;
 
     public NoDuplicateUserException() {
-        super("User não é valido");
+        super("Usuario ja cadastrado");
         this.statusCode = 400;
     }
 
