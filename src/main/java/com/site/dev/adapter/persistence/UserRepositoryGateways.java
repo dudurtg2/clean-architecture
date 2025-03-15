@@ -3,12 +3,13 @@ package com.site.dev.adapter.persistence;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import com.site.dev.adapter.mappers.UserMapper;
+
+import com.site.dev.adapter.mappers.users.UserMapper;
 import com.site.dev.adapter.repository.UserRepository;
-import com.site.dev.core.applications.gateway.UserGateWay;
-import com.site.dev.core.domain.entity.User;
+import com.site.dev.core.applications.gateway.UsersGateWay;
+import com.site.dev.core.domain.entity.Users;
 @Component
-public class UserRepositoryGateways implements UserGateWay {
+public class UserRepositoryGateways implements UsersGateWay {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     
@@ -18,19 +19,19 @@ public class UserRepositoryGateways implements UserGateWay {
         this.userMapper = userMapper;
     }
     @Override
-    public User createUser(User user) {
+    public Users createUser(Users user) {
         return userMapper.toUser(userRepository.save(userMapper.toUserEntity(user)));
     }
     @Override
-    public List<User> getAllUsers() {
+    public List<Users> getAllUsers() {
         return userMapper.toResponse(userRepository.findAll());
     }
     @Override
-    public User getUserById(Long id) {
+    public Users getUserById(Long id) {
         return userMapper.toUser(userRepository.findById(id).get());
     }
     @Override
-    public User getUserByEmail(String email) {
+    public Users getUserByEmail(String email) {
         return userMapper.toUser(userRepository.findByEmail(email));
     }  
 }

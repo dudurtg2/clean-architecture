@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User {
-    Long id;
+public class Coins {
     String name;
-    String email;
-    String password;
+    String symbol;
+    String image;
+    Users user;
 }

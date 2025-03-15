@@ -2,22 +2,22 @@ package com.site.dev.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import com.site.dev.core.applications.gateway.UserGateWay;
-import com.site.dev.core.applications.usecases.CreateUserUsecases;
-import com.site.dev.core.applications.usecases.FindUserUsecases;
+import com.site.dev.core.applications.gateway.UsersGateWay;
+import com.site.dev.core.applications.usecases.users.CreateUsersUsecases;
+import com.site.dev.core.applications.usecases.users.FindUsersUsecases;
 
 @Configuration
 public class UserConfig {
     
     
     @Bean
-    CreateUserUsecases createUserUsecases(UserGateWay userGateWay) {
-        return new CreateUserUsecases(userGateWay);
+    CreateUsersUsecases createUserUsecases(UsersGateWay userGateWay) {
+        return new CreateUsersUsecases(userGateWay);
     }
 
     @Bean
-    FindUserUsecases findUserUsecases(UserGateWay userGateWay) {
-        return new FindUserUsecases(userGateWay);
+    FindUsersUsecases findUserUsecases(UsersGateWay userGateWay) {
+        return new FindUsersUsecases(userGateWay);
     }
 
     

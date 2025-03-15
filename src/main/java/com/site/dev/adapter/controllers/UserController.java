@@ -11,24 +11,24 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.site.dev.adapter.controllers.DTO.response.CreateUserResponse;
-import com.site.dev.adapter.controllers.DTO.resquest.CreateUserRequest;
+import com.site.dev.adapter.controllers.DTO.users.CreateUserRequest;
+import com.site.dev.adapter.controllers.DTO.users.CreateUserResponse;
 import com.site.dev.adapter.entity.ExceptionBody;
-import com.site.dev.adapter.mappers.UserDTOMapper;
-import com.site.dev.core.applications.usecases.CreateUserUsecases;
-import com.site.dev.core.applications.usecases.FindUserUsecases;
-import com.site.dev.core.domain.entity.User;
+import com.site.dev.adapter.mappers.users.UserDTOMapper;
+import com.site.dev.core.applications.usecases.users.CreateUsersUsecases;
+import com.site.dev.core.applications.usecases.users.FindUsersUsecases;
+import com.site.dev.core.domain.entity.Users;
 
 
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
-    private CreateUserUsecases createUserUsecases;
-    private FindUserUsecases findUserUsecases;
-    private UserDTOMapper userMapper;
+    private final CreateUsersUsecases createUserUsecases;
+    private final FindUsersUsecases findUserUsecases;
+    private final UserDTOMapper userMapper;
 
     
-    public UserController(CreateUserUsecases createUserUsecases, UserDTOMapper userMapper, FindUserUsecases findUserUsecases) {
+    public UserController(CreateUsersUsecases createUserUsecases, UserDTOMapper userMapper, FindUsersUsecases findUserUsecases) {
         this.createUserUsecases = createUserUsecases;
         this.userMapper = userMapper;
         this.findUserUsecases = findUserUsecases;
@@ -37,8 +37,8 @@ public class UserController {
     @PostMapping("/create")
     ResponseEntity<?> createUser(@RequestBody CreateUserRequest request) {
         try {
-            User user = userMapper.toUser(request);
-            User createdUser = createUserUsecases.execute(user);
+            Users user = userMapper.toUser(request);
+            Users createdUser = createUserUsecases.execute(user);
             CreateUserResponse response = userMapper.toResponse(createdUser);
             return new ResponseEntity<CreateUserResponse>(response, HttpStatus.CREATED);
         } catch (Exception e) {
@@ -50,7 +50,7 @@ public class UserController {
     @GetMapping("/find/{id}")
     ResponseEntity<?> findUser(@PathVariable Long id) {
         try {
-            User user = findUserUsecases.execute(id);
+            Users user = findUserUsecases.execute(id);
             CreateUserResponse response = userMapper.toResponse(user);
             return new ResponseEntity<CreateUserResponse>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -62,7 +62,7 @@ public class UserController {
     @GetMapping("/findAll")
     ResponseEntity<?> findAll() {
         try {
-            List<User> users = findUserUsecases.execute();
+            List<Users> users = findUserUsecases.execute();
             List<CreateUserResponse> response = userMapper.toResponse(users);
             return new ResponseEntity<List<CreateUserResponse>>(response, HttpStatus.OK);
         } catch (Exception e) {

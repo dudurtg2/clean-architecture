@@ -1,4 +1,4 @@
-package com.site.dev.adapter.controllers.DTO.response;
+package com.site.dev.adapter.controllers.DTO.users;
 
 import lombok.Builder;
 
