@@ -27,15 +27,15 @@ public class CoinsEntity {
     private Long id;
 
     @Column(name = "name")
-    String name;
+    private String name;
 
     @Column(name = "symbol")
-    String symbol;
+    private String symbol;
 
     @Column(name = "image")
-    String image;
+    private String image;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    UserEntity user;
+    private UserEntity user;
 }

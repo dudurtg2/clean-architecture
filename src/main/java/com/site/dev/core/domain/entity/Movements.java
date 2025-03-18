@@ -19,8 +19,4 @@ public class Movements {
     private Float price;
     private TypeCoins typeCoins;
     private Coins coins;
-
-    public String getCoins() {
-        return coins.getSymbol();
-    }
 }

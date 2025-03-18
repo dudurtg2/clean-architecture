@@ -31,22 +31,19 @@ public class MovementsEntity {
     private Long id;
 
     @Column(name = "date")
-    LocalDateTime date;
+    private LocalDateTime date;
 
     @Column(name = "value")
-    Float value;
+    private Float value;
 
     @Column(name = "price")
-    Float price;
+    private Float price;
 
     @Column(name = "type_coins")
-    TypeCoins typeCoins;
+    private TypeCoins typeCoins;
 
     @ManyToOne
     @JoinColumn(name = "coins_id")
-    CoinsEntity coins;
+    private CoinsEntity coins;
 
-    public String getCoins() {
-        return coins.name;
-    }
 }
