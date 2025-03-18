@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class Coins {
-    String name;
-    String symbol;
-    String image;
-    Users user;
+    private String name;
+    private String symbol;
+    private String image;
+    private Users user;
 }

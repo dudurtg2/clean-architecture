@@ -7,9 +7,9 @@ import com.site.dev.adapter.entity.MovementsEntity;
 import com.site.dev.core.domain.entity.Movements;
 @Mapper(componentModel = "spring")
 public interface MovementsMapper {
-    public Movements toUser(MovementsEntity movementsEntity);
+    public Movements toMovements(MovementsEntity movementsEntity);
     
-    public MovementsEntity toUserEntity(Movements movements);
+    public MovementsEntity toMovementsEntity(Movements movements);
     
     public List<Movements> toResponse(List<MovementsEntity> movementsEntity);
 }

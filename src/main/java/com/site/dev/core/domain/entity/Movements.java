@@ -14,13 +14,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class Movements {
-    LocalDateTime date;
-    Float value;
-    Float price;
-    TypeCoins typeCoins;
-    Coins coins;
+    private LocalDateTime date;
+    private Float value;
+    private Float price;
+    private TypeCoins typeCoins;
+    private Coins coins;
 
     public String getCoins() {
-        return coins.name;
+        return coins.getSymbol();
     }
 }

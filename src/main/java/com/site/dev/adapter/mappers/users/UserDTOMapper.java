@@ -13,7 +13,6 @@ public interface UserDTOMapper {
 
     public Users toUser(CreateUserRequest createUserRequest);
    
-    @Mapping(target = "password", ignore = true)
     public CreateUserResponse toResponse(Users user);
     
     @Mapping(target = "password", ignore = true)

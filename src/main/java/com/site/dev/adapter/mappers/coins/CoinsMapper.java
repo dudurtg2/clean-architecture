@@ -7,9 +7,9 @@ import com.site.dev.adapter.entity.CoinsEntity;
 import com.site.dev.core.domain.entity.Coins;
 @Mapper(componentModel = "spring")
 public interface CoinsMapper {
-    public Coins toUser(CoinsEntity coinsEntity);
+    public Coins toCoins(CoinsEntity coinsEntity);
     
-    public CoinsEntity toUserEntity(Coins coins);
+    public CoinsEntity toCoinsEntity(Coins coins);
     
     public List<Coins> toResponse(List<CoinsEntity> coinsEntity);
 }
