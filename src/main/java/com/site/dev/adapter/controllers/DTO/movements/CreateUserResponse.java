@@ -1,8 +1,12 @@
-package com.site.dev.adapter.controllers.DTO.users;
+package com.site.dev.adapter.controllers.DTO.movements;
+
+import java.time.LocalDateTime;
+
+import com.site.dev.core.domain.enums.TypeCoins;
 
 import lombok.Builder;
 
 @Builder
-public record CreateUserResponse(String name, String email) {
+public record CreateUserResponse(LocalDateTime date, Float value, Float price, TypeCoins typeCoins, Long coinsId) {
     
 }
