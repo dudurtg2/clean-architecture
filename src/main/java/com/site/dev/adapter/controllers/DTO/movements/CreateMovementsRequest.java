@@ -7,6 +7,6 @@ import com.site.dev.core.domain.enums.TypeCoins;
 import lombok.Builder;
 
 @Builder
-public record CreateUserRequest(LocalDateTime date, Float value, Float price, TypeCoins typeCoins, Long coinsId) {
+public record CreateMovementsRequest(LocalDateTime date, Float value, Float price, TypeCoins typeCoins, Long coinsId) {
     
 }

@@ -7,6 +7,6 @@ import com.site.dev.core.domain.enums.TypeCoins;
 import lombok.Builder;
 
 @Builder
-public record CreateUserResponse(LocalDateTime date, Float value, Float price, TypeCoins typeCoins, Long coinsId) {
+public record CreateMovementsResponse(LocalDateTime date, Float value, Float price, TypeCoins typeCoins, Long coinsId) {
     
 }

@@ -9,6 +9,4 @@ public interface CoinsGateWay {
     List<Coins> getAll();
     Coins getByName(String name);
     Coins getById(Long id);
-
-    
 }
