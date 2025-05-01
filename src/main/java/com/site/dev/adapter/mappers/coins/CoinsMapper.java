@@ -11,5 +11,10 @@ public interface CoinsMapper {
     
     public CoinsEntity toCoinsEntity(Coins coins);
     
-    public List<Coins> toResponse(List<CoinsEntity> coinsEntity);
+    public List<CoinsEntity> toResponse(List<Coins> coins);
+
+    public List<Coins> toRequest(List<CoinsEntity> coins);
+
+
+
 }

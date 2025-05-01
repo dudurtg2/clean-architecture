@@ -2,6 +2,7 @@ package com.site.dev.adapter.controllers;
 
 
 import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,36 +12,37 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.site.dev.adapter.controllers.DTO.users.CreateUserRequest;
-import com.site.dev.adapter.controllers.DTO.users.CreateUserResponse;
+import com.site.dev.adapter.controllers.DTO.movements.CreateMovementsRequest;
+import com.site.dev.adapter.controllers.DTO.movements.CreateMovementsResponse;
 import com.site.dev.adapter.entity.ExceptionBody;
-import com.site.dev.adapter.mappers.users.UserDTOMapper;
-import com.site.dev.core.applications.usecases.users.CreateUsersUsecases;
-import com.site.dev.core.applications.usecases.users.FindUsersUsecases;
-import com.site.dev.core.domain.entity.Users;
-
+import com.site.dev.adapter.mappers.movements.MovementsMapper;
+import com.site.dev.core.applications.usecases.movements.CreateMovementsUsecases;
+import com.site.dev.core.applications.usecases.movements.FindMovementsUsecases;
+import com.site.dev.core.domain.entity.Movements;
 
 @RestController
 @RequestMapping("/api/movements")
 public class MovementsController {
-    private final CreateUsersUsecases createUserUsecases;
-    private final FindUsersUsecases findUserUsecases;
-    private final UserDTOMapper userMapper;
 
+    private final CreateMovementsUsecases createMovementUsecases;
+    private final FindMovementsUsecases findMovementUsecases;
+    private final MovementsMapper movementsMapper;
+
+ 
     
-    public MovementsController(CreateUsersUsecases createUserUsecases, UserDTOMapper userMapper, FindUsersUsecases findUserUsecases) {
-        this.createUserUsecases = createUserUsecases;
-        this.userMapper = userMapper;
-        this.findUserUsecases = findUserUsecases;
+    public MovementsController(CreateMovementsUsecases createMovementUsecases, FindMovementsUsecases findMovementUsecases, MovementsMapper movementsMapper) {
+        this.createMovementUsecases = createMovementUsecases;
+        this.findMovementUsecases = findMovementUsecases;
+        this.movementsMapper = movementsMapper;
     }
 
     @PostMapping("/create")
-    ResponseEntity<?> createUser(@RequestBody CreateUserRequest request) {
+    ResponseEntity<?> createUser(@RequestBody CreateMovementsRequest request) {
         try {
-            Users user = userMapper.toUser(request);
-            Users createdUser = createUserUsecases.execute(user);
-            CreateUserResponse response = userMapper.toResponse(createdUser);
-            return new ResponseEntity<CreateUserResponse>(response, HttpStatus.CREATED);
+            Movements movements = movementsMapper.toMovements(request);
+            Movements movementsCreated = createMovementUsecases.execute(movements);
+            CreateMovementsResponse response = movementsMapper.toResponse(movementsCreated);
+            return new ResponseEntity<CreateMovementsResponse>(response, HttpStatus.CREATED);
         } catch (Exception e) {
             ExceptionBody body = new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value());
             return new ResponseEntity<ExceptionBody>(body, HttpStatus.BAD_REQUEST);
@@ -50,9 +52,9 @@ public class MovementsController {
     @GetMapping("/find/{id}")
     ResponseEntity<?> findUser(@PathVariable Long id) {
         try {
-            Users user = findUserUsecases.execute(id);
-            CreateUserResponse response = userMapper.toResponse(user);
-            return new ResponseEntity<CreateUserResponse>(response, HttpStatus.OK);
+            Movements movements = findMovementUsecases.execute(id);
+            CreateMovementsResponse response = movementsMapper.toResponse(movements);
+            return new ResponseEntity<CreateMovementsResponse>(response, HttpStatus.OK);
         } catch (Exception e) {
             ExceptionBody body = new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value());
             return new ResponseEntity<ExceptionBody>(body, HttpStatus.BAD_REQUEST);
@@ -62,9 +64,9 @@ public class MovementsController {
     @GetMapping("/findAll")
     ResponseEntity<?> findAll() {
         try {
-            List<Users> users = findUserUsecases.execute();
-            List<CreateUserResponse> response = userMapper.toResponse(users);
-            return new ResponseEntity<List<CreateUserResponse>>(response, HttpStatus.OK);
+            List<Movements> movements = findMovementUsecases.execute();
+            List<CreateMovementsResponse> response = movementsMapper.toResponseEntity(movements);
+            return new ResponseEntity<List<CreateMovementsResponse>>(response, HttpStatus.OK);
         } catch (Exception e) {
             ExceptionBody body = new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value());
             return new ResponseEntity<ExceptionBody>(body, HttpStatus.BAD_REQUEST);
