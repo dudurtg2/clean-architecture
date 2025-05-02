@@ -1,5 +1,7 @@
 package com.site.dev.core.domain.entity;
 
+import com.site.dev.core.domain.enums.UserRole;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,4 +20,5 @@ public class Users {
     private String name;
     private String email;
     private String password;
+    private UserRole role;
 }

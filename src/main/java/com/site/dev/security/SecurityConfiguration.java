@@ -40,9 +40,6 @@ public class SecurityConfiguration {
             .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers("/**").permitAll()
                 
-                
-        
-
             )
             .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class) 
             .build();
