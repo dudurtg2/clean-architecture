@@ -18,7 +18,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Data
-public class CreateMovementsResponse {
+public class MovementsResponse {
     private LocalDateTime date;
     private Float value;
     private Float price;

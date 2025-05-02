@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.site.dev.adapter.controllers.DTO.users.CreateUserRequest;
-import com.site.dev.adapter.controllers.DTO.users.CreateUserResponse;
+import com.site.dev.adapter.controllers.DTO.users.UsersRequest;
+import com.site.dev.adapter.controllers.DTO.users.UsersResponse;
 import com.site.dev.adapter.entity.ExceptionBody;
-import com.site.dev.adapter.mappers.users.UserDTOMapper;
+import com.site.dev.adapter.mappers.UserDTOMapper;
 import com.site.dev.core.applications.usecases.users.CreateUsersUsecases;
 import com.site.dev.core.applications.usecases.users.FindUsersUsecases;
 import com.site.dev.core.domain.entity.Users;
@@ -37,12 +37,12 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    ResponseEntity<?> create(@RequestBody CreateUserRequest request) {
+    ResponseEntity<?> create(@RequestBody UsersRequest request) {
         try {
             Users user = userMapper.toUser(request);
             Users createdUser = createUserUsecases.execute(user);
-            CreateUserResponse response = userMapper.toResponse(createdUser);
-            return new ResponseEntity<CreateUserResponse>(response, HttpStatus.CREATED);
+            UsersResponse response = userMapper.toResponse(createdUser);
+            return new ResponseEntity<UsersResponse>(response, HttpStatus.CREATED);
         } catch (Exception e) {
             ExceptionBody body = new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value());
             return new ResponseEntity<ExceptionBody>(body, HttpStatus.BAD_REQUEST);
@@ -53,8 +53,8 @@ public class UserController {
     ResponseEntity<?> find(@PathVariable Long id) {
         try {
             Users user = findUserUsecases.execute(id);
-            CreateUserResponse response = userMapper.toResponse(user);
-            return new ResponseEntity<CreateUserResponse>(response, HttpStatus.OK);
+            UsersResponse response = userMapper.toResponse(user);
+            return new ResponseEntity<UsersResponse>(response, HttpStatus.OK);
         } catch (Exception e) {
             ExceptionBody body = new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value());
             return new ResponseEntity<ExceptionBody>(body, HttpStatus.BAD_REQUEST);
@@ -65,8 +65,8 @@ public class UserController {
     ResponseEntity<?> findAll() {
         try {
             List<Users> users = findUserUsecases.execute();
-            List<CreateUserResponse> response = userMapper.toResponse(users);
-            return new ResponseEntity<List<CreateUserResponse>>(response, HttpStatus.OK);
+            List<UsersResponse> response = userMapper.toResponse(users);
+            return new ResponseEntity<List<UsersResponse>>(response, HttpStatus.OK);
         } catch (Exception e) {
             ExceptionBody body = new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value());
             return new ResponseEntity<ExceptionBody>(body, HttpStatus.BAD_REQUEST);

@@ -4,7 +4,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.site.dev.adapter.mappers.users.UserMapper;
+import com.site.dev.adapter.mappers.UserMapper;
 import com.site.dev.adapter.repository.UserRepository;
 import com.site.dev.core.applications.gateway.UsersGateWay;
 import com.site.dev.core.domain.entity.Users;

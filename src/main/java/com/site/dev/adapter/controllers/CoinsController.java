@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.site.dev.adapter.controllers.DTO.coins.CreateCoinsRequest;
+import com.site.dev.adapter.controllers.DTO.coins.CoinsRequest;
 import com.site.dev.adapter.entity.CoinsEntity;
 import com.site.dev.adapter.entity.ExceptionBody;
-import com.site.dev.adapter.mappers.coins.CoinsMapper;
+import com.site.dev.adapter.mappers.CoinsMapper;
 import com.site.dev.core.applications.usecases.coins.CreateCoinsUsecases;
 import com.site.dev.core.applications.usecases.coins.FindCoinsUsecases;
 import com.site.dev.core.domain.entity.Coins;
@@ -36,7 +36,7 @@ public class CoinsController {
     }
 
     @PostMapping("/create")
-    ResponseEntity<?> create(@RequestBody CreateCoinsRequest request) {
+    ResponseEntity<?> create(@RequestBody CoinsRequest request) {
         try {
             Coins coins = coinsMapper.toCoins(request);
             Coins createdCoins = createCoinsUsecases.execute(coins);

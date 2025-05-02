@@ -1,15 +1,15 @@
-package com.site.dev.adapter.mappers.coins;
+package com.site.dev.adapter.mappers;
 
 import java.util.List;
 import org.mapstruct.Mapper;
 
-import com.site.dev.adapter.controllers.DTO.coins.CreateCoinsRequest;
+import com.site.dev.adapter.controllers.DTO.coins.CoinsRequest;
 import com.site.dev.adapter.entity.CoinsEntity;
 import com.site.dev.core.domain.entity.Coins;
 @Mapper(componentModel = "spring")
 public interface CoinsMapper {
     public Coins toCoins(CoinsEntity coinsEntity);
-    public Coins toCoins(CreateCoinsRequest createCoinsRequest);
+    public Coins toCoins(CoinsRequest createCoinsRequest);
     
     public CoinsEntity toCoinsEntity(Coins coins);
     

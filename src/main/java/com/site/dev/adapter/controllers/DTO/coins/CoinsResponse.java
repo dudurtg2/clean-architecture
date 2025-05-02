@@ -13,7 +13,7 @@ import lombok.AllArgsConstructor;
 @Getter
 @Setter
 @Data
-public class CreateCoinsResponse {
+public class CoinsResponse {
     private String name;
     private String symbol;
     private String image;

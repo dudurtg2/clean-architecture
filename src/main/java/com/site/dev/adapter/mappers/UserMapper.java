@@ -1,4 +1,4 @@
-package com.site.dev.adapter.mappers.users;
+package com.site.dev.adapter.mappers;
 
 import java.util.List;
 import org.mapstruct.Mapper;

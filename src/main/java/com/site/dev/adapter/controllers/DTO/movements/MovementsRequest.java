@@ -18,7 +18,7 @@ import com.site.dev.adapter.entity.CoinsEntity;
 @Getter
 @Setter
 @Data
-public class CreateMovementsRequest {
+public class MovementsRequest {
     private LocalDateTime date;
     private Float value;
     private Float price;

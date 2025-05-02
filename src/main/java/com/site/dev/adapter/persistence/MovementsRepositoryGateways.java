@@ -4,7 +4,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.site.dev.adapter.mappers.movements.MovementsMapper;
+import com.site.dev.adapter.mappers.MovementsMapper;
 import com.site.dev.adapter.repository.MovementsRepository;
 import com.site.dev.core.applications.gateway.MovementsGateWay;
 import com.site.dev.core.domain.entity.Coins;

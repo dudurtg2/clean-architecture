@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.site.dev.adapter.entity.CoinsEntity;
-import com.site.dev.adapter.mappers.coins.CoinsMapper;
-import com.site.dev.adapter.mappers.users.UserMapper;
+import com.site.dev.adapter.mappers.CoinsMapper;
+import com.site.dev.adapter.mappers.UserMapper;
 import com.site.dev.adapter.repository.CoinsRepository;
 import com.site.dev.core.applications.gateway.CoinsGateWay;
 import com.site.dev.core.domain.entity.Coins;
