@@ -3,6 +3,7 @@ package com.site.dev.adapter.controllers;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +30,7 @@ public class MovementsController {
     private final MovementsMapper movementsMapper;
 
  
-    
+    @Autowired
     public MovementsController(CreateMovementsUsecases createMovementUsecases, FindMovementsUsecases findMovementUsecases, MovementsMapper movementsMapper) {
         this.createMovementUsecases = createMovementUsecases;
         this.findMovementUsecases = findMovementUsecases;
@@ -37,7 +38,7 @@ public class MovementsController {
     }
 
     @PostMapping("/create")
-    ResponseEntity<?> createUser(@RequestBody CreateMovementsRequest request) {
+    ResponseEntity<?> create(@RequestBody CreateMovementsRequest request) {
         try {
             Movements movements = movementsMapper.toMovements(request);
             Movements movementsCreated = createMovementUsecases.execute(movements);
@@ -50,7 +51,7 @@ public class MovementsController {
     }
 
     @GetMapping("/find/{id}")
-    ResponseEntity<?> findUser(@PathVariable Long id) {
+    ResponseEntity<?> find(@PathVariable Long id) {
         try {
             Movements movements = findMovementUsecases.execute(id);
             CreateMovementsResponse response = movementsMapper.toResponse(movements);

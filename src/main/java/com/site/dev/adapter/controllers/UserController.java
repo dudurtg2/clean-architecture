@@ -2,6 +2,8 @@ package com.site.dev.adapter.controllers;
 
 
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +29,7 @@ public class UserController {
     private final FindUsersUsecases findUserUsecases;
     private final UserDTOMapper userMapper;
 
-    
+    @Autowired
     public UserController(CreateUsersUsecases createUserUsecases, UserDTOMapper userMapper, FindUsersUsecases findUserUsecases) {
         this.createUserUsecases = createUserUsecases;
         this.userMapper = userMapper;
@@ -35,7 +37,7 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    ResponseEntity<?> createUser(@RequestBody CreateUserRequest request) {
+    ResponseEntity<?> create(@RequestBody CreateUserRequest request) {
         try {
             Users user = userMapper.toUser(request);
             Users createdUser = createUserUsecases.execute(user);
@@ -48,7 +50,7 @@ public class UserController {
     }
 
     @GetMapping("/find/{id}")
-    ResponseEntity<?> findUser(@PathVariable Long id) {
+    ResponseEntity<?> find(@PathVariable Long id) {
         try {
             Users user = findUserUsecases.execute(id);
             CreateUserResponse response = userMapper.toResponse(user);

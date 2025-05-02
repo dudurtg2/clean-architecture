@@ -18,6 +18,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Movements {
+    private Long id;
     private LocalDateTime date;
     private Float value;
     private Float price;

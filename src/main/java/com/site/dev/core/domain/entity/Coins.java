@@ -14,8 +14,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Coins {
+    private Long id;
     private String name;
     private String symbol;
     private String image;
     private Users user;
+
+    
 }

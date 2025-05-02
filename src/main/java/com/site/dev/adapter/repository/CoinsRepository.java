@@ -8,4 +8,5 @@ public interface CoinsRepository extends JpaRepository<CoinsEntity, Long> {
     List<CoinsEntity> findAll();
     CoinsEntity findBySymbol(String symbol);
     CoinsEntity findByName(String name);
+    
 }
