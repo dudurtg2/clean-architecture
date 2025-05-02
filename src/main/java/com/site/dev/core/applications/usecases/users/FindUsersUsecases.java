@@ -17,6 +17,10 @@ public class FindUsersUsecases {
         return userGateWay.getUserById(id);
     }
 
+    public Users execute(String email){
+        return userGateWay.getUserByEmail(email);
+    }
+
     public List<Users> execute(){
         return userGateWay.getAllUsers();
     }

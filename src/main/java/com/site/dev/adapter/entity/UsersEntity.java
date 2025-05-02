@@ -1,5 +1,10 @@
 package com.site.dev.adapter.entity;
 
+import java.util.Collection;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,7 +26,7 @@ import lombok.Setter;
 @Builder
 @Getter
 @Setter
-public class UserEntity {
+public class UsersEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -32,4 +37,14 @@ public class UserEntity {
     private String email;
     @Column(name = "password")
     private String password;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getAuthorities'");
+    }
+    @Override
+    public String getUsername() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getUsername'");
+    }
 }

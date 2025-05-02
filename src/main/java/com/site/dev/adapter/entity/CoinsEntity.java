@@ -41,5 +41,5 @@ public class CoinsEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private UserEntity user;
+    private UsersEntity user;
 }

@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.site.dev.adapter.controllers.DTO.movements.MovementsRequest;
 import com.site.dev.adapter.controllers.DTO.movements.MovementsResponse;
 import com.site.dev.adapter.entity.ExceptionBody;
+import com.site.dev.adapter.mappers.CoinsMapper;
 import com.site.dev.adapter.mappers.MovementsMapper;
+import com.site.dev.core.applications.usecases.coins.FindCoinsUsecases;
 import com.site.dev.core.applications.usecases.movements.CreateMovementsUsecases;
 import com.site.dev.core.applications.usecases.movements.FindMovementsUsecases;
 import com.site.dev.core.domain.entity.Movements;
@@ -27,14 +29,18 @@ public class MovementsController {
 
     private final CreateMovementsUsecases createMovementUsecases;
     private final FindMovementsUsecases findMovementUsecases;
+    private final FindCoinsUsecases findCoinsUsecases;
     private final MovementsMapper movementsMapper;
+    private final CoinsMapper coinsMapper;
 
  
     @Autowired
-    public MovementsController(CreateMovementsUsecases createMovementUsecases, FindMovementsUsecases findMovementUsecases, MovementsMapper movementsMapper) {
+    public MovementsController(CreateMovementsUsecases createMovementUsecases, FindMovementsUsecases findMovementUsecases, MovementsMapper movementsMapper, FindCoinsUsecases findCoinsUsecases, CoinsMapper coinsMapper) {
         this.createMovementUsecases = createMovementUsecases;
         this.findMovementUsecases = findMovementUsecases;
         this.movementsMapper = movementsMapper;
+        this.findCoinsUsecases = findCoinsUsecases;
+        this.coinsMapper = coinsMapper;
     }
 
     @PostMapping("/create")
@@ -66,6 +72,18 @@ public class MovementsController {
     ResponseEntity<?> findAll() {
         try {
             List<Movements> movements = findMovementUsecases.execute();
+            List<MovementsResponse> response = movementsMapper.toResponseEntity(movements);
+            return new ResponseEntity<List<MovementsResponse>>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            ExceptionBody body = new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value());
+            return new ResponseEntity<ExceptionBody>(body, HttpStatus.BAD_REQUEST);
+        }
+    }
+    
+    @GetMapping("/find/coins/{id}")
+    ResponseEntity<?> findByCoins(@PathVariable Long id) {
+        try {
+            List<Movements> movements = findMovementUsecases.execute(findCoinsUsecases.execute(id));
             List<MovementsResponse> response = movementsMapper.toResponseEntity(movements);
             return new ResponseEntity<List<MovementsResponse>>(response, HttpStatus.OK);
         } catch (Exception e) {

@@ -1,6 +1,6 @@
 package com.site.dev.adapter.controllers.DTO.coins;
 
-import com.site.dev.adapter.entity.UserEntity;
+import com.site.dev.adapter.entity.UsersEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,5 +19,5 @@ public class  CoinsRequest{
   String name;
   String symbol;
   String image;
-  UserEntity user;
+  UsersEntity user;
 }
