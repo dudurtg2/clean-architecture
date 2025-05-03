@@ -12,22 +12,16 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import java.util.Objects;
+
 
 
 @Entity
 @Table(name = "movements")
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
-@Getter
-@Setter
 public class MovementsEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,4 +44,67 @@ public class MovementsEntity {
     @JoinColumn(name = "coins_id")
     private CoinsEntity coins;
 
+
+    public MovementsEntity() {
+    }
+
+    public MovementsEntity(Long id, LocalDateTime date, Float value, Float price, TypeCoins typeCoins, CoinsEntity coins) {
+        this.id = id;
+        this.date = date;
+        this.value = value;
+        this.price = price;
+        this.typeCoins = typeCoins;
+        this.coins = coins;
+    }
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public LocalDateTime getDate() {
+        return this.date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
+    }
+
+    public Float getValue() {
+        return this.value;
+    }
+
+    public void setValue(Float value) {
+        this.value = value;
+    }
+
+    public Float getPrice() {
+        return this.price;
+    }
+
+    public void setPrice(Float price) {
+        this.price = price;
+    }
+
+    public TypeCoins getTypeCoins() {
+        return this.typeCoins;
+    }
+
+    public void setTypeCoins(TypeCoins typeCoins) {
+        this.typeCoins = typeCoins;
+    }
+
+    public CoinsEntity getCoins() {
+        return this.coins;
+    }
+
+    public void setCoins(CoinsEntity coins) {
+        this.coins = coins;
+    }
+
+   
+    
 }

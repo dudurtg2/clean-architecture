@@ -5,34 +5,32 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-
-
-import com.site.dev.core.domain.entity.Users;
+import com.site.dev.adapter.entity.UsersEntity;
 import com.site.dev.security.DTO.TokensDTO;
 
-@Service
+@Component
 public class TokenService {
 
     @Value("${api.security.token.secret}")
     private String secret;
 
-    public String generateAccessToken(Users users) {
-        return generateToken(users, genAccessTokenExpiry());
+    public String generateAccessToken(UsersEntity UsersEntity) {
+        return generateToken(UsersEntity, genAccessTokenExpiry());
     }
 
-    public String generateRefreshToken(Users users) {
-        return generateToken(users, genRefreshTokenExpiry());
+    public String generateRefreshToken(UsersEntity UsersEntity) {
+        return generateToken(UsersEntity, genRefreshTokenExpiry());
     }
 
-    public TokensDTO generateTokens(Users users) {
-        String accessToken = generateAccessToken(users);
-        String refreshToken = generateRefreshToken(users);
+    public TokensDTO generateTokens(UsersEntity UsersEntity) {
+        String accessToken = generateAccessToken(UsersEntity);
+        String refreshToken = generateRefreshToken(UsersEntity);
         return new TokensDTO(accessToken, refreshToken);
     }
 
@@ -59,12 +57,12 @@ public class TokenService {
         }
     }
 
-    private String generateToken(Users users, Instant expiry) {
+    private String generateToken(UsersEntity UsersEntity, Instant expiry) {
         try {
             Algorithm algorithms = Algorithm.HMAC256(secret);
             return JWT.create()
                     .withIssuer("auth-api")
-                    .withSubject(users.getEmail())
+                    .withSubject(UsersEntity.getEmail())
                     .withExpiresAt(expiry)
                     .sign(algorithms);
         } catch (JWTCreationException e) {
@@ -79,7 +77,5 @@ public class TokenService {
     private Instant genRefreshTokenExpiry() {
         return LocalDateTime.now().plusDays(30).toInstant(ZoneOffset.of("-03:00"));
     }
-
-    
 
 }
