@@ -3,7 +3,7 @@ package com.site.dev.adapter.mappers;
 import java.util.List;
 import org.mapstruct.Mapper;
 
-import com.site.dev.adapter.controllers.DTO.coins.CoinsRequest;
+import com.site.dev.adapter.controllers.dto.coins.CoinsRequest;
 import com.site.dev.adapter.entity.CoinsEntity;
 import com.site.dev.core.domain.entity.Coins;
 @Mapper(componentModel = "spring")

@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.site.dev.adapter.controllers.DTO.movements.MovementsRequest;
-import com.site.dev.adapter.controllers.DTO.movements.MovementsResponse;
+import com.site.dev.adapter.controllers.dto.movements.MovementsRequest;
+import com.site.dev.adapter.controllers.dto.movements.MovementsResponse;
 import com.site.dev.adapter.entity.ExceptionBody;
 import com.site.dev.adapter.mappers.CoinsMapper;
 import com.site.dev.adapter.mappers.MovementsMapper;

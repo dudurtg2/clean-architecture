@@ -14,9 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
-import com.site.dev.adapter.controllers.DTO.users.UsersRequest;
-import com.site.dev.adapter.controllers.DTO.users.UsersResponse;
+import com.site.dev.adapter.controllers.dto.users.UsersRequest;
+import com.site.dev.adapter.controllers.dto.users.UsersResponse;
 import com.site.dev.adapter.entity.ExceptionBody;
 import com.site.dev.adapter.entity.UsersEntity;
 import com.site.dev.adapter.mappers.UserDTOMapper;

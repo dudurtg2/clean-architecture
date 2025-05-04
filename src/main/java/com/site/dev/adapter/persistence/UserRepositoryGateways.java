@@ -22,6 +22,7 @@ public class UserRepositoryGateways implements UsersGateWay {
     @Override
     public Users createUser(Users user) {
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+        System.out.println(user);
         return userMapper.toUser(userRepository.save(userMapper.toUserEntity(user)));
     }
     @Override

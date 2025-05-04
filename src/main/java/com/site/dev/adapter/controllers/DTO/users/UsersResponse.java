@@ -1,8 +1,20 @@
-package com.site.dev.adapter.controllers.DTO.users;
+package com.site.dev.adapter.controllers.dto.users;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Builder
-public record UsersResponse(String name, String email) {
-    
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@Data
+public class UsersResponse {
+    private String name;
+    private String email;
 }
+

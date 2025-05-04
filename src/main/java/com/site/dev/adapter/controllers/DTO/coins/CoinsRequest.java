@@ -1,4 +1,4 @@
-package com.site.dev.adapter.controllers.DTO.coins;
+package com.site.dev.adapter.controllers.dto.coins;
 
 import com.site.dev.adapter.entity.UsersEntity;
 

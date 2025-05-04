@@ -1,4 +1,4 @@
-package com.site.dev.adapter.controllers.DTO.movements;
+package com.site.dev.adapter.controllers.dto.movements;
 
 import java.time.LocalDateTime;
 

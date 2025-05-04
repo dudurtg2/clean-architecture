@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.site.dev.adapter.controllers.DTO.coins.CoinsRequest;
+import com.site.dev.adapter.controllers.dto.coins.CoinsRequest;
 import com.site.dev.adapter.entity.CoinsEntity;
 import com.site.dev.adapter.entity.ExceptionBody;
 import com.site.dev.adapter.mappers.CoinsMapper;

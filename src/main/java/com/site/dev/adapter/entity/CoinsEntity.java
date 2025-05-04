@@ -14,14 +14,15 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import java.util.Objects;
 
-
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@Data
 @Entity
 @Table(name = "coins")
-@Data
-@Builder
-
 public class CoinsEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,60 +41,5 @@ public class CoinsEntity {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UsersEntity user;
-
-
-    public CoinsEntity() {
-    }
-
-    public CoinsEntity(Long id, String name, String symbol, String image, UsersEntity user) {
-        this.id = id;
-        this.name = name;
-        this.symbol = symbol;
-        this.image = image;
-        this.user = user;
-    }
-
-    public Long getId() {
-        return this.id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSymbol() {
-        return this.symbol;
-    }
-
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
-    }
-
-    public String getImage() {
-        return this.image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public UsersEntity getUser() {
-        return this.user;
-    }
-
-    public void setUser(UsersEntity user) {
-        this.user = user;
-    }
-
-
-
 
 }
