@@ -2,6 +2,8 @@ package com.site.dev.adapter.controllers;
 
 
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,36 +13,43 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.site.dev.adapter.controllers.DTO.users.CreateUserRequest;
-import com.site.dev.adapter.controllers.DTO.users.CreateUserResponse;
+import com.site.dev.adapter.controllers.dto.movements.MovementsRequest;
+import com.site.dev.adapter.controllers.dto.movements.MovementsResponse;
 import com.site.dev.adapter.entity.ExceptionBody;
-import com.site.dev.adapter.mappers.users.UserDTOMapper;
-import com.site.dev.core.applications.usecases.users.CreateUsersUsecases;
-import com.site.dev.core.applications.usecases.users.FindUsersUsecases;
-import com.site.dev.core.domain.entity.Users;
-
+import com.site.dev.adapter.mappers.CoinsMapper;
+import com.site.dev.adapter.mappers.MovementsMapper;
+import com.site.dev.core.applications.usecases.coins.FindCoinsUsecases;
+import com.site.dev.core.applications.usecases.movements.CreateMovementsUsecases;
+import com.site.dev.core.applications.usecases.movements.FindMovementsUsecases;
+import com.site.dev.core.domain.entity.Movements;
 
 @RestController
 @RequestMapping("/api/movements")
 public class MovementsController {
-    private final CreateUsersUsecases createUserUsecases;
-    private final FindUsersUsecases findUserUsecases;
-    private final UserDTOMapper userMapper;
 
-    
-    public MovementsController(CreateUsersUsecases createUserUsecases, UserDTOMapper userMapper, FindUsersUsecases findUserUsecases) {
-        this.createUserUsecases = createUserUsecases;
-        this.userMapper = userMapper;
-        this.findUserUsecases = findUserUsecases;
+    private final CreateMovementsUsecases createMovementUsecases;
+    private final FindMovementsUsecases findMovementUsecases;
+    private final FindCoinsUsecases findCoinsUsecases;
+    private final MovementsMapper movementsMapper;
+    private final CoinsMapper coinsMapper;
+
+ 
+    @Autowired
+    public MovementsController(CreateMovementsUsecases createMovementUsecases, FindMovementsUsecases findMovementUsecases, MovementsMapper movementsMapper, FindCoinsUsecases findCoinsUsecases, CoinsMapper coinsMapper) {
+        this.createMovementUsecases = createMovementUsecases;
+        this.findMovementUsecases = findMovementUsecases;
+        this.movementsMapper = movementsMapper;
+        this.findCoinsUsecases = findCoinsUsecases;
+        this.coinsMapper = coinsMapper;
     }
 
     @PostMapping("/create")
-    ResponseEntity<?> createUser(@RequestBody CreateUserRequest request) {
+    ResponseEntity<?> create(@RequestBody MovementsRequest request) {
         try {
-            Users user = userMapper.toUser(request);
-            Users createdUser = createUserUsecases.execute(user);
-            CreateUserResponse response = userMapper.toResponse(createdUser);
-            return new ResponseEntity<CreateUserResponse>(response, HttpStatus.CREATED);
+            Movements movements = movementsMapper.toMovements(request);
+            Movements movementsCreated = createMovementUsecases.execute(movements);
+            MovementsResponse response = movementsMapper.toResponse(movementsCreated);
+            return new ResponseEntity<MovementsResponse>(response, HttpStatus.CREATED);
         } catch (Exception e) {
             ExceptionBody body = new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value());
             return new ResponseEntity<ExceptionBody>(body, HttpStatus.BAD_REQUEST);
@@ -48,11 +57,11 @@ public class MovementsController {
     }
 
     @GetMapping("/find/{id}")
-    ResponseEntity<?> findUser(@PathVariable Long id) {
+    ResponseEntity<?> find(@PathVariable Long id) {
         try {
-            Users user = findUserUsecases.execute(id);
-            CreateUserResponse response = userMapper.toResponse(user);
-            return new ResponseEntity<CreateUserResponse>(response, HttpStatus.OK);
+            Movements movements = findMovementUsecases.execute(id);
+            MovementsResponse response = movementsMapper.toResponse(movements);
+            return new ResponseEntity<MovementsResponse>(response, HttpStatus.OK);
         } catch (Exception e) {
             ExceptionBody body = new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value());
             return new ResponseEntity<ExceptionBody>(body, HttpStatus.BAD_REQUEST);
@@ -62,9 +71,21 @@ public class MovementsController {
     @GetMapping("/findAll")
     ResponseEntity<?> findAll() {
         try {
-            List<Users> users = findUserUsecases.execute();
-            List<CreateUserResponse> response = userMapper.toResponse(users);
-            return new ResponseEntity<List<CreateUserResponse>>(response, HttpStatus.OK);
+            List<Movements> movements = findMovementUsecases.execute();
+            List<MovementsResponse> response = movementsMapper.toResponseEntity(movements);
+            return new ResponseEntity<List<MovementsResponse>>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            ExceptionBody body = new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value());
+            return new ResponseEntity<ExceptionBody>(body, HttpStatus.BAD_REQUEST);
+        }
+    }
+    
+    @GetMapping("/find/coins/{id}")
+    ResponseEntity<?> findByCoins(@PathVariable Long id) {
+        try {
+            List<Movements> movements = findMovementUsecases.execute(findCoinsUsecases.execute(id));
+            List<MovementsResponse> response = movementsMapper.toResponseEntity(movements);
+            return new ResponseEntity<List<MovementsResponse>>(response, HttpStatus.OK);
         } catch (Exception e) {
             ExceptionBody body = new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value());
             return new ResponseEntity<ExceptionBody>(body, HttpStatus.BAD_REQUEST);

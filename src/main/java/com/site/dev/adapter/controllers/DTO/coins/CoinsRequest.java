@@ -1,4 +1,6 @@
-package com.site.dev.adapter.entity;
+package com.site.dev.adapter.controllers.dto.coins;
+
+import com.site.dev.adapter.entity.UsersEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,7 +15,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @Data
-public class ExceptionBody {
-    public String message;
-    public int statusCode;
+public class  CoinsRequest{
+  String name;
+  String symbol;
+  String image;
+  UsersEntity user;
 }

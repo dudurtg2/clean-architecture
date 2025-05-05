@@ -1,14 +1,11 @@
-package com.site.dev.core.domain.entity;
+package com.site.dev.adapter.controllers.dto.coins;
 
-
-import lombok.Builder;
-import lombok.Data;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.AllArgsConstructor;
 
 @Builder
 @AllArgsConstructor
@@ -16,10 +13,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @Data
-public class Coins {
-    private Long id;
+public class CoinsResponse {
     private String name;
     private String symbol;
     private String image;
-    private Users user;
+    private Float totalValue;
+    private Float inputValue;
+    private Float outputValue;
 }

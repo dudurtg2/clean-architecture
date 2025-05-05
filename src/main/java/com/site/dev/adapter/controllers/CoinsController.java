@@ -1,7 +1,8 @@
 package com.site.dev.adapter.controllers;
 
-
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,75 +12,65 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.site.dev.adapter.controllers.DTO.users.CreateUserRequest;
-import com.site.dev.adapter.controllers.DTO.users.CreateUserResponse;
+import com.site.dev.adapter.controllers.dto.coins.CoinsRequest;
+import com.site.dev.adapter.entity.CoinsEntity;
 import com.site.dev.adapter.entity.ExceptionBody;
-import com.site.dev.adapter.mappers.users.UserDTOMapper;
-import com.site.dev.core.applications.usecases.users.CreateUsersUsecases;
-import com.site.dev.core.applications.usecases.users.FindUsersUsecases;
-import com.site.dev.core.domain.entity.Users;
-
+import com.site.dev.adapter.mappers.CoinsMapper;
+import com.site.dev.core.applications.usecases.coins.CreateCoinsUsecases;
+import com.site.dev.core.applications.usecases.coins.FindCoinsUsecases;
+import com.site.dev.core.domain.entity.Coins;
 
 @RestController
 @RequestMapping("/api/coins")
 public class CoinsController {
-    private final CreateUsersUsecases createUserUsecases;
-    private final FindUsersUsecases findUserUsecases;
-    private final UserDTOMapper userMapper;
 
-    
-    public CoinsController(CreateUsersUsecases createUserUsecases, UserDTOMapper userMapper, FindUsersUsecases findUserUsecases) {
-        this.createUserUsecases = createUserUsecases;
-        this.userMapper = userMapper;
-        this.findUserUsecases = findUserUsecases;
+    private final CreateCoinsUsecases createCoinsUsecases;
+    private final FindCoinsUsecases findCoinsUsecases;
+    private final CoinsMapper coinsMapper;
+
+    @Autowired
+    public CoinsController(CreateCoinsUsecases createCoinsUsecases, FindCoinsUsecases findCoinsUsecases, CoinsMapper coinsMapper) {
+        this.createCoinsUsecases = createCoinsUsecases;
+        this.findCoinsUsecases = findCoinsUsecases;
+        this.coinsMapper = coinsMapper;
     }
 
     @PostMapping("/create")
-    ResponseEntity<?> createUser(@RequestBody CreateUserRequest request) {
+    ResponseEntity<?> create(@RequestBody CoinsRequest request) {
         try {
-            Users user = userMapper.toUser(request);
-            Users createdUser = createUserUsecases.execute(user);
-            CreateUserResponse response = userMapper.toResponse(createdUser);
-            return new ResponseEntity<CreateUserResponse>(response, HttpStatus.CREATED);
+            Coins coins = coinsMapper.toCoins(request);
+            Coins createdCoins = createCoinsUsecases.execute(coins);
+            CoinsEntity response = coinsMapper.toCoinsEntity(createdCoins);
+          
+            return new ResponseEntity<CoinsEntity>(response, HttpStatus.CREATED);
         } catch (Exception e) {
-            
-            return new ResponseEntity<ExceptionBody>(ExceptionBody.builder()
-                                                                  .message(e.getMessage())
-                                                                  .statusCode(HttpStatus.BAD_REQUEST.value())
-                                                                  .build(),
-                                                                  HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<ExceptionBody>(new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value()),
+                    HttpStatus.BAD_REQUEST);
         }
     }
 
     @GetMapping("/find/{id}")
     ResponseEntity<?> findUser(@PathVariable Long id) {
         try {
-            Users user = findUserUsecases.execute(id);
-            CreateUserResponse response = userMapper.toResponse(user);
-            return new ResponseEntity<CreateUserResponse>(response, HttpStatus.OK);
+            Coins coins = findCoinsUsecases.execute(id);
+            CoinsEntity response = coinsMapper.toCoinsEntity(coins);
+            return new ResponseEntity<CoinsEntity>(response, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<ExceptionBody>(ExceptionBody.builder()
-                                                                  .message(e.getMessage())
-                                                                  .statusCode(HttpStatus.BAD_REQUEST.value())
-                                                                  .build(),
-                                                                  HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<ExceptionBody>(new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value()),
+                    HttpStatus.BAD_REQUEST);
         }
     }
 
     @GetMapping("/findAll")
     ResponseEntity<?> findAll() {
         try {
-            List<Users> users = findUserUsecases.execute();
-            List<CreateUserResponse> response = userMapper.toResponse(users);
-            return new ResponseEntity<List<CreateUserResponse>>(response, HttpStatus.OK);
+            List<Coins> Coins = findCoinsUsecases.execute();
+            List<CoinsEntity> response = coinsMapper.toResponse(Coins);
+            return new ResponseEntity<List<CoinsEntity>>(response, HttpStatus.OK);
         } catch (Exception e) {
-             return new ResponseEntity<ExceptionBody>(ExceptionBody.builder()
-                                                                   .message(e.getMessage())
-                                                                   .statusCode(HttpStatus.BAD_REQUEST.value())
-                                                                   .build(),
-                                                                   HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<ExceptionBody>(new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value()),
+                    HttpStatus.BAD_REQUEST);
         }
     }
-
 
 }

@@ -2,9 +2,10 @@ package com.site.dev.adapter.persistence;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import com.site.dev.adapter.mappers.users.UserMapper;
+import com.site.dev.adapter.mappers.UserMapper;
 import com.site.dev.adapter.repository.UserRepository;
 import com.site.dev.core.applications.gateway.UsersGateWay;
 import com.site.dev.core.domain.entity.Users;
@@ -20,6 +21,8 @@ public class UserRepositoryGateways implements UsersGateWay {
     }
     @Override
     public Users createUser(Users user) {
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+        System.out.println(user);
         return userMapper.toUser(userRepository.save(userMapper.toUserEntity(user)));
     }
     @Override
@@ -34,4 +37,8 @@ public class UserRepositoryGateways implements UsersGateWay {
     public Users getUserByEmail(String email) {
         return userMapper.toUser(userRepository.findByEmail(email));
     }  
+    @Override
+    public Users update(Users user) {
+        return userMapper.toUser(userRepository.save(userMapper.toUserEntity(user)));
+    }
 }

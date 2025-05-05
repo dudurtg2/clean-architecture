@@ -1,17 +1,16 @@
-package com.site.dev.core.domain.entity;
+package com.site.dev.adapter.controllers.dto.movements;
 
 import java.time.LocalDateTime;
 
+import com.site.dev.adapter.entity.CoinsEntity;
 import com.site.dev.core.domain.enums.TypeCoins;
-
 import lombok.Builder;
-import lombok.Data;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 
 @Builder
 @AllArgsConstructor
@@ -19,13 +18,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @Data
-public class Movements {
-    private Long id;
+public class MovementsResponse {
     private LocalDateTime date;
     private Float value;
     private Float price;
     private TypeCoins typeCoins;
-    private Coins coins;
-
-
+    private CoinsEntity coins;
 }
+

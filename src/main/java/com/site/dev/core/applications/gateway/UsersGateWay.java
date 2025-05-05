@@ -8,4 +8,5 @@ public interface UsersGateWay {
     List<Users> getAllUsers();
     Users getUserById(Long id);
     Users getUserByEmail(String email);
+    Users update(Users user);
 }

@@ -12,22 +12,22 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
-@Entity
-@Table(name = "movements")
-@Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Getter
 @Setter
+@Data
+@Entity
+@Table(name = "movements")
+
 public class MovementsEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,5 +49,5 @@ public class MovementsEntity {
     @ManyToOne
     @JoinColumn(name = "coins_id")
     private CoinsEntity coins;
-
+    
 }

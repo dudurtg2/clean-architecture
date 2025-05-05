@@ -15,15 +15,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
-@Entity
-@Table(name = "coins")
-@Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Getter
 @Setter
+@Data
+@Entity
+@Table(name = "coins")
 public class CoinsEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,5 +40,6 @@ public class CoinsEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private UserEntity user;
+    private UsersEntity user;
+
 }

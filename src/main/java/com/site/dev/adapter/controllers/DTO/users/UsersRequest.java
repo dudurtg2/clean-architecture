@@ -1,4 +1,4 @@
-package com.site.dev.core.domain.entity;
+package com.site.dev.adapter.controllers.dto.users;
 
 import com.site.dev.core.domain.enums.UserRole;
 
@@ -15,11 +15,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @Data
-public class Users {
-    private Long id;
+public class UsersRequest {
     private String name;
     private String email;
     private String password;
     private UserRole role;
 
 }
+
