@@ -19,8 +19,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @Data
-
-
 public class Movements {
     private Long id;
     private LocalDateTime date;
@@ -28,7 +26,6 @@ public class Movements {
     private Float price;
     private TypeCoins typeCoins;
     private Coins coins;
-
 
 
 }

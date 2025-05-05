@@ -28,7 +28,6 @@
     </scm>
     <properties>
         <!-- Versão recomendada do Lombok -->
-        <lombok.version>1.18.30</lombok.version>
         <java.version>21</java.version>
     </properties>
     <dependencies>
@@ -66,9 +65,8 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
-            <scope>provided</scope>
-        </dependency>
+            <optional>true</optional>
+          </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
