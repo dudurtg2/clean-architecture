@@ -30,7 +30,6 @@ public class UpdateUsersUsecases {
             throw new IncorretBoryUserException();
         }
         
-        
         Users existingUser = userGateWay.getUserByEmail(user.getEmail());
         if (existingUser == null) {
             throw new IncorretBoryUserException();

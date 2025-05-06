@@ -1,5 +1,6 @@
 package com.site.dev.adapter.entity;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -41,7 +42,10 @@ public class UsersEntity implements UserDetails {
     private String email;
     @Column(name = "password")
     private String password;
-
+    @Column(name = "data_nascimento")
+    private LocalDateTime dataNascimento;
+    @Column(name = "genero")
+    private String genero;
     @Column(name = "role")
     private UserRole role;
     @Override

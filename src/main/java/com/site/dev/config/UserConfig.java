@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import com.site.dev.core.applications.gateway.UsersGateWay;
 import com.site.dev.core.applications.usecases.users.CreateUsersUsecases;
 import com.site.dev.core.applications.usecases.users.FindUsersUsecases;
+import com.site.dev.core.applications.usecases.users.UpdateUsersUsecases;
 
 @Configuration
 public class UserConfig {
@@ -20,5 +21,9 @@ public class UserConfig {
         return new FindUsersUsecases(userGateWay);
     }
 
+    @Bean 
+    UpdateUsersUsecases updateUserUsecases(UsersGateWay userGateWay) {
+        return new UpdateUsersUsecases(userGateWay);
+    }
     
 }
