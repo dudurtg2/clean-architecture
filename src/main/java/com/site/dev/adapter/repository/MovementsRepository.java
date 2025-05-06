@@ -10,4 +10,5 @@ public interface MovementsRepository extends JpaRepository<MovementsEntity, Long
     List<MovementsEntity> findAll();
     List<MovementsEntity> findByTypeCoins(TypeCoins typeCoins);
     List<MovementsEntity> findByCoins(Coins coins);
+    
 }

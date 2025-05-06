@@ -4,13 +4,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import com.site.dev.core.applications.gateway.UsersGateWay;
 import com.site.dev.core.applications.usecases.users.CreateUsersUsecases;
+import com.site.dev.core.applications.usecases.users.DeleteUsersUsecases;
 import com.site.dev.core.applications.usecases.users.FindUsersUsecases;
 import com.site.dev.core.applications.usecases.users.UpdateUsersUsecases;
+import com.site.dev.core.applications.usecases.users.ValidadeUsers;
 
 @Configuration
 public class UserConfig {
-    
-    
     @Bean
     CreateUsersUsecases createUserUsecases(UsersGateWay userGateWay) {
         return new CreateUsersUsecases(userGateWay);
@@ -23,7 +23,11 @@ public class UserConfig {
 
     @Bean 
     UpdateUsersUsecases updateUserUsecases(UsersGateWay userGateWay) {
-        return new UpdateUsersUsecases(userGateWay);
+        return new UpdateUsersUsecases(userGateWay );
     }
     
+    @Bean
+    DeleteUsersUsecases deleteUserUsecases(UsersGateWay userGateWay) {
+        return new DeleteUsersUsecases(userGateWay);
+    }
 }

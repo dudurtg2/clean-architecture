@@ -50,4 +50,14 @@ public class CoinsRepositoryGateways implements CoinsGateWay {
         return coinsMapper.toCoins(coinsRepository.findById(id).get());
     }
 
+    @Override
+    public Coins update(Coins coins) {
+        return coinsMapper.toCoins(coinsRepository.save(coinsMapper.toCoinsEntity(coins)));
+    }
+
+    @Override
+    public void delete(Long id) {
+        coinsRepository.deleteById(id);
+    }
+
 }

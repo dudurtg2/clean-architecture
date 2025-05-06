@@ -3,19 +3,19 @@ package com.site.dev.core.applications.usecases.movements;
 import com.site.dev.core.applications.gateway.MovementsGateWay;
 import com.site.dev.core.domain.entity.Movements;
 
-public class CreateMovementsUsecases {
+public class UpdateMovementsUsecases {
     private MovementsGateWay movementsGateWay;
     private ValidadeMovements validadeMovements;
 
-    public CreateMovementsUsecases(MovementsGateWay movementsGateWay) {
-        this.validadeMovements = new ValidadeMovements();
+    public UpdateMovementsUsecases(MovementsGateWay movementsGateWay) {
         this.movementsGateWay = movementsGateWay;
+        this.validadeMovements = new ValidadeMovements();
     }
 
-    public Movements execute(Movements movements) {
+    public Movements execute(Long id, Movements movements) {
+        validadeMovements.verifyMovementsExists(id, movementsGateWay);
         validadeMovements.validateBory(movements);
-        validadeMovements.verifyMovementsIsPriceIsNotSet(movements);
-        return movementsGateWay.create(movements);
+        return movementsGateWay.update(movements);
     }
 
     

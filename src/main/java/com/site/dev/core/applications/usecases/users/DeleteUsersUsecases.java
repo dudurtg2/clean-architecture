@@ -1,23 +1,23 @@
 package com.site.dev.core.applications.usecases.users;
 
-import com.site.dev.core.domain.entity.Users;
 import com.site.dev.core.applications.gateway.UsersGateWay;
 
-public class UpdateUsersUsecases {
+public class DeleteUsersUsecases {
     private UsersGateWay userGateWay;
     private ValidadeUsers validadeUsers;
 
-    public UpdateUsersUsecases(UsersGateWay userGateWay) {
+    public DeleteUsersUsecases(UsersGateWay userGateWay) {
         this.userGateWay = userGateWay;
         this.validadeUsers = new ValidadeUsers();
     }
 
-    public Users execute(String email, Users user){
+    public void execute(String email){
         validadeUsers.verifyUserExists(email, userGateWay);
-        validadeUsers.validateBory(user);
-        return userGateWay.update(user);
+        userGateWay.delete(validadeUsers.getUser(email, userGateWay).getId());
     };
 
    
     
+    
+
 }

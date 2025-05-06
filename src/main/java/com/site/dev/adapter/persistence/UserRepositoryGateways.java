@@ -41,4 +41,8 @@ public class UserRepositoryGateways implements UsersGateWay {
     public Users update(Users user) {
         return userMapper.toUser(userRepository.save(userMapper.toUserEntity(user)));
     }
+    @Override
+    public void delete(Long id) {
+        userRepository.deleteById(id);
+    }
 }

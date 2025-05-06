@@ -9,4 +9,5 @@ public interface UsersGateWay {
     Users getUserById(Long id);
     Users getUserByEmail(String email);
     Users update(Users user);
+    void delete(Long id);
 }

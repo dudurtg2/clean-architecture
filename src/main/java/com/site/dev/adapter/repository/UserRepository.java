@@ -7,4 +7,5 @@ import com.site.dev.adapter.entity.UsersEntity;
 public interface UserRepository extends JpaRepository<UsersEntity, Long> {
     List<UsersEntity> findAll();
     UsersEntity findByEmail(String email);
+  
 }

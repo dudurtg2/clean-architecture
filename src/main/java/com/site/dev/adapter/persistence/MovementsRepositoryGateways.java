@@ -45,5 +45,15 @@ public class MovementsRepositoryGateways implements MovementsGateWay {
     public Movements create(Movements movements) {
         return movementsMapper.toMovements(movementsRepository.save(movementsMapper.toMovementsEntity(movements)));
     }
+
+    @Override
+    public void delete(Long id) {
+        movementsRepository.deleteById(id);
+    }
+
+    @Override
+    public Movements update(Movements movements) {
+        return movementsMapper.toMovements(movementsRepository.save(movementsMapper.toMovementsEntity(movements)));
+    }
    
 }
