@@ -2,21 +2,25 @@ package com.site.dev.core.applications.usecases.coins;
 
 import com.site.dev.core.applications.gateway.CoinsGateWay;
 import com.site.dev.core.domain.entity.Coins;
+import com.site.dev.core.domain.exception.NotExistsEntityException;
 
 public class UpdateCoinsUsecases {
     private CoinsGateWay coinsGateWay;
-    private ValidadeCoins validadeCoins;
 
     public UpdateCoinsUsecases(CoinsGateWay coinsGateWay) {
         this.coinsGateWay = coinsGateWay;
-        this.validadeCoins = new ValidadeCoins();
     }
-
     public Coins execute(Long id, Coins coins) {
-        validadeCoins.verifyCoinsExists(id, coinsGateWay);
-        validadeCoins.validateBory(coins);
+        if(coinsGateWay.getById(id) == null) throw new NotExistsEntityException("Coins");
+        validateNewBory(coins);
         return coinsGateWay.update(coins);
     }
-
+    public void validateNewBory(Coins coins) {
+        Coins coinsInBD = coinsGateWay.getById(coins.getId());
+        coins.setImage(coins.getImage() == null ? coinsInBD.getImage() : coins.getImage());
+        coins.setName(coins.getName() == null ? coinsInBD.getName() : coins.getName());
+        coins.setSymbol(coins.getSymbol() == null ? coinsInBD.getSymbol() : coins.getSymbol());
+        coins.setUser(coins.getUser() == null ? coinsInBD.getUser() : coins.getUser());
+    }
 
 }

@@ -15,14 +15,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.site.dev.adapter.controllers.dto.coins.CoinsRequest;
-import com.site.dev.adapter.entity.CoinsEntity;
-import com.site.dev.adapter.entity.ExceptionBody;
 import com.site.dev.adapter.mappers.CoinsMapper;
+import com.site.dev.adapter.models.CoinsEntity;
+import com.site.dev.adapter.models.ExceptionBody;
 import com.site.dev.core.applications.usecases.coins.CreateCoinsUsecases;
 import com.site.dev.core.applications.usecases.coins.DeleteCoinsUsecases;
 import com.site.dev.core.applications.usecases.coins.FindCoinsUsecases;
 import com.site.dev.core.applications.usecases.coins.UpdateCoinsUsecases;
 import com.site.dev.core.domain.entity.Coins;
+import com.site.dev.core.domain.enums.TypeCoinSearch;
 
 @RestController
 @RequestMapping("/api/coins")
@@ -53,6 +54,30 @@ public class CoinsController {
             CoinsEntity response = coinsMapper.toCoinsEntity(createdCoins);
 
             return new ResponseEntity<CoinsEntity>(response, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<ExceptionBody>(new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value()),
+                    HttpStatus.BAD_REQUEST);
+        }
+    }
+    
+    @GetMapping("/find/name/{name}")
+    ResponseEntity<?> findByName(@PathVariable String name) {
+        try {
+            List<Coins> coins = findCoinsUsecases.execute(name, TypeCoinSearch.NAME);
+            List<CoinsEntity> response = coinsMapper.toResponse(coins);
+            return new ResponseEntity<List<CoinsEntity>>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<ExceptionBody>(new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value()),
+                    HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/find/symbol/{symbol}")
+    ResponseEntity<?> findBySymbol(@PathVariable String symbol) {
+        try {
+            List<Coins> coins = findCoinsUsecases.execute(symbol, TypeCoinSearch.SYMBOL);
+            List<CoinsEntity> response = coinsMapper.toResponse(coins);
+            return new ResponseEntity<List<CoinsEntity>>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<ExceptionBody>(new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value()),
                     HttpStatus.BAD_REQUEST);

@@ -7,8 +7,9 @@ import com.site.dev.core.domain.entity.Coins;
 public interface CoinsGateWay {
     Coins create(Coins coins);
     List<Coins> getAll();
-    Coins getByName(String name);
+    List<Coins> getByName(String name);
     Coins getById(Long id);
     Coins update(Coins coins);
     void delete(Long id);
+    List<Coins> getBySymbol(String symbol);
 }

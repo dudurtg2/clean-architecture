@@ -11,8 +11,8 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.site.dev.adapter.entity.UsersEntity;
-import com.site.dev.security.DTO.TokensDTO;
+import com.site.dev.adapter.models.UsersEntity;
+import com.site.dev.security.dto.TokensDTO;
 
 @Component
 public class TokenService {

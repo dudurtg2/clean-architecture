@@ -5,17 +5,13 @@ import com.site.dev.core.domain.entity.Movements;
 
 public class CreateMovementsUsecases {
     private MovementsGateWay movementsGateWay;
-    private ValidadeMovements validadeMovements;
 
     public CreateMovementsUsecases(MovementsGateWay movementsGateWay) {
-        this.validadeMovements = new ValidadeMovements();
         this.movementsGateWay = movementsGateWay;
     }
 
     public Movements execute(Movements movements) {
-        validadeMovements.validateBory(movements);
-        validadeMovements.verifyMovementsIsPriceIsNotSet(movements);
-        return movementsGateWay.create(movements);
+        return movementsGateWay.create(movements.correct());
     }
 
     

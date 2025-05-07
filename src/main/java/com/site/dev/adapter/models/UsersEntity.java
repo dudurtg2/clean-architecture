@@ -1,4 +1,4 @@
-package com.site.dev.adapter.entity;
+package com.site.dev.adapter.models;
 
 import java.time.LocalDateTime;
 import java.util.Collection;

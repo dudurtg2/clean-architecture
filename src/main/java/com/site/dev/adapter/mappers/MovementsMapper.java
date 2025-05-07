@@ -5,7 +5,7 @@ import org.mapstruct.Mapper;
 
 import com.site.dev.adapter.controllers.dto.movements.MovementsRequest;
 import com.site.dev.adapter.controllers.dto.movements.MovementsResponse;
-import com.site.dev.adapter.entity.MovementsEntity;
+import com.site.dev.adapter.models.MovementsEntity;
 import com.site.dev.core.domain.entity.Movements;
 @Mapper(componentModel = "spring")
 public interface MovementsMapper {

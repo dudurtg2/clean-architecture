@@ -1,4 +1,4 @@
-package com.site.dev.security.DTO;
+package com.site.dev.security.dto;
 
 import com.site.dev.core.domain.entity.Users;
 

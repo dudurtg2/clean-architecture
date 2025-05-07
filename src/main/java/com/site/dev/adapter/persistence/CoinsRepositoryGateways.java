@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.site.dev.adapter.entity.CoinsEntity;
 import com.site.dev.adapter.mappers.CoinsMapper;
 import com.site.dev.adapter.mappers.UserMapper;
+import com.site.dev.adapter.models.CoinsEntity;
 import com.site.dev.adapter.repository.CoinsRepository;
 import com.site.dev.core.applications.gateway.CoinsGateWay;
 import com.site.dev.core.domain.entity.Coins;
@@ -41,8 +41,13 @@ public class CoinsRepositoryGateways implements CoinsGateWay {
     }
 
     @Override
-    public Coins getByName(String name) {
-        return coinsMapper.toCoins(coinsRepository.findByName(name));
+    public List<Coins> getByName(String name) {
+        return coinsMapper.toRequest(coinsRepository.findByName(name));
+    }
+
+    @Override
+    public List<Coins> getBySymbol(String symbol) {
+        return coinsMapper.toRequest(coinsRepository.findBySymbol(symbol));
     }
 
     @Override

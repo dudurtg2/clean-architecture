@@ -1,4 +1,4 @@
-package com.site.dev.adapter.entity;
+package com.site.dev.adapter.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

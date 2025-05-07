@@ -1,9 +1,8 @@
 package com.site.dev.adapter.controllers;
 
-import org.hibernate.sql.Delete;
-import org.hibernate.sql.Update;
-
 import com.site.dev.adapter.mappers.UserMapper;
+import com.site.dev.adapter.models.ExceptionBody;
+import com.site.dev.adapter.models.UsersEntity;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,18 +20,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.site.dev.adapter.controllers.dto.users.UsersRequest;
 import com.site.dev.adapter.controllers.dto.users.UsersResponse;
-import com.site.dev.adapter.entity.ExceptionBody;
-import com.site.dev.adapter.entity.UsersEntity;
 import com.site.dev.adapter.mappers.UserDTOMapper;
 import com.site.dev.core.applications.usecases.users.CreateUsersUsecases;
 import com.site.dev.core.applications.usecases.users.DeleteUsersUsecases;
 import com.site.dev.core.applications.usecases.users.FindUsersUsecases;
 import com.site.dev.core.applications.usecases.users.UpdateUsersUsecases;
 import com.site.dev.core.domain.entity.Users;
-import com.site.dev.security.DTO.AccessTokenResponseDTO;
-import com.site.dev.security.DTO.AuthorizationDTO;
-import com.site.dev.security.DTO.LoginResponseDTO;
-import com.site.dev.security.DTO.RefreshTokenDTO;
+import com.site.dev.security.dto.AccessTokenResponseDTO;
+import com.site.dev.security.dto.AuthorizationDTO;
+import com.site.dev.security.dto.LoginResponseDTO;
+import com.site.dev.security.dto.RefreshTokenDTO;
 import com.site.dev.services.TokenService;
 
 @RestController
@@ -144,4 +141,6 @@ public class UserController {
             return new ResponseEntity<ExceptionBody>(body, HttpStatus.BAD_REQUEST);
         }
     }
+
+    
 }

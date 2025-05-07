@@ -7,7 +7,7 @@ import com.site.dev.core.applications.usecases.movements.CreateMovementsUsecases
 import com.site.dev.core.applications.usecases.movements.DeleteMovementsUsecases;
 import com.site.dev.core.applications.usecases.movements.FindMovementsUsecases;
 import com.site.dev.core.applications.usecases.movements.UpdateMovementsUsecases;
-import com.site.dev.core.applications.usecases.movements.ValidadeMovements;
+
 
 
 @Configuration

@@ -8,7 +8,7 @@ import com.site.dev.core.applications.usecases.coins.CreateCoinsUsecases;
 import com.site.dev.core.applications.usecases.coins.DeleteCoinsUsecases;
 import com.site.dev.core.applications.usecases.coins.FindCoinsUsecases;
 import com.site.dev.core.applications.usecases.coins.UpdateCoinsUsecases;
-import com.site.dev.core.applications.usecases.coins.ValidadeCoins;
+
 import com.site.dev.core.applications.usecases.users.UpdateUsersUsecases;
 
 @Configuration

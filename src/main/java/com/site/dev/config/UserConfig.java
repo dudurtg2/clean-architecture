@@ -7,7 +7,7 @@ import com.site.dev.core.applications.usecases.users.CreateUsersUsecases;
 import com.site.dev.core.applications.usecases.users.DeleteUsersUsecases;
 import com.site.dev.core.applications.usecases.users.FindUsersUsecases;
 import com.site.dev.core.applications.usecases.users.UpdateUsersUsecases;
-import com.site.dev.core.applications.usecases.users.ValidadeUsers;
+
 
 @Configuration
 public class UserConfig {

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.site.dev.core.applications.gateway.CoinsGateWay;
 import com.site.dev.core.domain.entity.Coins;
+import com.site.dev.core.domain.enums.TypeCoinSearch;
 
 public class FindCoinsUsecases {
     private CoinsGateWay coinsGateWay;
@@ -12,8 +13,15 @@ public class FindCoinsUsecases {
         this.coinsGateWay = coinsGateWay;
     }
 
-    public Coins execute(String name) {
-        return coinsGateWay.getByName(name);
+    public List<Coins> execute(String index, TypeCoinSearch typeCoinSearch) {
+        switch (typeCoinSearch) {
+            case NAME:
+                return coinsGateWay.getByName(index);
+            case SYMBOL:
+                return coinsGateWay.getBySymbol(index);
+            default:
+                return null;
+        }
     }
 
     public Coins execute(Long id) {
@@ -23,4 +31,5 @@ public class FindCoinsUsecases {
     public List<Coins> execute() {
         return coinsGateWay.getAll();
     }
+
 }

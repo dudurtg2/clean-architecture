@@ -1,22 +1,31 @@
 package com.site.dev.core.applications.usecases.users;
 
 import com.site.dev.core.applications.gateway.UsersGateWay;
+import com.site.dev.core.domain.entity.Users;
+import com.site.dev.core.domain.exception.NoDuplicateUserException;
 
 public class DeleteUsersUsecases {
     private UsersGateWay userGateWay;
-    private ValidadeUsers validadeUsers;
 
     public DeleteUsersUsecases(UsersGateWay userGateWay) {
         this.userGateWay = userGateWay;
-        this.validadeUsers = new ValidadeUsers();
     }
 
     public void execute(String email){
-        validadeUsers.verifyUserExists(email, userGateWay);
-        userGateWay.delete(validadeUsers.getUser(email, userGateWay).getId());
+        verifyUserExists(email);
+        userGateWay.delete(getUser(email).getId());
     };
-
+    public void verifyUserExists(String email) {
+        Users existingUser = userGateWay.getUserByEmail(email);
+        if (existingUser != null) {
+            throw new NoDuplicateUserException();
+        }
+    }
    
+    public Users getUser(String email) {
+        return userGateWay.getUserByEmail(email);
+    }
+
     
     
 

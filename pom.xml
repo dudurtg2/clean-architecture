@@ -6,13 +6,13 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.4.3</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/> 
     </parent>
     <groupId>com.site</groupId>
     <artifactId>dev</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.3.0</version>
     <name>dev</name>
-    <description>Demo project for Spring Boot</description>
+    <description>TCC final Senai</description>
     <url/>
     <licenses>
         <license/>
@@ -27,7 +27,6 @@
         <url/>
     </scm>
     <properties>
-        <!-- Versão recomendada do Lombok -->
         <java.version>21</java.version>
     </properties>
     <dependencies>
@@ -75,6 +74,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.apis</groupId>
+            <artifactId>google-api-services-androidpublisher</artifactId>
+            <version>v3-rev142-1.25.0</version>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>com.auth0</groupId>

@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.site.dev.adapter.controllers.dto.movements.MovementsRequest;
 import com.site.dev.adapter.controllers.dto.movements.MovementsResponse;
-import com.site.dev.adapter.entity.ExceptionBody;
 import com.site.dev.adapter.mappers.CoinsMapper;
 import com.site.dev.adapter.mappers.MovementsMapper;
+import com.site.dev.adapter.models.ExceptionBody;
 import com.site.dev.core.applications.usecases.coins.DeleteCoinsUsecases;
 import com.site.dev.core.applications.usecases.coins.FindCoinsUsecases;
 import com.site.dev.core.applications.usecases.coins.UpdateCoinsUsecases;
