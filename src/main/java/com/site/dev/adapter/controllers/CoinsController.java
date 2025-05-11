@@ -2,6 +2,7 @@ package com.site.dev.adapter.controllers;
 
 import java.util.List;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +23,10 @@ import com.site.dev.core.applications.usecases.coins.CreateCoinsUsecases;
 import com.site.dev.core.applications.usecases.coins.DeleteCoinsUsecases;
 import com.site.dev.core.applications.usecases.coins.FindCoinsUsecases;
 import com.site.dev.core.applications.usecases.coins.UpdateCoinsUsecases;
+import com.site.dev.core.applications.usecases.users.FindUsersUsecases;
 import com.site.dev.core.domain.entity.Coins;
 import com.site.dev.core.domain.enums.TypeCoinSearch;
+import com.site.dev.services.CollectEmailForTokenService;
 
 @RestController
 @RequestMapping("/api/coins")
@@ -34,22 +37,29 @@ public class CoinsController {
     private final UpdateCoinsUsecases updateCoinsUsecases;
     private final DeleteCoinsUsecases deleteCoinsUsecases;
     private final CoinsMapper coinsMapper;
+    private FindUsersUsecases findUsersUsecases;
+    private CollectEmailForTokenService collectEmailForTokenService;
 
     @Autowired
     public CoinsController(CreateCoinsUsecases createCoinsUsecases, FindCoinsUsecases findCoinsUsecases,
-            CoinsMapper coinsMapper, UpdateCoinsUsecases updateCoinsUsecases, DeleteCoinsUsecases deleteCoinsUsecases) {
+            CoinsMapper coinsMapper, UpdateCoinsUsecases updateCoinsUsecases, DeleteCoinsUsecases deleteCoinsUsecases,
+            CollectEmailForTokenService collectEmailForTokenService, FindUsersUsecases findUsersUsecases) {
 
         this.updateCoinsUsecases = updateCoinsUsecases;
         this.deleteCoinsUsecases = deleteCoinsUsecases;
         this.createCoinsUsecases = createCoinsUsecases;
         this.findCoinsUsecases = findCoinsUsecases;
         this.coinsMapper = coinsMapper;
+        this.findUsersUsecases = findUsersUsecases;
+        this.collectEmailForTokenService = collectEmailForTokenService;
     }
 
     @PostMapping("/create")
-    ResponseEntity<?> create(@RequestBody CoinsRequest request) {
+    ResponseEntity<?> create(@RequestBody CoinsRequest request,
+            HttpServletRequest servletRequest) {
         try {
             Coins coins = coinsMapper.toCoins(request);
+            coins.setUser(findUsersUsecases.execute(collectEmailForTokenService.execute(servletRequest)));
             Coins createdCoins = createCoinsUsecases.execute(coins);
             CoinsEntity response = coinsMapper.toCoinsEntity(createdCoins);
 
@@ -61,9 +71,10 @@ public class CoinsController {
     }
     
     @GetMapping("/find/name/{name}")
-    ResponseEntity<?> findByName(@PathVariable String name) {
+    ResponseEntity<?> findByName(@PathVariable String name,
+            HttpServletRequest servletRequest) {
         try {
-            List<Coins> coins = findCoinsUsecases.execute(name, TypeCoinSearch.NAME);
+            List<Coins> coins = findCoinsUsecases.execute(name, TypeCoinSearch.NAME, findUsersUsecases.execute(collectEmailForTokenService.execute(servletRequest)));
             List<CoinsEntity> response = coinsMapper.toResponse(coins);
             return new ResponseEntity<List<CoinsEntity>>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -73,9 +84,10 @@ public class CoinsController {
     }
 
     @GetMapping("/find/symbol/{symbol}")
-    ResponseEntity<?> findBySymbol(@PathVariable String symbol) {
+    ResponseEntity<?> findBySymbol(@PathVariable String symbol,
+            HttpServletRequest servletRequest) {
         try {
-            List<Coins> coins = findCoinsUsecases.execute(symbol, TypeCoinSearch.SYMBOL);
+            List<Coins> coins = findCoinsUsecases.execute(symbol, TypeCoinSearch.SYMBOL, findUsersUsecases.execute(collectEmailForTokenService.execute(servletRequest)));
             List<CoinsEntity> response = coinsMapper.toResponse(coins);
             return new ResponseEntity<List<CoinsEntity>>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -97,9 +109,10 @@ public class CoinsController {
     }
 
     @GetMapping("/findAll")
-    ResponseEntity<?> findAll() {
+    ResponseEntity<?> findAll(
+            HttpServletRequest servletRequest) {
         try {
-            List<Coins> Coins = findCoinsUsecases.execute();
+            List<Coins> Coins = findCoinsUsecases.execute(findUsersUsecases.execute(collectEmailForTokenService.execute(servletRequest)));
             List<CoinsEntity> response = coinsMapper.toResponse(Coins);
             return new ResponseEntity<List<CoinsEntity>>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -120,9 +133,11 @@ public class CoinsController {
     }
 
     @PutMapping("/update/{id}")
-    ResponseEntity<?> update(@RequestBody CoinsRequest request, @PathVariable Long id) {
+    ResponseEntity<?> update(@RequestBody CoinsRequest request, @PathVariable Long id,
+            HttpServletRequest servletRequest) {
         try {
             Coins coins = coinsMapper.toCoins(request);
+            coins.setUser(findUsersUsecases.execute(collectEmailForTokenService.execute(servletRequest)));
             Coins updatedCoins = updateCoinsUsecases.execute(id, coins);
             CoinsEntity response = coinsMapper.toCoinsEntity(updatedCoins);
             return new ResponseEntity<CoinsEntity>(response, HttpStatus.OK);

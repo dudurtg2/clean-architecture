@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.site.dev.adapter.controllers.dto.users.UsersRequest;
 import com.site.dev.adapter.controllers.dto.users.UsersResponse;
 import com.site.dev.adapter.mappers.UserDTOMapper;
@@ -25,12 +24,15 @@ import com.site.dev.core.applications.usecases.users.CreateUsersUsecases;
 import com.site.dev.core.applications.usecases.users.DeleteUsersUsecases;
 import com.site.dev.core.applications.usecases.users.FindUsersUsecases;
 import com.site.dev.core.applications.usecases.users.UpdateUsersUsecases;
+import com.site.dev.services.CollectEmailForTokenService;
 import com.site.dev.core.domain.entity.Users;
 import com.site.dev.security.dto.AccessTokenResponseDTO;
 import com.site.dev.security.dto.AuthorizationDTO;
 import com.site.dev.security.dto.LoginResponseDTO;
 import com.site.dev.security.dto.RefreshTokenDTO;
 import com.site.dev.services.TokenService;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api/user")
@@ -44,13 +46,15 @@ public class UserController {
     private final UserDTOMapper userDTOMapper;
     private final UserMapper userMapper;
     private final AuthenticationManager authenticationManager;
+
     private TokenService tokenService;
+    private CollectEmailForTokenService collectEmailForTokenService;
 
     @Autowired
     public UserController(UpdateUsersUsecases updateUsersUsecases, UserMapper userMapper,
             CreateUsersUsecases createUserUsecases, UserDTOMapper userDTOMapper, FindUsersUsecases findUserUsecases,
             TokenService tokenService, AuthenticationManager authenticationManager,
-            DeleteUsersUsecases deleteUsersUsecases) {
+            DeleteUsersUsecases deleteUsersUsecases, CollectEmailForTokenService collectEmailForTokenService) {
         this.createUserUsecases = createUserUsecases;
         this.userMapper = userMapper;
         this.userDTOMapper = userDTOMapper;
@@ -59,6 +63,7 @@ public class UserController {
         this.authenticationManager = authenticationManager;
         this.updateUsersUsecases = updateUsersUsecases;
         this.deleteUsersUsecases = deleteUsersUsecases;
+        this.collectEmailForTokenService = collectEmailForTokenService;
     }
 
     @PostMapping("/login")
@@ -118,11 +123,12 @@ public class UserController {
         }
     }
 
-    @PutMapping("/update/{email}")
-    ResponseEntity<?> update(@RequestBody UsersRequest request, @PathVariable String email) {
+    @PutMapping("/update")
+    ResponseEntity<?> update(@RequestBody UsersRequest request, 
+            HttpServletRequest servletRequest) {
         try {
             Users user = userDTOMapper.toUser(request);
-            Users updatedUser = updateUsersUsecases.execute(email, user);
+            Users updatedUser = updateUsersUsecases.execute(collectEmailForTokenService.execute(servletRequest), user);
             UsersResponse response = userDTOMapper.toResponse(updatedUser);
             return new ResponseEntity<UsersResponse>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -131,10 +137,10 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/delete/{email}")
-    ResponseEntity<?> delete(@PathVariable String email) {
+    @DeleteMapping("/delete")
+    ResponseEntity<?> delete(HttpServletRequest servletRequest) {
         try {
-            deleteUsersUsecases.execute(email);
+            deleteUsersUsecases.execute(collectEmailForTokenService.execute(servletRequest));
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             ExceptionBody body = new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value());

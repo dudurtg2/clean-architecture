@@ -16,17 +16,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.site.dev.adapter.controllers.dto.movements.MovementsRequest;
 import com.site.dev.adapter.controllers.dto.movements.MovementsResponse;
-import com.site.dev.adapter.mappers.CoinsMapper;
 import com.site.dev.adapter.mappers.MovementsMapper;
 import com.site.dev.adapter.models.ExceptionBody;
-import com.site.dev.core.applications.usecases.coins.DeleteCoinsUsecases;
 import com.site.dev.core.applications.usecases.coins.FindCoinsUsecases;
-import com.site.dev.core.applications.usecases.coins.UpdateCoinsUsecases;
 import com.site.dev.core.applications.usecases.movements.CreateMovementsUsecases;
 import com.site.dev.core.applications.usecases.movements.DeleteMovementsUsecases;
 import com.site.dev.core.applications.usecases.movements.FindMovementsUsecases;
 import com.site.dev.core.applications.usecases.movements.UpdateMovementsUsecases;
 import com.site.dev.core.domain.entity.Movements;
+import com.site.dev.services.CollectEmailForTokenService;
 
 @RestController
 @RequestMapping("/api/movements")
@@ -38,18 +36,19 @@ public class MovementsController {
     private final DeleteMovementsUsecases deleteMovementUsecases;
     private final UpdateMovementsUsecases updateMovementUsecases;
     private final MovementsMapper movementsMapper;
-    private final CoinsMapper coinsMapper;
+    private final CollectEmailForTokenService collectEmailForTokenService;
+    
 
     @Autowired
     public MovementsController(CreateMovementsUsecases createMovementUsecases,
             FindMovementsUsecases findMovementUsecases, MovementsMapper movementsMapper,
-            FindCoinsUsecases findCoinsUsecases, CoinsMapper coinsMapper,
+            FindCoinsUsecases findCoinsUsecases, CollectEmailForTokenService collectEmailForTokenService,
             DeleteMovementsUsecases deleteMovementsUsecases, UpdateMovementsUsecases updateMovementsUsecases) {
         this.createMovementUsecases = createMovementUsecases;
         this.findMovementUsecases = findMovementUsecases;
         this.movementsMapper = movementsMapper;
         this.findCoinsUsecases = findCoinsUsecases;
-        this.coinsMapper = coinsMapper;
+        this.collectEmailForTokenService = collectEmailForTokenService;
         this.deleteMovementUsecases = deleteMovementsUsecases;
         this.updateMovementUsecases = updateMovementsUsecases;
 
@@ -58,6 +57,7 @@ public class MovementsController {
     @PostMapping("/create")
     ResponseEntity<?> create(@RequestBody MovementsRequest request) {
         try {
+            
             Movements movements = movementsMapper.toMovements(request);
             Movements movementsCreated = createMovementUsecases.execute(movements);
             MovementsResponse response = movementsMapper.toResponse(movementsCreated);
@@ -67,6 +67,8 @@ public class MovementsController {
             return new ResponseEntity<ExceptionBody>(body, HttpStatus.BAD_REQUEST);
         }
     }
+
+    
 
     @GetMapping("/find/{id}")
     ResponseEntity<?> find(@PathVariable Long id) {
