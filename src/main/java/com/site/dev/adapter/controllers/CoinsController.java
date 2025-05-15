@@ -1,6 +1,7 @@
 package com.site.dev.adapter.controllers;
 
 import java.util.List;
+import java.util.UUID;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,10 +97,10 @@ public class CoinsController {
         }
     }
 
-    @GetMapping("/find/{id}")
-    ResponseEntity<?> findUser(@PathVariable Long id) {
+    @GetMapping("/find/{uuid}")
+    ResponseEntity<?> findUser(@PathVariable String uuid) {
         try {
-            Coins coins = findCoinsUsecases.execute(id);
+            Coins coins = findCoinsUsecases.execute(uuid);
             CoinsEntity response = coinsMapper.toCoinsEntity(coins);
             return new ResponseEntity<CoinsEntity>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -121,10 +122,10 @@ public class CoinsController {
         }
     }
 
-    @DeleteMapping("/delete/{id}")
-    ResponseEntity<?> delete(@PathVariable Long id) {
+    @DeleteMapping("/delete/{uuid}")
+    ResponseEntity<?> delete(@PathVariable String uuid) {
         try {
-            deleteCoinsUsecases.execute(id);
+            deleteCoinsUsecases.execute(uuid);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<ExceptionBody>(new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value()),
@@ -132,13 +133,13 @@ public class CoinsController {
         }
     }
 
-    @PutMapping("/update/{id}")
-    ResponseEntity<?> update(@RequestBody CoinsRequest request, @PathVariable Long id,
+    @PutMapping("/update/{uuid}")
+    ResponseEntity<?> update(@RequestBody CoinsRequest request, @PathVariable String uuid,
             HttpServletRequest servletRequest) {
         try {
             Coins coins = coinsMapper.toCoins(request);
             coins.setUser(findUsersUsecases.execute(collectEmailForTokenService.execute(servletRequest)));
-            Coins updatedCoins = updateCoinsUsecases.execute(id, coins);
+            Coins updatedCoins = updateCoinsUsecases.execute(uuid, coins);
             CoinsEntity response = coinsMapper.toCoinsEntity(updatedCoins);
             return new ResponseEntity<CoinsEntity>(response, HttpStatus.OK);
         } catch (Exception e) {

@@ -1,6 +1,7 @@
 package com.site.dev.core.applications.usecases.movements;
 
 import java.util.List;
+import java.util.UUID;
 
 import com.site.dev.core.applications.gateway.MovementsGateWay;
 import com.site.dev.core.domain.entity.Coins;
@@ -13,8 +14,8 @@ public class FindMovementsUsecases {
         this.movementsGateWay = movementsGateWay;
     }
 
-    public Movements execute(Long id) {
-        return movementsGateWay.getById(id);
+    public Movements execute(String uuid) {
+        return movementsGateWay.geyByUUID(uuid);
     }
 
     public List<Movements> execute() {

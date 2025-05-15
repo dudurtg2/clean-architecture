@@ -1,6 +1,8 @@
 package com.site.dev.adapter.persistence;
 
 import java.util.List;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -30,8 +32,8 @@ public class UserRepositoryGateways implements UsersGateWay {
         return userMapper.toResponse(userRepository.findAll());
     }
     @Override
-    public Users getUserById(Long id) {
-        return userMapper.toUser(userRepository.findById(id).get());
+    public Users geyUserByUUID(String uuid) {
+        return userMapper.toUser(userRepository.findByUuid(uuid));
     }
     @Override
     public Users getUserByEmail(String email) {
@@ -42,7 +44,7 @@ public class UserRepositoryGateways implements UsersGateWay {
         return userMapper.toUser(userRepository.save(userMapper.toUserEntity(user)));
     }
     @Override
-    public void delete(Long id) {
-        userRepository.deleteById(id);
+    public void delete(String uuid) {
+        userRepository.delete(userRepository.findByUuid(uuid));
     }
 }

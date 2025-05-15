@@ -1,6 +1,7 @@
 package com.site.dev.adapter.persistence;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -30,7 +31,7 @@ public class CoinsRepositoryGateways implements CoinsGateWay {
     public Coins create(Coins coins) {
 
         CoinsEntity coinsEntity = coinsMapper.toCoinsEntity(coins);
-        coinsEntity.setUser(userMapper.toUserEntity(userRepositoryGateways.getUserById(coinsEntity.getUser().getId())));
+        coinsEntity.setUser(userMapper.toUserEntity(userRepositoryGateways.geyUserByUUID(coinsEntity.getUser().getUuid())));
 
         return coinsMapper.toCoins(coinsRepository.save(coinsEntity));
     }
@@ -51,8 +52,8 @@ public class CoinsRepositoryGateways implements CoinsGateWay {
     }
 
     @Override
-    public Coins getById(Long id) {
-        return coinsMapper.toCoins(coinsRepository.findById(id).get());
+    public Coins getByUUID(String uuid) {
+        return coinsMapper.toCoins(coinsRepository.findByUuid(uuid));
     }
 
     @Override
@@ -61,8 +62,8 @@ public class CoinsRepositoryGateways implements CoinsGateWay {
     }
 
     @Override
-    public void delete(Long id) {
-        coinsRepository.deleteById(id);
+    public void delete(String uuid) {
+        coinsRepository.delete(coinsRepository.findByUuid(uuid));
     }
 
 }

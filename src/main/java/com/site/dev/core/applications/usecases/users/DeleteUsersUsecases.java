@@ -13,7 +13,7 @@ public class DeleteUsersUsecases {
 
     public void execute(String email){
         verifyUserExists(email);
-        userGateWay.delete(getUser(email).getId());
+        userGateWay.delete(getUser(email).getUuid());
     };
     public void verifyUserExists(String email) {
         Users existingUser = userGateWay.getUserByEmail(email);

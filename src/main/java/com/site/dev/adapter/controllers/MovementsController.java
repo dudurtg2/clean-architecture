@@ -1,6 +1,7 @@
 package com.site.dev.adapter.controllers;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -70,10 +71,10 @@ public class MovementsController {
 
     
 
-    @GetMapping("/find/{id}")
-    ResponseEntity<?> find(@PathVariable Long id) {
+    @GetMapping("/find/{uuid}")
+    ResponseEntity<?> find(@PathVariable String uuid) {
         try {
-            Movements movements = findMovementUsecases.execute(id);
+            Movements movements = findMovementUsecases.execute(uuid);
             MovementsResponse response = movementsMapper.toResponse(movements);
             return new ResponseEntity<MovementsResponse>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -94,10 +95,10 @@ public class MovementsController {
         }
     }
 
-    @GetMapping("/find/coins/{id}")
-    ResponseEntity<?> findByCoins(@PathVariable Long id) {
+    @GetMapping("/find/coins/{uuid}")
+    ResponseEntity<?> findByCoins(@PathVariable String uuid) {
         try {
-            List<Movements> movements = findMovementUsecases.execute(findCoinsUsecases.execute(id));
+            List<Movements> movements = findMovementUsecases.execute(findCoinsUsecases.execute(uuid));
             List<MovementsResponse> response = movementsMapper.toResponseEntity(movements);
             return new ResponseEntity<List<MovementsResponse>>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -106,11 +107,11 @@ public class MovementsController {
         }
     }
 
-    @PutMapping("/update/{id}")
-    ResponseEntity<?> update(@RequestBody MovementsRequest request, @PathVariable Long id) {
+    @PutMapping("/update/{uuid}")
+    ResponseEntity<?> update(@RequestBody MovementsRequest request, @PathVariable String uuid) {
         try {
             Movements movements = movementsMapper.toMovements(request);
-            Movements updatedMovements = updateMovementUsecases.execute(id, movements);
+            Movements updatedMovements = updateMovementUsecases.execute(uuid, movements);
             MovementsResponse response = movementsMapper.toResponse(updatedMovements);
             return new ResponseEntity<MovementsResponse>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -119,10 +120,10 @@ public class MovementsController {
         }
     }
 
-    @DeleteMapping("/delete/{id}")
-    ResponseEntity<?> delete(@PathVariable Long id) {
+    @DeleteMapping("/delete/{uuid}")
+    ResponseEntity<?> delete(@PathVariable String uuid) {
         try {
-            deleteMovementUsecases.execute(id);
+            deleteMovementUsecases.execute(uuid);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             ExceptionBody body = new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value());

@@ -1,6 +1,8 @@
 package com.site.dev.adapter.persistence;
 
 import java.util.List;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -37,8 +39,8 @@ public class MovementsRepositoryGateways implements MovementsGateWay {
     }
 
     @Override
-    public Movements getById(Long id) {
-        return movementsMapper.toMovements(movementsRepository.findById(id).orElseThrow());
+    public Movements geyByUUID(String uuid) {
+        return movementsMapper.toMovements(movementsRepository.findByUuid(uuid));
     }
 
     @Override
@@ -47,8 +49,8 @@ public class MovementsRepositoryGateways implements MovementsGateWay {
     }
 
     @Override
-    public void delete(Long id) {
-        movementsRepository.deleteById(id);
+    public void delete(String uuid) {
+        movementsRepository.delete(movementsRepository.findByUuid(uuid));
     }
 
     @Override

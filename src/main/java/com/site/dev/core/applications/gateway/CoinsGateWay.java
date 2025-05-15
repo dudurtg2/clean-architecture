@@ -1,6 +1,7 @@
 package com.site.dev.core.applications.gateway;
 
 import java.util.List;
+import java.util.UUID;
 
 import com.site.dev.core.domain.entity.Coins;
 
@@ -8,8 +9,8 @@ public interface CoinsGateWay {
     Coins create(Coins coins);
     List<Coins> getAll();
     List<Coins> getByName(String name);
-    Coins getById(Long id);
+    Coins getByUUID(String uuid);
     Coins update(Coins coins);
-    void delete(Long id);
+    void delete(String uuid);
     List<Coins> getBySymbol(String symbol);
 }

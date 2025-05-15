@@ -4,6 +4,8 @@ import com.site.dev.core.applications.gateway.MovementsGateWay;
 import com.site.dev.core.domain.entity.Movements;
 import com.site.dev.core.domain.exception.NotExistsEntityException;
 
+import java.util.UUID;
+
 public class UpdateMovementsUsecases {
     private MovementsGateWay movementsGateWay;
 
@@ -11,15 +13,15 @@ public class UpdateMovementsUsecases {
         this.movementsGateWay = movementsGateWay;
     }
 
-    public Movements execute(Long id, Movements movements) {
-        if(movementsGateWay.getById(id) == null) throw new NotExistsEntityException("Movements");
+    public Movements execute(String uuid, Movements movements) {
+        if(movementsGateWay.geyByUUID(uuid) == null) throw new NotExistsEntityException("Movements");
         validateNewBory(movements);
 
         return movementsGateWay.update(movements);
     }
     
     public void validateNewBory(Movements movements) {
-        Movements movementsInBD = movementsGateWay.getById(movements.getId());
+        Movements movementsInBD = movementsGateWay.geyByUUID(movements.getUuid());
         movements.setCoins(movements.getCoins() == null ? movementsInBD.getCoins() : movements.getCoins());
         movements.setTypeCoins(movements.getTypeCoins() == null ? movementsInBD.getTypeCoins() : movements.getTypeCoins());
         movements.setValue(movements.getValue() == null ? movementsInBD.getValue() : movements.getValue());

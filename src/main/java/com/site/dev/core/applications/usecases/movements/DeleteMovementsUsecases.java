@@ -3,6 +3,8 @@ package com.site.dev.core.applications.usecases.movements;
 import com.site.dev.core.applications.gateway.MovementsGateWay;
 import com.site.dev.core.domain.exception.NotExistsEntityException;
 
+import java.util.UUID;
+
 public class DeleteMovementsUsecases {
     private MovementsGateWay movementsGateWay;
 
@@ -10,9 +12,9 @@ public class DeleteMovementsUsecases {
         this.movementsGateWay = movementsGateWay;
     }
 
-    public void execute(Long id) {
-        if(movementsGateWay.getById(id) == null) throw new NotExistsEntityException("Movements");
-        movementsGateWay.delete(id);
+    public void execute(String uuid) {
+        if(movementsGateWay.geyByUUID(uuid) == null) throw new NotExistsEntityException("Movements");
+        movementsGateWay.delete(uuid);
     }
 
     

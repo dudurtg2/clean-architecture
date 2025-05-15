@@ -34,6 +34,8 @@ import com.site.dev.services.TokenService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
@@ -111,10 +113,10 @@ public class UserController {
         }
     }
 
-    @GetMapping("/find/{id}")
-    ResponseEntity<?> find(@PathVariable Long id) {
+    @GetMapping("/find/{uuid}")
+    ResponseEntity<?> find(@PathVariable String uuid) {
         try {
-            Users user = findUserUsecases.execute(id);
+            Users user = findUserUsecases.execute(uuid);
             UsersResponse response = userDTOMapper.toResponse(user);
             return new ResponseEntity<UsersResponse>(response, HttpStatus.OK);
         } catch (Exception e) {

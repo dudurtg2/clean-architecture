@@ -1,16 +1,13 @@
 package com.site.dev.core.domain.entity;
-
-import lombok.Builder;
-import lombok.Data;
-
 import com.site.dev.core.domain.exception.IncorrectBodyException;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.UUID;
 
 @Builder
 @AllArgsConstructor
@@ -20,7 +17,7 @@ import lombok.Setter;
 @Data
 public class Coins {
 
-    private Long id;
+    private String uuid;
     private String name;
     private String symbol;
     private String image;

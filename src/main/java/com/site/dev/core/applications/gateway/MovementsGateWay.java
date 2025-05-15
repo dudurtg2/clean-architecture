@@ -1,6 +1,7 @@
 package com.site.dev.core.applications.gateway;
 
 import java.util.List;
+import java.util.UUID;
 
 import com.site.dev.core.domain.entity.Coins;
 import com.site.dev.core.domain.entity.Movements;
@@ -11,8 +12,8 @@ public interface MovementsGateWay {
     List<Movements> getAll();
     List<Movements> getByCoins(Coins coins);
     List<Movements> getByTypeCoins(TypeCoins typeCoins);
-    Movements getById(Long id);
-    void delete(Long id);
+    Movements geyByUUID(String uuid);
+    void delete(String uuid);
     Movements update(Movements movements);
 
     

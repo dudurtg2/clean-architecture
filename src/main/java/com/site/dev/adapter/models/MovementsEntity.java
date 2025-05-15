@@ -1,6 +1,7 @@
 package com.site.dev.adapter.models;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import com.site.dev.core.domain.enums.TypeCoins;
 
@@ -30,9 +31,9 @@ import lombok.Setter;
 
 public class MovementsEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "uuid")
+    private String uuid;
 
     @Column(name = "date")
     private LocalDateTime date;

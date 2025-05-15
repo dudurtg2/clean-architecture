@@ -1,6 +1,7 @@
 package com.site.dev.core.domain.entity;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import org.mapstruct.control.MappingControl;
 
@@ -23,7 +24,7 @@ import lombok.Setter;
 @Setter
 @Data
 public class Users {
-    private Long id;
+    private String uuid;
     private String name;
     private String email;
     private String password;

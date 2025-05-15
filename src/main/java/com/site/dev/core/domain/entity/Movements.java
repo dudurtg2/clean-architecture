@@ -1,6 +1,7 @@
 package com.site.dev.core.domain.entity;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import com.site.dev.core.domain.enums.TypeCoins;
 import com.site.dev.core.domain.exception.IncorrectBodyException;
@@ -22,7 +23,7 @@ import lombok.Setter;
 @Data
 public class Movements {
 
-    private Long id;
+    private String uuid;
     private LocalDateTime date;
     private Float value;
     private Float price;
