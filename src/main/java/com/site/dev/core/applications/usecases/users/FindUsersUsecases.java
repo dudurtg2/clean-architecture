@@ -1,6 +1,8 @@
 package com.site.dev.core.applications.usecases.users;
 
 import java.util.List;
+import java.util.UUID;
+
 import com.site.dev.core.applications.gateway.UsersGateWay;
 import com.site.dev.core.domain.entity.Users;
 
@@ -13,8 +15,8 @@ public class FindUsersUsecases {
         this.userGateWay = userGateWay;
     }
 
-    public Users execute(Long id){
-        return userGateWay.getUserById(id);
+    public Users executeU(String uuid){
+        return userGateWay.geyUserByUUID(uuid);
     }
 
     public Users execute(String email){

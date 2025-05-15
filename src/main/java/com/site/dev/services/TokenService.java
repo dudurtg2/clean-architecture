@@ -11,8 +11,8 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.site.dev.adapter.entity.UsersEntity;
-import com.site.dev.security.DTO.TokensDTO;
+import com.site.dev.adapter.models.UsersEntity;
+import com.site.dev.security.dto.TokensDTO;
 
 @Component
 public class TokenService {
@@ -45,7 +45,6 @@ public class TokenService {
     public String validateToken(String token, String type) {
         try {
             Algorithm algorithms = Algorithm.HMAC256(secret);
-
             return JWT.require(algorithms)
                     .withIssuer("auth-api")
                     .build()
@@ -70,11 +69,11 @@ public class TokenService {
     }
 
     private Instant genAccessTokenExpiry() {
-        return LocalDateTime.now().plusHours(12).toInstant(ZoneOffset.of("-03:00"));
+        return LocalDateTime.now().plusDays(15).toInstant(ZoneOffset.of("-03:00"));
     }
 
     private Instant genRefreshTokenExpiry() {
-        return LocalDateTime.now().plusDays(30).toInstant(ZoneOffset.of("-03:00"));
+        return LocalDateTime.now().plusDays(120).toInstant(ZoneOffset.of("-03:00"));
     }
 
 }

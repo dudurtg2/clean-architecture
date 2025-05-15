@@ -1,39 +1,39 @@
 package com.site.dev.core.applications.usecases.users;
 
 import com.site.dev.core.domain.entity.Users;
-import com.site.dev.core.domain.exception.IncorretBoryUserException;
+import com.site.dev.core.domain.exception.IncorrectBodyException;
 import com.site.dev.core.domain.exception.NoDuplicateUserException;
 import com.site.dev.core.applications.gateway.UsersGateWay;
 
 public class UpdateUsersUsecases {
     private UsersGateWay userGateWay;
 
-    public UpdateUsersUsecases(UsersGateWay userGateWay){
+    public UpdateUsersUsecases(UsersGateWay userGateWay) {
         this.userGateWay = userGateWay;
     }
 
-    public Users execute(Users user){
-        validate(user);
-        verifyUserExists(user);
+    public Users execute(String email, Users user){
+        verifyUserExists(email);
+        validateNewBory(user);
+
         return userGateWay.update(user);
     };
 
-    public void verifyUserExists(Users user) throws NoDuplicateUserException {
-        Users existingUser = userGateWay.getUserByEmail(user.getEmail());
+    public void verifyUserExists(String email) {
+        Users existingUser = userGateWay.getUserByEmail(email);
         if (existingUser != null) {
             throw new NoDuplicateUserException();
         }
     }
-    
-    public void validate(Users user) throws IncorretBoryUserException {
+   
+    public void validateNewBory(Users user) throws IncorrectBodyException {
         if (user == null) {
-            throw new IncorretBoryUserException();
+            throw new IncorrectBodyException();
         }
-        
         
         Users existingUser = userGateWay.getUserByEmail(user.getEmail());
         if (existingUser == null) {
-            throw new IncorretBoryUserException();
+            throw new IncorrectBodyException();
         }
         
         user.setName(user.getName() == null ? existingUser.getName() : user.getName());

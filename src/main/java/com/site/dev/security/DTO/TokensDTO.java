@@ -1,4 +1,4 @@
-package com.site.dev.security.DTO;
+package com.site.dev.security.dto;
 
 public class TokensDTO {
     private final String accessToken;

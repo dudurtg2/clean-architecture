@@ -2,6 +2,7 @@ package com.site.dev.adapter.controllers.dto.movements;
 
 import java.time.LocalDateTime;
 
+import com.site.dev.adapter.models.CoinsEntity;
 import com.site.dev.core.domain.enums.TypeCoins;
 
 import lombok.Builder;
@@ -10,7 +11,6 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import com.site.dev.adapter.entity.CoinsEntity;
 
 @Builder
 @AllArgsConstructor

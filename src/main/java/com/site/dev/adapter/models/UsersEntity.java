@@ -1,7 +1,9 @@
-package com.site.dev.adapter.entity;
+package com.site.dev.adapter.models;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -32,16 +34,19 @@ import lombok.Setter;
 @Data
 public class UsersEntity implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "uuid")
+    private String uuid;
     @Column(name = "name")
     private String name;
     @Column(name = "email")
     private String email;
     @Column(name = "password")
     private String password;
-
+    @Column(name = "data_nascimento")
+    private LocalDateTime dataNascimento;
+    @Column(name = "genero")
+    private String genero;
     @Column(name = "role")
     private UserRole role;
     @Override
