@@ -11,7 +11,7 @@ import com.site.dev.core.domain.enums.TypeCoins;
 
 public interface MovementsRepository extends JpaRepository<MovementsEntity, Long> {
     List<MovementsEntity> findAll();
-    MovementsEntity findByUuid(String uuid);
+    MovementsEntity findByUuid(UUID uuid);
     List<MovementsEntity> findByTypeCoins(TypeCoins typeCoins);
     List<MovementsEntity> findByCoins(Coins coins);
     

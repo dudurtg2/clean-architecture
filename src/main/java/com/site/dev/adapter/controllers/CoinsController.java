@@ -98,7 +98,7 @@ public class CoinsController {
     }
 
     @GetMapping("/find/{uuid}")
-    ResponseEntity<?> findUser(@PathVariable String uuid) {
+    ResponseEntity<?> findUser(@PathVariable UUID uuid) {
         try {
             Coins coins = findCoinsUsecases.execute(uuid);
             CoinsEntity response = coinsMapper.toCoinsEntity(coins);
@@ -123,7 +123,7 @@ public class CoinsController {
     }
 
     @DeleteMapping("/delete/{uuid}")
-    ResponseEntity<?> delete(@PathVariable String uuid) {
+    ResponseEntity<?> delete(@PathVariable UUID uuid) {
         try {
             deleteCoinsUsecases.execute(uuid);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -134,7 +134,7 @@ public class CoinsController {
     }
 
     @PutMapping("/update/{uuid}")
-    ResponseEntity<?> update(@RequestBody CoinsRequest request, @PathVariable String uuid,
+    ResponseEntity<?> update(@RequestBody CoinsRequest request, @PathVariable UUID uuid,
             HttpServletRequest servletRequest) {
         try {
             Coins coins = coinsMapper.toCoins(request);

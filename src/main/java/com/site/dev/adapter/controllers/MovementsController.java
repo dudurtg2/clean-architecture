@@ -72,7 +72,7 @@ public class MovementsController {
     
 
     @GetMapping("/find/{uuid}")
-    ResponseEntity<?> find(@PathVariable String uuid) {
+    ResponseEntity<?> find(@PathVariable UUID uuid) {
         try {
             Movements movements = findMovementUsecases.execute(uuid);
             MovementsResponse response = movementsMapper.toResponse(movements);
@@ -96,7 +96,7 @@ public class MovementsController {
     }
 
     @GetMapping("/find/coins/{uuid}")
-    ResponseEntity<?> findByCoins(@PathVariable String uuid) {
+    ResponseEntity<?> findByCoins(@PathVariable UUID uuid) {
         try {
             List<Movements> movements = findMovementUsecases.execute(findCoinsUsecases.execute(uuid));
             List<MovementsResponse> response = movementsMapper.toResponseEntity(movements);
@@ -108,7 +108,7 @@ public class MovementsController {
     }
 
     @PutMapping("/update/{uuid}")
-    ResponseEntity<?> update(@RequestBody MovementsRequest request, @PathVariable String uuid) {
+    ResponseEntity<?> update(@RequestBody MovementsRequest request, @PathVariable UUID uuid) {
         try {
             Movements movements = movementsMapper.toMovements(request);
             Movements updatedMovements = updateMovementUsecases.execute(uuid, movements);
@@ -121,7 +121,7 @@ public class MovementsController {
     }
 
     @DeleteMapping("/delete/{uuid}")
-    ResponseEntity<?> delete(@PathVariable String uuid) {
+    ResponseEntity<?> delete(@PathVariable UUID uuid) {
         try {
             deleteMovementUsecases.execute(uuid);
             return new ResponseEntity<>(HttpStatus.OK);

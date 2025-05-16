@@ -36,7 +36,7 @@ public class UsersEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "uuid")
-    private String uuid;
+    private UUID uuid;
     @Column(name = "name")
     private String name;
     @Column(name = "email")

@@ -10,7 +10,7 @@ import com.site.dev.adapter.models.CoinsEntity;
 
 public interface CoinsRepository extends JpaRepository<CoinsEntity, Long> {
     List<CoinsEntity> findAll();
-    CoinsEntity findByUuid(String uuid);
+    CoinsEntity findByUuid(UUID uuid);
     List<CoinsEntity> findBySymbol(String symbol);
     List<CoinsEntity> findByName(String name);
     

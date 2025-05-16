@@ -9,8 +9,8 @@ public interface CoinsGateWay {
     Coins create(Coins coins);
     List<Coins> getAll();
     List<Coins> getByName(String name);
-    Coins getByUUID(String uuid);
+    Coins getByUUID(UUID uuid);
     Coins update(Coins coins);
-    void delete(String uuid);
+    void delete(UUID uuid);
     List<Coins> getBySymbol(String symbol);
 }

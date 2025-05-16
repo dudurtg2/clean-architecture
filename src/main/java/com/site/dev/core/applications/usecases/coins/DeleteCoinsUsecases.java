@@ -12,7 +12,7 @@ public class DeleteCoinsUsecases {
         this.coinsGateWay = coinsGateWay;
     }
     
-    public void execute(String uuid) {
+    public void execute(UUID uuid) {
         if(coinsGateWay.getByUUID(uuid) == null) throw new NotExistsEntityException("Coins");
         coinsGateWay.delete(uuid);
     }

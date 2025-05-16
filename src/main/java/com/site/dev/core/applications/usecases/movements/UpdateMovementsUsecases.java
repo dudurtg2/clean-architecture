@@ -13,7 +13,7 @@ public class UpdateMovementsUsecases {
         this.movementsGateWay = movementsGateWay;
     }
 
-    public Movements execute(String uuid, Movements movements) {
+    public Movements execute(UUID uuid, Movements movements) {
         if(movementsGateWay.geyByUUID(uuid) == null) throw new NotExistsEntityException("Movements");
         validateNewBory(movements);
 

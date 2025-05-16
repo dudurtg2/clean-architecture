@@ -26,7 +26,7 @@ public class FindCoinsUsecases {
         }
     }
 
-    public Coins execute(String uuid) {
+    public Coins execute(UUID uuid) {
         return coinsGateWay.getByUUID(uuid);
     }
 

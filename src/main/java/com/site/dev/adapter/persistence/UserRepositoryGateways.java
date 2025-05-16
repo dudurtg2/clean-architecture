@@ -32,7 +32,7 @@ public class UserRepositoryGateways implements UsersGateWay {
         return userMapper.toResponse(userRepository.findAll());
     }
     @Override
-    public Users geyUserByUUID(String uuid) {
+    public Users geyUserByUUID(UUID uuid) {
         return userMapper.toUser(userRepository.findByUuid(uuid));
     }
     @Override
@@ -44,7 +44,7 @@ public class UserRepositoryGateways implements UsersGateWay {
         return userMapper.toUser(userRepository.save(userMapper.toUserEntity(user)));
     }
     @Override
-    public void delete(String uuid) {
+    public void delete(UUID uuid) {
         userRepository.delete(userRepository.findByUuid(uuid));
     }
 }

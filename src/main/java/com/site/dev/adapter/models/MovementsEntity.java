@@ -33,7 +33,7 @@ public class MovementsEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "uuid")
-    private String uuid;
+    private UUID uuid;
 
     @Column(name = "date")
     private LocalDateTime date;

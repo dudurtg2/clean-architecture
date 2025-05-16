@@ -12,7 +12,7 @@ public class UpdateCoinsUsecases {
     public UpdateCoinsUsecases(CoinsGateWay coinsGateWay) {
         this.coinsGateWay = coinsGateWay;
     }
-    public Coins execute(String uuid, Coins coins) {
+    public Coins execute(UUID uuid, Coins coins) {
         if(coinsGateWay.getByUUID(uuid) == null) throw new NotExistsEntityException("Coins");
         validateNewBory(coins);
         return coinsGateWay.update(coins);

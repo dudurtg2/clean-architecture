@@ -114,7 +114,7 @@ public class UserController {
     }
 
     @GetMapping("/find/{uuid}")
-    ResponseEntity<?> find(@PathVariable String uuid) {
+    ResponseEntity<?> find(@PathVariable String uuid) { //MUDA
         try {
             Users user = findUserUsecases.execute(uuid);
             UsersResponse response = userDTOMapper.toResponse(user);

@@ -52,7 +52,7 @@ public class CoinsRepositoryGateways implements CoinsGateWay {
     }
 
     @Override
-    public Coins getByUUID(String uuid) {
+    public Coins getByUUID(UUID uuid) {
         return coinsMapper.toCoins(coinsRepository.findByUuid(uuid));
     }
 
@@ -62,7 +62,7 @@ public class CoinsRepositoryGateways implements CoinsGateWay {
     }
 
     @Override
-    public void delete(String uuid) {
+    public void delete(UUID uuid) {
         coinsRepository.delete(coinsRepository.findByUuid(uuid));
     }
 

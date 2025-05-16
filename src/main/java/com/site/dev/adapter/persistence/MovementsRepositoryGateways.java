@@ -39,7 +39,7 @@ public class MovementsRepositoryGateways implements MovementsGateWay {
     }
 
     @Override
-    public Movements geyByUUID(String uuid) {
+    public Movements geyByUUID(UUID uuid) {
         return movementsMapper.toMovements(movementsRepository.findByUuid(uuid));
     }
 
@@ -49,7 +49,7 @@ public class MovementsRepositoryGateways implements MovementsGateWay {
     }
 
     @Override
-    public void delete(String uuid) {
+    public void delete(UUID uuid) {
         movementsRepository.delete(movementsRepository.findByUuid(uuid));
     }
 

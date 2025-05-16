@@ -23,7 +23,7 @@ import lombok.Setter;
 @Data
 public class Movements {
 
-    private String uuid;
+    private UUID uuid;
     private LocalDateTime date;
     private Float value;
     private Float price;

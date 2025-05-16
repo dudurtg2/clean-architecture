@@ -15,7 +15,7 @@ public class FindUsersUsecases {
         this.userGateWay = userGateWay;
     }
 
-    public Users executeU(String uuid){
+    public Users executeU(UUID uuid){
         return userGateWay.geyUserByUUID(uuid);
     }
 

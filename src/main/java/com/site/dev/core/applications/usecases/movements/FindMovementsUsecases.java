@@ -14,7 +14,7 @@ public class FindMovementsUsecases {
         this.movementsGateWay = movementsGateWay;
     }
 
-    public Movements execute(String uuid) {
+    public Movements execute(UUID uuid) {
         return movementsGateWay.geyByUUID(uuid);
     }
 

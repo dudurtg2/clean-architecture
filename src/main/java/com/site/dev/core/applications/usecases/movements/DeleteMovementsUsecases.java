@@ -12,7 +12,7 @@ public class DeleteMovementsUsecases {
         this.movementsGateWay = movementsGateWay;
     }
 
-    public void execute(String uuid) {
+    public void execute(UUID uuid) {
         if(movementsGateWay.geyByUUID(uuid) == null) throw new NotExistsEntityException("Movements");
         movementsGateWay.delete(uuid);
     }

@@ -12,8 +12,8 @@ public interface MovementsGateWay {
     List<Movements> getAll();
     List<Movements> getByCoins(Coins coins);
     List<Movements> getByTypeCoins(TypeCoins typeCoins);
-    Movements geyByUUID(String uuid);
-    void delete(String uuid);
+    Movements geyByUUID(UUID uuid);
+    void delete(UUID uuid);
     Movements update(Movements movements);
 
     

@@ -9,7 +9,7 @@ import com.site.dev.adapter.models.UsersEntity;
 
 public interface UserRepository extends JpaRepository<UsersEntity, Long> {
     List<UsersEntity> findAll();
-    UsersEntity findByUuid(String uuid);
+    UsersEntity findByUuid(UUID uuid);
     UsersEntity findByEmail(String email);
   
 }

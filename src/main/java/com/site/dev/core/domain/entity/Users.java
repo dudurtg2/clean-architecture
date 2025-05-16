@@ -24,7 +24,7 @@ import lombok.Setter;
 @Setter
 @Data
 public class Users {
-    private String uuid;
+    private UUID uuid;
     private String name;
     private String email;
     private String password;

@@ -17,7 +17,7 @@ import java.util.UUID;
 @Data
 public class Coins {
 
-    private String uuid;
+    private UUID uuid;
     private String name;
     private String symbol;
     private String image;
