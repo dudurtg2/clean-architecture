@@ -16,7 +16,7 @@ public class FindUsersUsecases {
     }
 
     public Users executeU(UUID uuid){
-        return userGateWay.geyUserByUUID(uuid);
+        return userGateWay.getUserByUUID(uuid);
     }
 
     public Users execute(String email){

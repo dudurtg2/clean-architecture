@@ -15,7 +15,7 @@ public class FindMovementsUsecases {
     }
 
     public Movements execute(UUID uuid) {
-        return movementsGateWay.geyByUUID(uuid);
+        return movementsGateWay.getByUUID(uuid);
     }
 
     public List<Movements> execute() {

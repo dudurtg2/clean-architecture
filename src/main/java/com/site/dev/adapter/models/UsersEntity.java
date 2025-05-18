@@ -49,6 +49,10 @@ public class UsersEntity implements UserDetails {
     private String genero;
     @Column(name = "role")
     private UserRole role;
+    @Column(name = "cpf")
+    private String cpf;
+    @Column(name = "telefone")
+    private String telefone;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if (this.role == null) {

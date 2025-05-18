@@ -24,6 +24,7 @@ public class UsersRequest {
     private UserRole role;
     private LocalDateTime dataNascimento;
     private String genero;
-
+    private String cpf;
+    private String telefone;
 }
 

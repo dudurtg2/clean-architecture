@@ -14,14 +14,14 @@ public class UpdateMovementsUsecases {
     }
 
     public Movements execute(UUID uuid, Movements movements) {
-        if(movementsGateWay.geyByUUID(uuid) == null) throw new NotExistsEntityException("Movements");
+        if(movementsGateWay.getByUUID(uuid) == null) throw new NotExistsEntityException("Movements");
         validateNewBory(movements);
 
         return movementsGateWay.update(movements);
     }
     
     public void validateNewBory(Movements movements) {
-        Movements movementsInBD = movementsGateWay.geyByUUID(movements.getUuid());
+        Movements movementsInBD = movementsGateWay.getByUUID(movements.getUuid());
         movements.setCoins(movements.getCoins() == null ? movementsInBD.getCoins() : movements.getCoins());
         movements.setTypeCoins(movements.getTypeCoins() == null ? movementsInBD.getTypeCoins() : movements.getTypeCoins());
         movements.setValue(movements.getValue() == null ? movementsInBD.getValue() : movements.getValue());

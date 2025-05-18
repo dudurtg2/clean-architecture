@@ -69,11 +69,11 @@ public class TokenService {
     }
 
     private Instant genAccessTokenExpiry() {
-        return LocalDateTime.now().plusDays(15).toInstant(ZoneOffset.of("-03:00"));
+        return LocalDateTime.now().plusHours(1).toInstant(ZoneOffset.of("-03:00"));
     }
 
     private Instant genRefreshTokenExpiry() {
-        return LocalDateTime.now().plusDays(120).toInstant(ZoneOffset.of("-03:00"));
+        return LocalDateTime.now().plusDays(15).toInstant(ZoneOffset.of("-03:00"));
     }
 
 }

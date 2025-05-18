@@ -31,7 +31,7 @@ public class CoinsRepositoryGateways implements CoinsGateWay {
     public Coins create(Coins coins) {
 
         CoinsEntity coinsEntity = coinsMapper.toCoinsEntity(coins);
-        coinsEntity.setUser(userMapper.toUserEntity(userRepositoryGateways.geyUserByUUID(coinsEntity.getUser().getUuid())));
+        coinsEntity.setUser(userMapper.toUserEntity(userRepositoryGateways.getUserByUUID(coinsEntity.getUser().getUuid())));
 
         return coinsMapper.toCoins(coinsRepository.save(coinsEntity));
     }

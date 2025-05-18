@@ -40,6 +40,10 @@ public class UpdateUsersUsecases {
         user.setEmail(user.getEmail() == null ? existingUser.getEmail() : user.getEmail());
         user.setPassword(user.getPassword() == null ? existingUser.getPassword() : user.getPassword());
         user.setRole(null == user.getRole() ? existingUser.getRole() : user.getRole());
+        user.setDataNascimento(null == user.getDataNascimento() ? existingUser.getDataNascimento() : user.getDataNascimento());
+        user.setGenero(null == user.getGenero() ? existingUser.getGenero() : user.getGenero());
+        user.setCpf(null == user.getCpf() ? existingUser.getCpf() : user.getCpf());
+        user.setTelefone(null == user.getTelefone() ? existingUser.getTelefone() : user.getTelefone());
         
     }
 }

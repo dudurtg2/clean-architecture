@@ -12,7 +12,7 @@ public interface MovementsGateWay {
     List<Movements> getAll();
     List<Movements> getByCoins(Coins coins);
     List<Movements> getByTypeCoins(TypeCoins typeCoins);
-    Movements geyByUUID(UUID uuid);
+    Movements getByUUID(UUID uuid);
     void delete(UUID uuid);
     Movements update(Movements movements);
 

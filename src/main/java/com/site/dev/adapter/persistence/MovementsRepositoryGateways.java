@@ -39,7 +39,7 @@ public class MovementsRepositoryGateways implements MovementsGateWay {
     }
 
     @Override
-    public Movements geyByUUID(UUID uuid) {
+    public Movements getByUUID(UUID uuid) {
         return movementsMapper.toMovements(movementsRepository.findByUuid(uuid));
     }
 
