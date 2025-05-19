@@ -1,62 +1,67 @@
 package com.site.dev.adapter.controllers;
 
-import java.util.List;
-import java.util.UUID;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+import com.site.dev.adapter.controllers.dto.goals.GoalsRequest;
+import com.site.dev.adapter.controllers.dto.goals.GoalsResponce;
+import com.site.dev.adapter.mappers.GoalsMapper;
 import com.site.dev.adapter.models.ExceptionBody;
 import com.site.dev.core.applications.usecases.coins.FindCoinsUsecases;
+import com.site.dev.core.applications.usecases.goals.CreateGoalsUsecases;
+import com.site.dev.core.applications.usecases.goals.DeleteGoalsUsecases;
+import com.site.dev.core.applications.usecases.goals.FindGoalsUsecases;
+import com.site.dev.core.applications.usecases.goals.UpdateGoalsUsecases;
 import com.site.dev.core.applications.usecases.movements.CreateMovementsUsecases;
 import com.site.dev.core.applications.usecases.movements.DeleteMovementsUsecases;
 import com.site.dev.core.applications.usecases.movements.FindMovementsUsecases;
 import com.site.dev.core.applications.usecases.movements.UpdateMovementsUsecases;
+import com.site.dev.core.applications.usecases.users.FindUsersUsecases;
+import com.site.dev.core.domain.entity.Goals;
 import com.site.dev.core.domain.entity.Movements;
 import com.site.dev.services.CollectEmailForTokenService;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/movements")
-public class MovementsController {
+@RequestMapping("/api/goals")
+public class GoalsController {
 
-    private final CreateMovementsUsecases createMovementUsecases;
-    private final FindMovementsUsecases findMovementUsecases;
-    private final FindCoinsUsecases findCoinsUsecases;
-    private final DeleteMovementsUsecases deleteMovementUsecases;
-    private final UpdateMovementsUsecases updateMovementUsecases;
+    private final CreateGoalsUsecases createGoalsUsecases;
+    private final FindGoalsUsecases findGoalsUsecases;
+    private final UpdateGoalsUsecases updateGoalsUsecases;
+    private final DeleteGoalsUsecases deleteGoalsUsecases;
+    private FindUsersUsecases findUsersUsecases;
+    private GoalsMapper goalsMapper;
 
     private final CollectEmailForTokenService collectEmailForTokenService;
-    
 
-    @Autowired
-    public MovementsController(CreateMovementsUsecases createMovementUsecases,
-            FindMovementsUsecases findMovementUsecases,
-            FindCoinsUsecases findCoinsUsecases, CollectEmailForTokenService collectEmailForTokenService,
-            DeleteMovementsUsecases deleteMovementsUsecases, UpdateMovementsUsecases updateMovementsUsecases) {
-        this.createMovementUsecases = createMovementUsecases;
-        this.findMovementUsecases = findMovementUsecases;
-
-        this.findCoinsUsecases = findCoinsUsecases;
+    public GoalsController(CreateGoalsUsecases createGoalsUsecases,
+            FindGoalsUsecases findGoalsUsecases, UpdateGoalsUsecases updateGoalsUsecases,
+            DeleteGoalsUsecases deleteGoalsUsecases, GoalsMapper goalsMapper,
+            CollectEmailForTokenService collectEmailForTokenService, FindUsersUsecases findUsersUsecases) {
+        this.createGoalsUsecases = createGoalsUsecases;
+        this.findGoalsUsecases = findGoalsUsecases;
+        this.updateGoalsUsecases = updateGoalsUsecases;
+        this.deleteGoalsUsecases = deleteGoalsUsecases;
+        this.findUsersUsecases = findUsersUsecases;
+        this.goalsMapper = goalsMapper;
         this.collectEmailForTokenService = collectEmailForTokenService;
-        this.deleteMovementUsecases = deleteMovementsUsecases;
-        this.updateMovementUsecases = updateMovementsUsecases;
-
     }
 
+
     @PostMapping("/create")
-    ResponseEntity<?> create(@RequestBody Movements request) {
+    ResponseEntity<?> create(@RequestBody GoalsRequest request, HttpServletRequest servletRequest) {
         try {
-            Movements movements = createMovementUsecases.execute(request);
-            return new ResponseEntity<Movements>(movements, HttpStatus.CREATED);
+            Goals goalsRequest = goalsMapper.toGoals(request);
+
+            goalsRequest.setUser(findUsersUsecases.execute(collectEmailForTokenService.execute(servletRequest)));
+            Goals goals = createGoalsUsecases.execute(goalsRequest);
+            GoalsResponce goalsResponce = goalsMapper.toResponce(goals);
+            return new ResponseEntity<GoalsResponce>(goalsResponce, HttpStatus.CREATED);
         } catch (Exception e) {
             ExceptionBody body = new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value());
             return new ResponseEntity<ExceptionBody>(body, HttpStatus.BAD_REQUEST);
@@ -65,7 +70,7 @@ public class MovementsController {
 
     
 
-    @GetMapping("/find/{uuid}")
+    /*@GetMapping("/find/{uuid}")
     ResponseEntity<?> find(@PathVariable UUID uuid) {
         try {
             Movements movements = findMovementUsecases.execute(uuid);
@@ -118,5 +123,5 @@ public class MovementsController {
             ExceptionBody body = new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value());
             return new ResponseEntity<ExceptionBody>(body, HttpStatus.BAD_REQUEST);
         }
-    }
+    }*/
 }

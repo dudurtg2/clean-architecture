@@ -1,10 +1,10 @@
 package com.site.dev.core.domain.exception;
 
-public class NoDuplicateUserException extends RuntimeException {
+public class NoDuplicateEntityException extends RuntimeException {
     private final int statusCode;
 
-    public NoDuplicateUserException() {
-        super("Usuario ja cadastrado");
+    public NoDuplicateEntityException(String entityName) {
+        super(entityName + " já cadastrado");
         this.statusCode = 400;
     }
 

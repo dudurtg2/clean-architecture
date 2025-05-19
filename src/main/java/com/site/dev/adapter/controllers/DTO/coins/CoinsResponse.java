@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.AllArgsConstructor;
 
+import java.util.UUID;
+
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,10 +16,9 @@ import lombok.AllArgsConstructor;
 @Setter
 @Data
 public class CoinsResponse {
-    private String name;
-    private String symbol;
-    private String image;
-    private Float totalValue;
-    private Float inputValue;
-    private Float outputValue;
+
+     private UUID uuid;
+     private String name;
+     private String symbol;
+     private String image;
 }

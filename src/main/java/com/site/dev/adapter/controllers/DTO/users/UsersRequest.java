@@ -18,13 +18,13 @@ import lombok.Setter;
 @Setter
 @Data
 public class UsersRequest {
-    private String name;
-    private String email;
-    private String password;
-    private UserRole role;
-    private LocalDateTime dataNascimento;
-    private String genero;
-    private String cpf;
-    private String telefone;
+     private String name;
+     private String email;
+     private String password;
+     private UserRole role;
+     private LocalDateTime dataNascimento;
+     private String genero;
+     private String cpf;
+     private String telefone;
 }
 

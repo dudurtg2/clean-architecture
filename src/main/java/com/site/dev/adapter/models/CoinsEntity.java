@@ -26,8 +26,8 @@ import java.util.UUID;
 @Entity
 @Table(name = "coins")
 public class CoinsEntity {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "uuid")
     private UUID uuid;
 

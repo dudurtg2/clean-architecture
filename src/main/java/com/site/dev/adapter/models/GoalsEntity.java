@@ -17,8 +17,8 @@ import java.util.UUID;
 @Entity
 @Table(name = "goals")
 public class GoalsEntity {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "uuid")
     private UUID uuid;
 

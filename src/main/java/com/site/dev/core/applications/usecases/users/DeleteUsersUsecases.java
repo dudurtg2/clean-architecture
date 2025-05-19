@@ -2,7 +2,7 @@ package com.site.dev.core.applications.usecases.users;
 
 import com.site.dev.core.applications.gateway.UsersGateWay;
 import com.site.dev.core.domain.entity.Users;
-import com.site.dev.core.domain.exception.NoDuplicateUserException;
+import com.site.dev.core.domain.exception.NoDuplicateEntityException;
 
 public class DeleteUsersUsecases {
     private UsersGateWay userGateWay;
@@ -18,7 +18,7 @@ public class DeleteUsersUsecases {
     public void verifyUserExists(String email) {
         Users existingUser = userGateWay.getUserByEmail(email);
         if (existingUser != null) {
-            throw new NoDuplicateUserException();
+            throw new NoDuplicateEntityException("User");
         }
     }
    

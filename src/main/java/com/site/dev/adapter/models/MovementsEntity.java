@@ -30,8 +30,8 @@ import lombok.Setter;
 @Table(name = "movements")
 
 public class MovementsEntity {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "uuid")
     private UUID uuid;
 

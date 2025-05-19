@@ -3,6 +3,7 @@ package com.site.dev.adapter.controllers;
 import java.util.List;
 import java.util.UUID;
 
+import com.site.dev.adapter.controllers.dto.coins.CoinsResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -62,9 +63,9 @@ public class CoinsController {
             Coins coins = coinsMapper.toCoins(request);
             coins.setUser(findUsersUsecases.execute(collectEmailForTokenService.execute(servletRequest)));
             Coins createdCoins = createCoinsUsecases.execute(coins);
-            CoinsEntity response = coinsMapper.toCoinsEntity(createdCoins);
+            CoinsResponse response = coinsMapper.toResponse(createdCoins);
 
-            return new ResponseEntity<CoinsEntity>(response, HttpStatus.CREATED);
+            return new ResponseEntity<CoinsResponse>(response, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<ExceptionBody>(new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value()),
                     HttpStatus.BAD_REQUEST);
@@ -76,8 +77,9 @@ public class CoinsController {
             HttpServletRequest servletRequest) {
         try {
             List<Coins> coins = findCoinsUsecases.execute(name, TypeCoinSearch.NAME, findUsersUsecases.execute(collectEmailForTokenService.execute(servletRequest)));
-            List<CoinsEntity> response = coinsMapper.toResponse(coins);
-            return new ResponseEntity<List<CoinsEntity>>(response, HttpStatus.OK);
+
+            List<CoinsResponse> coinsResponse = coinsMapper.toResponses(coins);
+            return new ResponseEntity<List<CoinsResponse>>(coinsResponse, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<ExceptionBody>(new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value()),
                     HttpStatus.BAD_REQUEST);
@@ -89,8 +91,8 @@ public class CoinsController {
             HttpServletRequest servletRequest) {
         try {
             List<Coins> coins = findCoinsUsecases.execute(symbol, TypeCoinSearch.SYMBOL, findUsersUsecases.execute(collectEmailForTokenService.execute(servletRequest)));
-            List<CoinsEntity> response = coinsMapper.toResponse(coins);
-            return new ResponseEntity<List<CoinsEntity>>(response, HttpStatus.OK);
+            List<CoinsResponse> coinsResponse = coinsMapper.toResponses(coins);
+            return new ResponseEntity<List<CoinsResponse>>(coinsResponse, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<ExceptionBody>(new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value()),
                     HttpStatus.BAD_REQUEST);
@@ -101,8 +103,8 @@ public class CoinsController {
     ResponseEntity<?> findUser(@PathVariable UUID uuid) {
         try {
             Coins coins = findCoinsUsecases.execute(uuid);
-            CoinsEntity response = coinsMapper.toCoinsEntity(coins);
-            return new ResponseEntity<CoinsEntity>(response, HttpStatus.OK);
+            CoinsResponse response = coinsMapper.toResponse(coins);
+            return new ResponseEntity<CoinsResponse>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<ExceptionBody>(new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value()),
                     HttpStatus.BAD_REQUEST);
@@ -113,9 +115,9 @@ public class CoinsController {
     ResponseEntity<?> findAll(
             HttpServletRequest servletRequest) {
         try {
-            List<Coins> Coins = findCoinsUsecases.execute(findUsersUsecases.execute(collectEmailForTokenService.execute(servletRequest)));
-            List<CoinsEntity> response = coinsMapper.toResponse(Coins);
-            return new ResponseEntity<List<CoinsEntity>>(response, HttpStatus.OK);
+            List<Coins> coins = findCoinsUsecases.execute(findUsersUsecases.execute(collectEmailForTokenService.execute(servletRequest)));
+            List<CoinsResponse> coinsResponse = coinsMapper.toResponses(coins);
+            return new ResponseEntity<List<CoinsResponse>>(coinsResponse, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<ExceptionBody>(new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value()),
                     HttpStatus.BAD_REQUEST);
@@ -140,8 +142,8 @@ public class CoinsController {
             Coins coins = coinsMapper.toCoins(request);
             coins.setUser(findUsersUsecases.execute(collectEmailForTokenService.execute(servletRequest)));
             Coins updatedCoins = updateCoinsUsecases.execute(uuid, coins);
-            CoinsEntity response = coinsMapper.toCoinsEntity(updatedCoins);
-            return new ResponseEntity<CoinsEntity>(response, HttpStatus.OK);
+            CoinsResponse response = coinsMapper.toResponse(updatedCoins);
+            return new ResponseEntity<CoinsResponse>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<ExceptionBody>(new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value()),
                     HttpStatus.BAD_REQUEST);

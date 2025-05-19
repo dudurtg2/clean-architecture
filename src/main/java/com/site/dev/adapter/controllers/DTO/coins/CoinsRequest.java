@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,8 +18,8 @@ import lombok.Setter;
 @Setter
 @Data
 public class  CoinsRequest{
-  String name;
-  String symbol;
-  String image;
-  UsersEntity user;
+  private UUID uuid;
+  private String name;
+  private String symbol;
+  private String image;
 }

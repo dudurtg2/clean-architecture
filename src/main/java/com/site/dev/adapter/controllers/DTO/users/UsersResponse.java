@@ -14,7 +14,7 @@ import lombok.Setter;
 @Setter
 @Data
 public class UsersResponse {
-    private String name;
-    private String email;
+     private String name;
+     private String email;
 }
 
