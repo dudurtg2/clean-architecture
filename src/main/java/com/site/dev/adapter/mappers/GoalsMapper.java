@@ -14,6 +14,7 @@ public interface GoalsMapper {
     public Goals toGoals(GoalsEntity goalsEntity);
     public Goals toGoals(GoalsRequest goalsRequest);
     public GoalsResponce toResponce(Goals goals);
+    public List<GoalsResponce> toResponce(List<Goals> goals);
 
     public GoalsEntity toGoalsEntity(Goals goals);
 

@@ -1,5 +1,6 @@
 package com.site.dev.adapter.controllers;
 
+import com.site.dev.adapter.controllers.dto.users.RoleUsers;
 import com.site.dev.adapter.mappers.UserMapper;
 import com.site.dev.adapter.models.ExceptionBody;
 import com.site.dev.adapter.models.UsersEntity;
@@ -113,12 +114,23 @@ public class UserController {
         }
     }
 
-    @GetMapping("/find/{uuid}")
-    ResponseEntity<?> find(@PathVariable String uuid) { //MUDA
+    @GetMapping("/find")
+    ResponseEntity<?> find(HttpServletRequest servletRequest) { //MUDA
         try {
-            Users user = findUserUsecases.execute(uuid);
+            Users user = findUserUsecases.execute(collectEmailForTokenService.execute(servletRequest));
             UsersResponse response = userDTOMapper.toResponse(user);
             return new ResponseEntity<UsersResponse>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            ExceptionBody body = new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value());
+            return new ResponseEntity<ExceptionBody>(body, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/check")
+    ResponseEntity<?> check(HttpServletRequest servletRequest) { //MUDA
+        try {
+            Users user = findUserUsecases.execute(collectEmailForTokenService.execute(servletRequest));
+            return new ResponseEntity<RoleUsers>(new RoleUsers(user.getRole()), HttpStatus.OK);
         } catch (Exception e) {
             ExceptionBody body = new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value());
             return new ResponseEntity<ExceptionBody>(body, HttpStatus.BAD_REQUEST);

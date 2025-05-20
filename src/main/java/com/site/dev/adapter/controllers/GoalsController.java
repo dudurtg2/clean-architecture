@@ -34,6 +34,7 @@ public class GoalsController {
     private final FindGoalsUsecases findGoalsUsecases;
     private final UpdateGoalsUsecases updateGoalsUsecases;
     private final DeleteGoalsUsecases deleteGoalsUsecases;
+    private FindCoinsUsecases findCoinsUsecases;
     private FindUsersUsecases findUsersUsecases;
     private GoalsMapper goalsMapper;
 
@@ -42,10 +43,12 @@ public class GoalsController {
     public GoalsController(CreateGoalsUsecases createGoalsUsecases,
             FindGoalsUsecases findGoalsUsecases, UpdateGoalsUsecases updateGoalsUsecases,
             DeleteGoalsUsecases deleteGoalsUsecases, GoalsMapper goalsMapper,
+            FindCoinsUsecases findCoinsUsecases,
             CollectEmailForTokenService collectEmailForTokenService, FindUsersUsecases findUsersUsecases) {
         this.createGoalsUsecases = createGoalsUsecases;
         this.findGoalsUsecases = findGoalsUsecases;
         this.updateGoalsUsecases = updateGoalsUsecases;
+        this.findCoinsUsecases = findCoinsUsecases;
         this.deleteGoalsUsecases = deleteGoalsUsecases;
         this.findUsersUsecases = findUsersUsecases;
         this.goalsMapper = goalsMapper;
@@ -57,7 +60,6 @@ public class GoalsController {
     ResponseEntity<?> create(@RequestBody GoalsRequest request, HttpServletRequest servletRequest) {
         try {
             Goals goalsRequest = goalsMapper.toGoals(request);
-
             goalsRequest.setUser(findUsersUsecases.execute(collectEmailForTokenService.execute(servletRequest)));
             Goals goals = createGoalsUsecases.execute(goalsRequest);
             GoalsResponce goalsResponce = goalsMapper.toResponce(goals);
@@ -70,11 +72,12 @@ public class GoalsController {
 
     
 
-    /*@GetMapping("/find/{uuid}")
+    @GetMapping("/find/{uuid}")
     ResponseEntity<?> find(@PathVariable UUID uuid) {
         try {
-            Movements movements = findMovementUsecases.execute(uuid);
-            return new ResponseEntity<Movements>(movements, HttpStatus.OK);
+            Goals goals = findGoalsUsecases.execute(uuid);
+            GoalsResponce goalsResponce = goalsMapper.toResponce(goals);
+            return new ResponseEntity<GoalsResponce>(goalsResponce, HttpStatus.OK);
         } catch (Exception e) {
             ExceptionBody body = new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value());
             return new ResponseEntity<ExceptionBody>(body, HttpStatus.BAD_REQUEST);
@@ -84,8 +87,9 @@ public class GoalsController {
     @GetMapping("/findAll")
     ResponseEntity<?> findAll() {
         try {
-            List<Movements> movements = findMovementUsecases.execute();
-            return new ResponseEntity<List<Movements>>(movements, HttpStatus.OK);
+            List<Goals> goals = findGoalsUsecases.execute();
+            List<GoalsResponce> goalsResponce = goalsMapper.toResponce(goals);
+            return new ResponseEntity<List<GoalsResponce>>(goalsResponce, HttpStatus.OK);
         } catch (Exception e) {
             ExceptionBody body = new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value());
             return new ResponseEntity<ExceptionBody>(body, HttpStatus.BAD_REQUEST);
@@ -95,8 +99,9 @@ public class GoalsController {
     @GetMapping("/find/coins/{uuid}")
     ResponseEntity<?> findByCoins(@PathVariable UUID uuid) {
         try {
-            List<Movements> response = findMovementUsecases.execute(findCoinsUsecases.execute(uuid));
-            return new ResponseEntity<List<Movements>>(response, HttpStatus.OK);
+            List<Goals> goals = findGoalsUsecases.execute(findCoinsUsecases.execute(uuid));
+            List<GoalsResponce> response = goalsMapper.toResponce(goals);
+            return new ResponseEntity<List<GoalsResponce>>(response, HttpStatus.OK);
         } catch (Exception e) {
             ExceptionBody body = new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value());
             return new ResponseEntity<ExceptionBody>(body, HttpStatus.BAD_REQUEST);
@@ -104,10 +109,13 @@ public class GoalsController {
     }
 
     @PutMapping("/update/{uuid}")
-    ResponseEntity<?> update(@RequestBody Movements request, @PathVariable UUID uuid) {
+    ResponseEntity<?> update(@RequestBody GoalsRequest request, @PathVariable UUID uuid, HttpServletRequest servletRequest) {
         try {
-            Movements movements = updateMovementUsecases.execute(uuid, request);
-            return new ResponseEntity<Movements>(movements, HttpStatus.OK);
+            Goals goalsRequest = goalsMapper.toGoals(request);
+            goalsRequest.setUser(findUsersUsecases.execute(collectEmailForTokenService.execute(servletRequest)));
+            Goals goals = updateGoalsUsecases.execute(uuid, goalsRequest);
+            GoalsResponce goalsResponce = goalsMapper.toResponce(goals);
+            return new ResponseEntity<GoalsResponce>(goalsResponce, HttpStatus.OK);
         } catch (Exception e) {
             ExceptionBody body = new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value());
             return new ResponseEntity<ExceptionBody>(body, HttpStatus.BAD_REQUEST);
@@ -117,11 +125,11 @@ public class GoalsController {
     @DeleteMapping("/delete/{uuid}")
     ResponseEntity<?> delete(@PathVariable UUID uuid) {
         try {
-            deleteMovementUsecases.execute(uuid);
+            deleteGoalsUsecases.execute(uuid);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             ExceptionBody body = new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value());
             return new ResponseEntity<ExceptionBody>(body, HttpStatus.BAD_REQUEST);
         }
-    }*/
+    }
 }
