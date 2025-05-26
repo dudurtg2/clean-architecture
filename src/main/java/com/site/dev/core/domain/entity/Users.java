@@ -36,9 +36,6 @@ public class Users {
 
     public Users correct() {
 
-        if (validCPF()) {
-            throw new IncorrectBodyException();
-        }
 
         if (name == null || name.isBlank()) {
             throw new IncorrectBodyException();
@@ -57,14 +54,7 @@ public class Users {
             throw new IncorrectBodyException();
         }
 
-        if (dataNascimento == null
-                || dataNascimento.isAfter(LocalDateTime.now())) {
-            throw new IncorrectBodyException();
-        }
 
-        if (genero == null || genero.isBlank()) {
-            throw new IncorrectBodyException();
-        }
 
         return this;
     }

@@ -5,11 +5,15 @@ import com.site.dev.adapter.mappers.UserMapper;
 import com.site.dev.adapter.models.ExceptionBody;
 import com.site.dev.adapter.models.UsersEntity;
 
+import com.site.dev.core.domain.enums.UserRole;
+import com.site.dev.security.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,7 +35,6 @@ import com.site.dev.security.dto.AccessTokenResponseDTO;
 import com.site.dev.security.dto.AuthorizationDTO;
 import com.site.dev.security.dto.LoginResponseDTO;
 import com.site.dev.security.dto.RefreshTokenDTO;
-import com.site.dev.services.TokenService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -55,9 +58,9 @@ public class UserController {
 
     @Autowired
     public UserController(UpdateUsersUsecases updateUsersUsecases, UserMapper userMapper,
-            CreateUsersUsecases createUserUsecases, UserDTOMapper userDTOMapper, FindUsersUsecases findUserUsecases,
-            TokenService tokenService, AuthenticationManager authenticationManager,
-            DeleteUsersUsecases deleteUsersUsecases, CollectEmailForTokenService collectEmailForTokenService) {
+                          CreateUsersUsecases createUserUsecases, UserDTOMapper userDTOMapper, FindUsersUsecases findUserUsecases,
+                          TokenService tokenService, AuthenticationManager authenticationManager,
+                          DeleteUsersUsecases deleteUsersUsecases, CollectEmailForTokenService collectEmailForTokenService) {
         this.createUserUsecases = createUserUsecases;
         this.userMapper = userMapper;
         this.userDTOMapper = userDTOMapper;
@@ -86,6 +89,38 @@ public class UserController {
         }
     }
 
+    @GetMapping("/login/google")
+    public ResponseEntity<?> loginGoogle(@AuthenticationPrincipal OidcUser user) {
+        // aqui user já vem populado – nunca será null
+        String email = user.getEmail();
+
+        // 1) Se for novo, crie o registro no banco
+        if (findUserUsecases.execute(email) == null) {
+            Users novo = new Users();
+            novo.setEmail(email);
+            novo.setName(user.getFullName());
+            novo.setRole(UserRole.NORMAL);
+
+            novo.setPassword(user.getName().replaceAll("\\s", "") + "@Senai");
+            createUserUsecases.execute(novo);
+        }
+
+        // 2) Gere seu JWT com base no usuário
+        Users u = findUserUsecases.execute(email);
+        var tokens = tokenService.generateTokens(userMapper.toUserEntity(u));
+
+        // 3) Retorne o mesmo DTO que você já usa no /login
+        var response = new LoginResponseDTO(u, tokens);
+        return ResponseEntity.ok(response);
+    }
+
+
+    @GetMapping("/online")
+    public ResponseEntity<?> online() {
+        return ResponseEntity.ok("Usuário online");
+    }
+
+
     @PostMapping("/refresh-token")
     public ResponseEntity<?> refreshToken(@RequestBody RefreshTokenDTO refreshTokenRequest) {
 
@@ -99,6 +134,7 @@ public class UserController {
         return ResponseEntity
                 .ok(new AccessTokenResponseDTO(tokenService.generateAccessToken(userMapper.toUserEntity(user))));
     }
+
 
     @PostMapping("/create")
     ResponseEntity<?> create(@RequestBody UsersRequest request) {
@@ -138,8 +174,8 @@ public class UserController {
     }
 
     @PutMapping("/update")
-    ResponseEntity<?> update(@RequestBody UsersRequest request, 
-            HttpServletRequest servletRequest) {
+    ResponseEntity<?> update(@RequestBody UsersRequest request,
+                             HttpServletRequest servletRequest) {
         try {
             Users user = userDTOMapper.toUser(request);
             Users updatedUser = updateUsersUsecases.execute(collectEmailForTokenService.execute(servletRequest), user);
@@ -162,5 +198,5 @@ public class UserController {
         }
     }
 
-    
+
 }
