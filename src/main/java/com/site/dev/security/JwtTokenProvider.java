@@ -14,10 +14,12 @@ import com.site.dev.adapter.models.UsersEntity;
 import com.site.dev.security.dto.TokensDTO;
 
 @Component
-public class TokenService {
+public class JwtTokenProvider  {
 
     @Value("${api.security.token.secret}")
     private String secret;
+
+
 
     public String generateAccessToken(UsersEntity UsersEntity) {
         return generateToken(UsersEntity, genAccessTokenExpiry());
@@ -27,10 +29,10 @@ public class TokenService {
         return generateToken(UsersEntity, genRefreshTokenExpiry());
     }
 
-    public TokensDTO generateTokens(UsersEntity UsersEntity) {
-        String accessToken = generateAccessToken(UsersEntity);
-        String refreshToken = generateRefreshToken(UsersEntity);
-        return new TokensDTO(accessToken, refreshToken);
+    public TokensDTO generateTokens(UsersEntity usersEntity) {
+        String accessToken = generateAccessToken(usersEntity);
+        String refreshToken = generateRefreshToken(usersEntity);
+        return new TokensDTO(accessToken, refreshToken, usersEntity);
     }
 
     public String validateAccessToken(String accessToken) {

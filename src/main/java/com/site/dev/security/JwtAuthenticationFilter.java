@@ -18,16 +18,16 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Component
-public class SecurityFilter extends OncePerRequestFilter {
+public class JwtAuthenticationFilter  extends OncePerRequestFilter {
 
     private FindUsersUsecases findUsersUsecases;
-    private TokenService tokenService;
+    private JwtTokenProvider jwtTokenProvider;
     private UserMapper userMapper;
 
     @Autowired
-    public SecurityFilter(FindUsersUsecases findUsersUsecases, TokenService tokenService, UserMapper userMapper) {
+    public JwtAuthenticationFilter(FindUsersUsecases findUsersUsecases, JwtTokenProvider jwtTokenProvider, UserMapper userMapper) {
         this.findUsersUsecases = findUsersUsecases;
-        this.tokenService = tokenService;
+        this.jwtTokenProvider = jwtTokenProvider;
         this.userMapper = userMapper;
     }
 
@@ -36,7 +36,7 @@ public class SecurityFilter extends OncePerRequestFilter {
         var token = this.recoverToken(request);
 
         if (token != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            var subject = tokenService.validateToken(token, "access");
+            var subject = jwtTokenProvider.validateToken(token, "access");
             UserDetails userDetails = userMapper.toUserEntity(findUsersUsecases.execute(subject));
 
             if (userDetails != null) {

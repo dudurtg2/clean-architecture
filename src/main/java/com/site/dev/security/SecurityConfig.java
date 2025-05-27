@@ -1,19 +1,17 @@
 package com.site.dev.security;
 
+import com.site.dev.core.applications.usecases.users.CreateUsersUsecases;
+import com.site.dev.services.CustomOAuth2UserService;
+import com.site.dev.services.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -27,78 +25,44 @@ import com.site.dev.core.applications.usecases.users.FindUsersUsecases;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    private final SecurityFilter securityFilter;
-    private final FindUsersUsecases findUsersUsecases;
-    private final UserMapper userMapper;
+    private FindUsersUsecases findUsersUsecases;
+    private UserMapper userMapper;
+    private JwtTokenProvider jwtTokenProvider;
+    private CreateUsersUsecases createUsersUsecases;
 
     @Autowired
-    public SecurityConfig(SecurityFilter securityFilter,
-                                 FindUsersUsecases findUsersUsecases,
-                                 UserMapper userMapper) {
-        this.securityFilter      = securityFilter;
-        this.findUsersUsecases   = findUsersUsecases;
-        this.userMapper          = userMapper;
+    public SecurityConfig(FindUsersUsecases findUsersUsecases, UserMapper userMapper,
+                          JwtTokenProvider jwtTokenProvider, CreateUsersUsecases createUsersUsecases) {
+        this.findUsersUsecases = findUsersUsecases;
+        this.userMapper = userMapper;
+        this.jwtTokenProvider = jwtTokenProvider;
+        this.createUsersUsecases = createUsersUsecases;
     }
 
-
     @Bean
-    @Order(1)
-    public SecurityFilterChain oauth2Chain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http,
+                                           JwtTokenProvider tokenProvider,
+                                           CustomUserDetailsService uds,
+                                           CustomOAuth2UserService oauth2UserService,
+                                           OAuth2SuccessHandler successHandler) throws Exception {
+
+        JwtAuthenticationFilter jwtFilter = new JwtAuthenticationFilter(findUsersUsecases,tokenProvider, userMapper);
+
         http
-                // aplica apenas a estes endpoints
-                .securityMatcher("/oauth2/**", "/login/oauth2/**", "/api/user/login/google")
+                .csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll()
-                )
-                .oauth2Login(oauth2 -> oauth2
-                        // URIs padrão do OAuth2
-                        .authorizationEndpoint(endp -> endp.baseUri("/oauth2/authorization"))
-                        .redirectionEndpoint(redir -> redir.baseUri("/login/oauth2/code/*"))
-                        // quem for bem-sucedido cai neste seu controller:
-                        .defaultSuccessUrl("/api/user/login/google", true)
-                );
-        return http.build();
-    }
-
-    //
-    // 2) Chain para seus endpoints /api/** protegidos por JWT
-    //
-    @Bean
-    @Order(2)
-    public SecurityFilterChain jwtChain(HttpSecurity http) throws Exception {
-        http
-                // só pega /api/**
-                .securityMatcher("/api/**")
-                .cors(Customizer.withDefaults())
-                .csrf(csrf -> csrf.disable())
-                // sem sessão, JWT stateless
-                .sessionManagement(sm -> sm
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                )
-                .authorizeHttpRequests(auth -> auth
-                        // libera login tradicional, refresh e criação de usuário
-                        .requestMatchers(
-                                "/api/user/login",
-                                "/api/user/refresh-token",
-                                "/api/user/create"
-                        ).permitAll()
-
-                        // recursos premium
-                        .requestMatchers("/api/coins/**", "/api/movements/**")
-                        .hasRole("PREMIUM")
-
-                        // todo o resto exige JWT válido
+                        .requestMatchers("/auth/**", "/oauth2/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                // seu filtro que lê o Bearer token
-                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
+                .oauth2Login(oauth2 -> oauth2
+                        .userInfoEndpoint(u -> u.userService(oauth2UserService))
+                        .successHandler(successHandler)
+                )
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
-
-    //
-    // beans de autenticação / userDetails / senha / manager
-    //
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -106,28 +70,8 @@ public class SecurityConfig {
     }
 
     @Bean
-    public UserDetailsService userDetailsService() {
-        return username -> {
-            var entity = findUsersUsecases.execute(username.toLowerCase());
-            if (entity == null) {
-                throw new UsernameNotFoundException("Usuário não encontrado");
-            }
-            return userMapper.toUserEntity(entity);
-        };
-    }
-
-    @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
-        var provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userDetailsService());
-        provider.setPasswordEncoder(passwordEncoder());
-        return provider;
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
-        var builder = http.getSharedObject(AuthenticationManagerBuilder.class);
-        builder.authenticationProvider(authenticationProvider());
-        return builder.build();
+    public AuthenticationManager authenticationManager(
+            AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
     }
 }

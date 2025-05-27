@@ -6,7 +6,7 @@ import com.site.dev.adapter.models.ExceptionBody;
 import com.site.dev.adapter.models.UsersEntity;
 
 import com.site.dev.core.domain.enums.UserRole;
-import com.site.dev.security.TokenService;
+import com.site.dev.security.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,24 +48,24 @@ public class UserController {
     private final FindUsersUsecases findUserUsecases;
     private final UpdateUsersUsecases updateUsersUsecases;
     private final DeleteUsersUsecases deleteUsersUsecases;
-
+    private JwtTokenProvider jwtTokenProvider;
     private final UserDTOMapper userDTOMapper;
     private final UserMapper userMapper;
     private final AuthenticationManager authenticationManager;
 
-    private TokenService tokenService;
     private CollectEmailForTokenService collectEmailForTokenService;
 
     @Autowired
     public UserController(UpdateUsersUsecases updateUsersUsecases, UserMapper userMapper,
-                          CreateUsersUsecases createUserUsecases, UserDTOMapper userDTOMapper, FindUsersUsecases findUserUsecases,
-                          TokenService tokenService, AuthenticationManager authenticationManager,
-                          DeleteUsersUsecases deleteUsersUsecases, CollectEmailForTokenService collectEmailForTokenService) {
+            JwtTokenProvider jwtTokenProvider,
+            CreateUsersUsecases createUserUsecases, UserDTOMapper userDTOMapper, FindUsersUsecases findUserUsecases,
+            AuthenticationManager authenticationManager,
+            DeleteUsersUsecases deleteUsersUsecases, CollectEmailForTokenService collectEmailForTokenService) {
         this.createUserUsecases = createUserUsecases;
         this.userMapper = userMapper;
         this.userDTOMapper = userDTOMapper;
         this.findUserUsecases = findUserUsecases;
-        this.tokenService = tokenService;
+        this.jwtTokenProvider = jwtTokenProvider;
         this.authenticationManager = authenticationManager;
         this.updateUsersUsecases = updateUsersUsecases;
         this.deleteUsersUsecases = deleteUsersUsecases;
@@ -75,14 +75,19 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthorizationDTO data) {
         try {
-            var usernamePass = new UsernamePasswordAuthenticationToken(
-                    data.login().toLowerCase(),
-                    data.senha());
-            var auth = this.authenticationManager.authenticate(usernamePass);
-            var user = (UsersEntity) auth.getPrincipal();
-            var tokens = tokenService.generateTokens(user);
-            var response = new LoginResponseDTO(findUserUsecases.execute(data.login().toLowerCase()), tokens);
-            return ResponseEntity.ok(response);
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(data.login(), data.senha())
+            );
+
+            return ResponseEntity.ok(
+                    jwtTokenProvider.generateTokens(
+                            userMapper.toUserEntity(
+                                    findUserUsecases.execute(
+                                            data.login()
+                                    )
+                            )
+                    )
+            );
 
         } catch (Exception e) {
             return ResponseEntity.status(401).body("Credenciais inválidas ou autenticação falhou.");
@@ -90,41 +95,19 @@ public class UserController {
     }
 
     @GetMapping("/login/google")
-    public ResponseEntity<?> loginGoogle(@AuthenticationPrincipal OidcUser user) {
-        // aqui user já vem populado – nunca será null
-        String email = user.getEmail();
+    public void loginGoogle(@AuthenticationPrincipal OidcUser user) {
 
-        // 1) Se for novo, crie o registro no banco
-        if (findUserUsecases.execute(email) == null) {
-            Users novo = new Users();
-            novo.setEmail(email);
-            novo.setName(user.getFullName());
-            novo.setRole(UserRole.NORMAL);
-
-            novo.setPassword(user.getName().replaceAll("\\s", "") + "@Senai");
-            createUserUsecases.execute(novo);
-        }
-
-        // 2) Gere seu JWT com base no usuário
-        Users u = findUserUsecases.execute(email);
-        var tokens = tokenService.generateTokens(userMapper.toUserEntity(u));
-
-        // 3) Retorne o mesmo DTO que você já usa no /login
-        var response = new LoginResponseDTO(u, tokens);
-        return ResponseEntity.ok(response);
     }
-
 
     @GetMapping("/online")
     public ResponseEntity<?> online() {
         return ResponseEntity.ok("Usuário online");
     }
 
-
     @PostMapping("/refresh-token")
     public ResponseEntity<?> refreshToken(@RequestBody RefreshTokenDTO refreshTokenRequest) {
 
-        String login = tokenService.validateRefreshToken(refreshTokenRequest.refreshToken());
+        String login = jwtTokenProvider.validateRefreshToken(refreshTokenRequest.refreshToken());
         if (login == null) {
             return ResponseEntity.status(401).body("Refresh Token inválido ou expirado.");
         }
@@ -132,9 +115,8 @@ public class UserController {
         Users user = findUserUsecases.execute(login);
 
         return ResponseEntity
-                .ok(new AccessTokenResponseDTO(tokenService.generateAccessToken(userMapper.toUserEntity(user))));
+                .ok(new AccessTokenResponseDTO(jwtTokenProvider.generateAccessToken(userMapper.toUserEntity(user))));
     }
-
 
     @PostMapping("/create")
     ResponseEntity<?> create(@RequestBody UsersRequest request) {
@@ -175,7 +157,7 @@ public class UserController {
 
     @PutMapping("/update")
     ResponseEntity<?> update(@RequestBody UsersRequest request,
-                             HttpServletRequest servletRequest) {
+            HttpServletRequest servletRequest) {
         try {
             Users user = userDTOMapper.toUser(request);
             Users updatedUser = updateUsersUsecases.execute(collectEmailForTokenService.execute(servletRequest), user);
@@ -197,6 +179,5 @@ public class UserController {
             return new ResponseEntity<ExceptionBody>(body, HttpStatus.BAD_REQUEST);
         }
     }
-
 
 }

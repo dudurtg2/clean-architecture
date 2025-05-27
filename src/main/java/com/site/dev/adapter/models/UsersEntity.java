@@ -7,7 +7,9 @@ import java.util.UUID;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.site.dev.core.domain.enums.UserRole;
 
@@ -53,6 +55,13 @@ public class UsersEntity implements UserDetails {
     private String cpf;
     @Column(name = "telefone")
     private String telefone;
+    @Column(name = "provider")
+    private String provider;
+
+
+    public void setPassword(String password) {
+        this.password = new BCryptPasswordEncoder().encode(password);
+    }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if (this.role == null) {
@@ -88,4 +97,6 @@ public class UsersEntity implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
 }
