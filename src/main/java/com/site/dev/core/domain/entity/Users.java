@@ -35,8 +35,12 @@ public class Users {
     private String telefone;
 
     public Users correct() {
+        if (cpf != null) {
+            if (!validCPF()) {
+                throw new IncorrectBodyException();
+            }
 
-
+        }
         if (name == null || name.isBlank()) {
             throw new IncorrectBodyException();
         }

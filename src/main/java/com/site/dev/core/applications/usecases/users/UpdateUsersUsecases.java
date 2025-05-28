@@ -38,7 +38,7 @@ public class UpdateUsersUsecases {
         
         user.setName(user.getName() == null ? existingUser.getName() : user.getName());
         user.setEmail(user.getEmail() == null ? existingUser.getEmail() : user.getEmail());
-        user.setPassword(user.getPassword() == null ? existingUser.getPassword() : user.getPassword());
+        user.setPassword(user.getPassword() == null ? existingUser.getPassword() : userGateWay.cryptPassword( user.getPassword()));
         user.setRole(null == user.getRole() ? existingUser.getRole() : user.getRole());
         user.setDataNascimento(null == user.getDataNascimento() ? existingUser.getDataNascimento() : user.getDataNascimento());
         user.setGenero(null == user.getGenero() ? existingUser.getGenero() : user.getGenero());

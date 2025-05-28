@@ -1,6 +1,7 @@
 package com.site.dev.adapter.controllers;
 
 import com.site.dev.adapter.controllers.dto.users.RoleUsers;
+import com.site.dev.adapter.controllers.dto.users.UpdatesUsers;
 import com.site.dev.adapter.mappers.UserMapper;
 import com.site.dev.adapter.models.ExceptionBody;
 import com.site.dev.adapter.models.UsersEntity;
@@ -156,7 +157,7 @@ public class UserController {
     }
 
     @PutMapping("/update")
-    ResponseEntity<?> update(@RequestBody UsersRequest request,
+    ResponseEntity<?> update(@RequestBody UpdatesUsers request,
             HttpServletRequest servletRequest) {
         try {
             Users user = userDTOMapper.toUser(request);

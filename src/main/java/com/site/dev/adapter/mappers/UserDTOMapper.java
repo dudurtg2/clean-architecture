@@ -2,6 +2,7 @@ package com.site.dev.adapter.mappers;
 
 import java.util.List;
 
+import com.site.dev.adapter.controllers.dto.users.UpdatesUsers;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -17,4 +18,6 @@ public interface UserDTOMapper {
     
     @Mapping(target = "password", ignore = true)
     public List<UsersResponse> toResponse(List<Users> users);
+
+    public Users toUser(UpdatesUsers updatesUsers);
 }

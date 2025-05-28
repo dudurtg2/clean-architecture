@@ -47,4 +47,9 @@ public class UserRepositoryGateways implements UsersGateWay {
     public void delete(UUID uuid) {
         userRepository.delete(userRepository.findByUuid(uuid));
     }
+
+    @Override
+    public String cryptPassword(String password) {
+        return new BCryptPasswordEncoder().encode(password);
+    }
 }

@@ -13,6 +13,7 @@ public class CreateUsersUsecases {
 
     public Users execute(Users user){
         verifyUserExists(user.getEmail());
+        user.setPassword(userGateWay.cryptPassword(user.getPassword()));
         return userGateWay.createUser(user.correct());
     };
     public void verifyUserExists(String email) {

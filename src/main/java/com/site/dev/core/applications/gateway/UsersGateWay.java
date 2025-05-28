@@ -12,4 +12,5 @@ public interface UsersGateWay {
     Users getUserByEmail(String email);
     Users update(Users user);
     void delete(UUID uuid);
+    String cryptPassword(String password);
 }

@@ -58,10 +58,6 @@ public class UsersEntity implements UserDetails {
     @Column(name = "provider")
     private String provider;
 
-
-    public void setPassword(String password) {
-        this.password = new BCryptPasswordEncoder().encode(password);
-    }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if (this.role == null) {
