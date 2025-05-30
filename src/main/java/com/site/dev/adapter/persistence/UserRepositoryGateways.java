@@ -37,7 +37,9 @@ public class UserRepositoryGateways implements UsersGateWay {
     }
     @Override
     public Users getUserByEmail(String email) {
-        return userMapper.toUser(userRepository.findByEmail(email));
+
+        return userMapper.toUser(
+                userRepository.findByEmail(email));
     }  
     @Override
     public Users update(Users user) {

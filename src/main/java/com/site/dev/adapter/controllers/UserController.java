@@ -49,11 +49,11 @@ public class UserController {
     private final FindUsersUsecases findUserUsecases;
     private final UpdateUsersUsecases updateUsersUsecases;
     private final DeleteUsersUsecases deleteUsersUsecases;
-    private JwtTokenProvider jwtTokenProvider;
     private final UserDTOMapper userDTOMapper;
     private final UserMapper userMapper;
     private final AuthenticationManager authenticationManager;
-
+    
+    private JwtTokenProvider jwtTokenProvider;
     private CollectEmailForTokenService collectEmailForTokenService;
 
     @Autowired
@@ -80,13 +80,12 @@ public class UserController {
                     new UsernamePasswordAuthenticationToken(data.login(), data.senha())
             );
 
+            Users user = findUserUsecases.execute(data.login());
             return ResponseEntity.ok(
-                    jwtTokenProvider.generateTokens(
-                            userMapper.toUserEntity(
-                                    findUserUsecases.execute(
-                                            data.login()
-                                    )
-                            )
+                  jwtTokenProvider.generateTokens(
+                          userMapper.toUserEntity(
+                                  user
+                         )
                     )
             );
 

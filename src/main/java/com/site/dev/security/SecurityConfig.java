@@ -53,7 +53,9 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**", "/oauth2/**").permitAll()
-                        .anyRequest().authenticated()
+                        .requestMatchers("/api/user/**").permitAll()
+                        .requestMatchers("/api/coins/**", "/api/movements/**", "/api/goals/**").hasAnyRole("PREMIUM")
+
                 )
                 .oauth2Login(oauth2 -> oauth2
                         .userInfoEndpoint(u -> u.userService(oauth2UserService))

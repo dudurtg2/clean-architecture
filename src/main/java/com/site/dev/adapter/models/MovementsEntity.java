@@ -48,7 +48,7 @@ public class MovementsEntity {
     private TypeCoins typeCoins;
 
     @ManyToOne
-    @JoinColumn(name = "coins_id")
+    @JoinColumn(name = "coins_uuid")
     private CoinsEntity coins;
     
 }
