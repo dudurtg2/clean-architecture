@@ -100,8 +100,8 @@ public class UserController {
     }
 
     @GetMapping("/online")
-    public ResponseEntity<?> online() {
-        return ResponseEntity.ok("Usuário online");
+    public ResponseEntity<Boolean> online() {
+       return new ResponseEntity<Boolean>(true, HttpStatus.CREATED);
     }
 
     @PostMapping("/refresh-token")

@@ -3,6 +3,8 @@ package com.site.dev.adapter.controllers;
 import java.util.List;
 import java.util.UUID;
 
+import com.site.dev.adapter.controllers.dto.movements.MovementsRequest;
+import com.site.dev.adapter.mappers.MovementsMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +35,7 @@ public class MovementsController {
     private final FindCoinsUsecases findCoinsUsecases;
     private final DeleteMovementsUsecases deleteMovementUsecases;
     private final UpdateMovementsUsecases updateMovementUsecases;
+    private final MovementsMapper movementsmapper;
 
     private final CollectEmailForTokenService collectEmailForTokenService;
     
@@ -40,9 +43,11 @@ public class MovementsController {
     @Autowired
     public MovementsController(CreateMovementsUsecases createMovementUsecases,
             FindMovementsUsecases findMovementUsecases,
+            MovementsMapper movementsmapper,
             FindCoinsUsecases findCoinsUsecases, CollectEmailForTokenService collectEmailForTokenService,
             DeleteMovementsUsecases deleteMovementsUsecases, UpdateMovementsUsecases updateMovementsUsecases) {
         this.createMovementUsecases = createMovementUsecases;
+        this.movementsmapper = movementsmapper;
         this.findMovementUsecases = findMovementUsecases;
 
         this.findCoinsUsecases = findCoinsUsecases;
@@ -53,9 +58,10 @@ public class MovementsController {
     }
 
     @PostMapping("/create")
-    ResponseEntity<?> create(@RequestBody Movements request) {
+    ResponseEntity<?> create(@RequestBody MovementsRequest request) {
         try {
-            Movements movements = createMovementUsecases.execute(request);
+
+            Movements movements = createMovementUsecases.execute(movementsmapper.toMovements(request));
             return new ResponseEntity<Movements>(movements, HttpStatus.CREATED);
         } catch (Exception e) {
             ExceptionBody body = new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value());
@@ -63,7 +69,7 @@ public class MovementsController {
         }
     }
 
-    
+
 
     @GetMapping("/find/{uuid}")
     ResponseEntity<?> find(@PathVariable UUID uuid) {
