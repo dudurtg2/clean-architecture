@@ -1,6 +1,5 @@
 package com.site.dev.adapter.controllers.dto.users;
 
-import com.site.dev.core.domain.enums.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

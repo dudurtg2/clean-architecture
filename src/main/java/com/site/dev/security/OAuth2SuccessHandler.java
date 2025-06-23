@@ -41,7 +41,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         String nome = oauthUser.getAttribute("given_name");
 
         TokensDTO tokens = jwtProvider.generateTokens(
-                userMapper.toUserEntity(loginUsersUsecases.execute(sub, email, nome))
+                userMapper.toUserEntity(loginUsersUsecases.google(sub, email, nome))
         );
 
         String json = objectMapper.writeValueAsString(tokens);

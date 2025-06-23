@@ -3,8 +3,6 @@ package com.site.dev.core.domain.entity;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import org.mapstruct.control.MappingControl;
-
 import com.site.dev.core.domain.enums.UserRole;
 import com.site.dev.core.domain.exception.IncorrectBodyException;
 import com.site.dev.core.domain.exception.WeakPasswordException;

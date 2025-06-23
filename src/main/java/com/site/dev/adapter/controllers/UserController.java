@@ -3,7 +3,6 @@ package com.site.dev.adapter.controllers;
 import com.site.dev.adapter.controllers.dto.users.*;
 import com.site.dev.adapter.mappers.UserMapper;
 import com.site.dev.adapter.models.ExceptionBody;
-import com.site.dev.adapter.models.UsersEntity;
 
 import com.site.dev.core.applications.usecases.users.*;
 import com.site.dev.core.domain.enums.UserRole;
@@ -13,11 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,13 +24,11 @@ import com.site.dev.services.CollectEmailForTokenService;
 import com.site.dev.core.domain.entity.Users;
 import com.site.dev.security.dto.AccessTokenResponseDTO;
 import com.site.dev.security.dto.AuthorizationDTO;
-import com.site.dev.security.dto.LoginResponseDTO;
 import com.site.dev.security.dto.RefreshTokenDTO;
 
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.net.URI;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/user")

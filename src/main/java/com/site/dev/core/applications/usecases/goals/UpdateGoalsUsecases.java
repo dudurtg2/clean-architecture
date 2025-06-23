@@ -1,9 +1,7 @@
 package com.site.dev.core.applications.usecases.goals;
 
 import com.site.dev.core.applications.gateway.GoalsGateWay;
-import com.site.dev.core.applications.gateway.MovementsGateWay;
 import com.site.dev.core.domain.entity.Goals;
-import com.site.dev.core.domain.entity.Movements;
 import com.site.dev.core.domain.exception.NotExistsEntityException;
 
 import java.util.UUID;

@@ -1,7 +1,6 @@
 package com.site.dev.security.dto;
 
 import com.site.dev.adapter.models.UsersEntity;
-import org.apache.catalina.User;
 
 public class TokensDTO {
     private final String accessToken;

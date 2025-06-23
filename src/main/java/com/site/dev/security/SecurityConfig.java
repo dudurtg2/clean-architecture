@@ -1,8 +1,6 @@
 package com.site.dev.security;
 
-import com.site.dev.core.applications.usecases.users.CreateUsersUsecases;
 import com.site.dev.services.CustomOAuth2UserService;
-import com.site.dev.services.CustomUserDetailsService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -28,14 +26,12 @@ public class SecurityConfig {
 
     private FindUsersUsecases findUsersUsecases;
     private UserMapper userMapper;
-    private JwtTokenProvider jwtTokenProvider;
 
     @Autowired
-    public SecurityConfig(FindUsersUsecases findUsersUsecases, UserMapper userMapper,
-                          JwtTokenProvider jwtTokenProvider) {
+    public SecurityConfig(FindUsersUsecases findUsersUsecases, UserMapper userMapper
+                          ) {
         this.findUsersUsecases = findUsersUsecases;
         this.userMapper = userMapper;
-        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @Bean

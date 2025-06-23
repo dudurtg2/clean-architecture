@@ -4,7 +4,6 @@ import com.site.dev.core.domain.entity.Coins;
 import com.site.dev.core.domain.enums.TypeCoins;
 import lombok.*;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 @Builder
 @AllArgsConstructor

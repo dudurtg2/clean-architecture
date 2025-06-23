@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.site.dev.adapter.controllers.dto.coins.CoinsRequest;
 import com.site.dev.adapter.mappers.CoinsMapper;
-import com.site.dev.adapter.models.CoinsEntity;
 import com.site.dev.adapter.models.ExceptionBody;
 import com.site.dev.core.applications.usecases.coins.CreateCoinsUsecases;
 import com.site.dev.core.applications.usecases.coins.DeleteCoinsUsecases;

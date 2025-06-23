@@ -1,7 +1,5 @@
 package com.site.dev.adapter.models;
 
-import com.site.dev.core.domain.entity.Coins;
-import com.site.dev.core.domain.entity.Users;
 import jakarta.persistence.*;
 import lombok.*;
 

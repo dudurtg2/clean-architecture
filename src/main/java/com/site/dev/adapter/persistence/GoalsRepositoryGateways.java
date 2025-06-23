@@ -1,15 +1,10 @@
 package com.site.dev.adapter.persistence;
 
 import com.site.dev.adapter.mappers.GoalsMapper;
-import com.site.dev.adapter.mappers.MovementsMapper;
 import com.site.dev.adapter.repository.GoalsRepository;
-import com.site.dev.adapter.repository.MovementsRepository;
 import com.site.dev.core.applications.gateway.GoalsGateWay;
-import com.site.dev.core.applications.gateway.MovementsGateWay;
 import com.site.dev.core.domain.entity.Coins;
 import com.site.dev.core.domain.entity.Goals;
-import com.site.dev.core.domain.entity.Movements;
-import com.site.dev.core.domain.enums.TypeCoins;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

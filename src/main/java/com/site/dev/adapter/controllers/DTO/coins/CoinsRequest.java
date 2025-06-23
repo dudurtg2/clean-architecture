@@ -1,7 +1,5 @@
 package com.site.dev.adapter.controllers.dto.coins;
 
-import com.site.dev.adapter.models.UsersEntity;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
