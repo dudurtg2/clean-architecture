@@ -1,12 +1,9 @@
 package com.site.dev.config;
 
+import com.site.dev.core.applications.usecases.users.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import com.site.dev.core.applications.gateway.UsersGateWay;
-import com.site.dev.core.applications.usecases.users.CreateUsersUsecases;
-import com.site.dev.core.applications.usecases.users.DeleteUsersUsecases;
-import com.site.dev.core.applications.usecases.users.FindUsersUsecases;
-import com.site.dev.core.applications.usecases.users.UpdateUsersUsecases;
 
 
 @Configuration
@@ -29,5 +26,10 @@ public class UserConfig {
     @Bean
     DeleteUsersUsecases deleteUserUsecases(UsersGateWay userGateWay) {
         return new DeleteUsersUsecases(userGateWay);
+    }
+
+    @Bean
+    LoginUsersUsecases loginUsersUsecases(UsersGateWay userGateWay) {
+        return new LoginUsersUsecases(userGateWay);
     }
 }

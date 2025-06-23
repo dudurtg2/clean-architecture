@@ -20,11 +20,15 @@ public class Coins {
     private UUID uuid;
     private String name;
     private String symbol;
+    private String category;
+    private String description;
+    private String subcategory;
     private String image;
     private Users user;
 
     public Coins correct() {
         if (name == null || name.isBlank()
+                || category == null || category.isBlank()
                 || symbol == null || symbol.isBlank()
                 || image == null || image.isBlank()) {
             throw new IncorrectBodyException();

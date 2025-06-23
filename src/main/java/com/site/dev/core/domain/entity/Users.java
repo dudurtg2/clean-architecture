@@ -27,6 +27,7 @@ public class Users {
     private UUID uuid;
     private String name;
     private String email;
+    private String sub;
     private String password;
     private UserRole role;
     private LocalDateTime dataNascimento;
@@ -57,8 +58,6 @@ public class Users {
         if (role == null) {
             throw new IncorrectBodyException();
         }
-
-
 
         return this;
     }

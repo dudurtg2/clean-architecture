@@ -2,10 +2,7 @@ package com.site.dev.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.site.dev.adapter.mappers.UserMapper;
-import com.site.dev.core.applications.usecases.users.CreateUsersUsecases;
-import com.site.dev.core.applications.usecases.users.FindUsersUsecases;
-import com.site.dev.core.domain.entity.Users;
-import com.site.dev.core.domain.enums.UserRole;
+import com.site.dev.core.applications.usecases.users.LoginUsersUsecases;
 import com.site.dev.security.dto.TokensDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,15 +17,15 @@ import java.io.IOException;
 @Component
 public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
     private final JwtTokenProvider jwtProvider;
-    private FindUsersUsecases findUsersUsecases;
-    private CreateUsersUsecases createUserUsecases;
+
+    private LoginUsersUsecases loginUsersUsecases;
     private UserMapper userMapper;
     private final ObjectMapper objectMapper;
-    public OAuth2SuccessHandler(ObjectMapper objectMapper, JwtTokenProvider jwtProvider,CreateUsersUsecases createUserUsecases, FindUsersUsecases findUsersUsecases, UserMapper userMapper) {
+
+    public OAuth2SuccessHandler(ObjectMapper objectMapper, JwtTokenProvider jwtProvider, LoginUsersUsecases loginUsersUsecases, UserMapper userMapper) {
         this.jwtProvider = jwtProvider;
-        this.findUsersUsecases = findUsersUsecases;
         this.userMapper = userMapper;
-        this.createUserUsecases = createUserUsecases;
+        this.loginUsersUsecases = loginUsersUsecases;
         this.objectMapper = objectMapper;
     }
 
@@ -40,18 +37,11 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         OAuth2User oauthUser = oauthToken.getPrincipal();
 
         String email = oauthUser.getAttribute("email");
+        String sub = oauthUser.getAttribute("sub");
         String nome = oauthUser.getAttribute("given_name");
-        if (findUsersUsecases.execute(email) == null) {
 
-            createUserUsecases.execute(Users.builder()
-                    .email(email)
-                    .name(nome)
-                    .role(UserRole.NORMAL)
-                    .password(nome.replaceAll("\\s", "") + "@Senai")
-                    .build());
-        }
         TokensDTO tokens = jwtProvider.generateTokens(
-                userMapper.toUserEntity(findUsersUsecases.execute(email))
+                userMapper.toUserEntity(loginUsersUsecases.execute(sub, email, nome))
         );
 
         String json = objectMapper.writeValueAsString(tokens);

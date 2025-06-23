@@ -21,6 +21,9 @@ public class FindCoinsUsecases {
                 return coinsGateWay.getByName(index).stream().filter(coins -> coins.getUser().equals(users)).toList();
             case SYMBOL:
                 return coinsGateWay.getBySymbol(index).stream().filter(coins -> coins.getUser().equals(users)).toList();
+            case CATEGORY:
+                return coinsGateWay.getByCategory(index).stream().filter(coins -> coins.getUser().equals(users)).toList();
+
             default:
                 return null;
         }

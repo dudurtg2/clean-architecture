@@ -13,4 +13,5 @@ public interface CoinsGateWay {
     Coins update(Coins coins);
     void delete(UUID uuid);
     List<Coins> getBySymbol(String symbol);
+    List<Coins> getByCategory(String category);
 }

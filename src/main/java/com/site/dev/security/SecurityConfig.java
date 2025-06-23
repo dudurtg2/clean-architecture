@@ -3,6 +3,7 @@ package com.site.dev.security;
 import com.site.dev.core.applications.usecases.users.CreateUsersUsecases;
 import com.site.dev.services.CustomOAuth2UserService;
 import com.site.dev.services.CustomUserDetailsService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,21 +29,18 @@ public class SecurityConfig {
     private FindUsersUsecases findUsersUsecases;
     private UserMapper userMapper;
     private JwtTokenProvider jwtTokenProvider;
-    private CreateUsersUsecases createUsersUsecases;
 
     @Autowired
     public SecurityConfig(FindUsersUsecases findUsersUsecases, UserMapper userMapper,
-                          JwtTokenProvider jwtTokenProvider, CreateUsersUsecases createUsersUsecases) {
+                          JwtTokenProvider jwtTokenProvider) {
         this.findUsersUsecases = findUsersUsecases;
         this.userMapper = userMapper;
         this.jwtTokenProvider = jwtTokenProvider;
-        this.createUsersUsecases = createUsersUsecases;
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http,
                                            JwtTokenProvider tokenProvider,
-                                           CustomUserDetailsService uds,
                                            CustomOAuth2UserService oauth2UserService,
                                            OAuth2SuccessHandler successHandler) throws Exception {
 
@@ -51,13 +49,20 @@ public class SecurityConfig {
         http
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint(
+                                (req, res, authEx) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED))
+                        .accessDeniedHandler((req, res, deniedEx) -> res.sendError(HttpServletResponse.SC_FORBIDDEN))
+                )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**", "/oauth2/**").permitAll()
-                        .requestMatchers("/api/user/**").permitAll()
+                        .requestMatchers("/api/user/login/google", "/api/user/login", "/api/user/register", "/api/user/login/app/google").permitAll()
                         .requestMatchers("/api/coins/**", "/api/movements/**", "/api/goals/**").hasAnyRole("PREMIUM")
+                        .anyRequest().authenticated()
 
                 )
                 .oauth2Login(oauth2 -> oauth2
+                        .loginPage("/api/user/login/google")
                         .userInfoEndpoint(u -> u.userService(oauth2UserService))
                         .successHandler(successHandler)
                 )

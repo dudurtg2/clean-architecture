@@ -36,9 +36,8 @@ public class MovementsController {
     private final DeleteMovementsUsecases deleteMovementUsecases;
     private final UpdateMovementsUsecases updateMovementUsecases;
     private final MovementsMapper movementsmapper;
-
     private final CollectEmailForTokenService collectEmailForTokenService;
-    
+
 
     @Autowired
     public MovementsController(CreateMovementsUsecases createMovementUsecases,

@@ -43,6 +43,8 @@ public class UsersEntity implements UserDetails {
     private String name;
     @Column(name = "email")
     private String email;
+    @Column(name = "sub")
+    private String sub;
     @Column(name = "password")
     private String password;
     @Column(name = "data_nascimento")

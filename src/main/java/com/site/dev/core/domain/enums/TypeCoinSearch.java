@@ -2,7 +2,8 @@ package com.site.dev.core.domain.enums;
 
 public enum TypeCoinSearch {
     SYMBOL(0),
-    NAME(1);
+    NAME(1),
+   CATEGORY(2);
 
 
     private final int value;

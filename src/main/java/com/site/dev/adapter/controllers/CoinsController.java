@@ -86,6 +86,20 @@ public class CoinsController {
         }
     }
 
+    @GetMapping("/find/category/{category}")
+    ResponseEntity<?> findByCategory(@PathVariable String category,
+                                 HttpServletRequest servletRequest) {
+        try {
+            List<Coins> coins = findCoinsUsecases.execute(category, TypeCoinSearch.CATEGORY, findUsersUsecases.execute(collectEmailForTokenService.execute(servletRequest)));
+
+            List<CoinsResponse> coinsResponse = coinsMapper.toResponses(coins);
+            return new ResponseEntity<List<CoinsResponse>>(coinsResponse, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<ExceptionBody>(new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value()),
+                    HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @GetMapping("/find/symbol/{symbol}")
     ResponseEntity<?> findBySymbol(@PathVariable String symbol,
             HttpServletRequest servletRequest) {

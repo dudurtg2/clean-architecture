@@ -13,5 +13,6 @@ public interface CoinsRepository extends JpaRepository<CoinsEntity, Long> {
     CoinsEntity findByUuid(UUID uuid);
     List<CoinsEntity> findBySymbol(String symbol);
     List<CoinsEntity> findByName(String name);
-    
+    List<CoinsEntity> findByCategory(String category);
+
 }

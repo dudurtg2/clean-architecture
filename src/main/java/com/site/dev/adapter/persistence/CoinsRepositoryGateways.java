@@ -47,6 +47,10 @@ public class CoinsRepositoryGateways implements CoinsGateWay {
     }
 
     @Override
+    public List<Coins> getByCategory(String category) {
+        return coinsMapper.toRequest(coinsRepository.findByCategory(category));
+    }
+    @Override
     public List<Coins> getBySymbol(String symbol) {
         return coinsMapper.toRequest(coinsRepository.findBySymbol(symbol));
     }
