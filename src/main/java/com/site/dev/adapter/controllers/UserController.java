@@ -81,7 +81,7 @@ public class UserController {
             );
 
         } catch (Exception e) {
-            return ResponseEntity.status(401).body("Credenciais inválidas ou autenticação falhou.");
+            return ResponseEntity.status(400).body(e.getMessage());
         }
     }
 

@@ -21,6 +21,7 @@ public class UsersRequest {
      private String name;
      private String email;
      private String password;
+     private String sub;
      private UserRole role;
      private LocalDateTime dataNascimento;
      private String genero;
