@@ -1,7 +1,9 @@
 package com.site.dev.adapter.controllers.dto.users;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.site.dev.core.domain.enums.UserRole;
 
 import lombok.AllArgsConstructor;
@@ -23,7 +25,8 @@ public class UsersRequest {
      private String password;
      private String sub;
      private UserRole role;
-     private LocalDateTime dataNascimento;
+     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+     private LocalDate dataNascimento;
      private String genero;
      private String cpf;
      private String telefone;

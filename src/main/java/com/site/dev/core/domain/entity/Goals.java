@@ -19,6 +19,7 @@ public class Goals {
     private String description;
     private Users user;
     private Coins coins;
+    private String title;
     private LocalDate data;
 
 
@@ -26,6 +27,7 @@ public class Goals {
         if (goal < 0 ||
             description == null ||
             coins == null ||
+            title == null ||
             data == null) {
             throw new IncorrectBodyException();
         }

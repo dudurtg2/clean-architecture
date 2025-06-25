@@ -38,6 +38,11 @@ public class LoginUsersUsecases {
         if (sub == null || sub.isBlank()) {
             throw new IllegalArgumentException("Sub cannot be null or blank");
         }
+        if(user.getSub() == null || user.getSub().isBlank()) {
+            user.setSub(sub);
+            userGateWay.update(user);
+            return user;
+        }
        
         if (sub.equals(user.getSub())) {
             return user;

@@ -12,14 +12,13 @@ public class CreateUsersUsecases {
     }
 
     public Users execute(Users user){
-        verifyUserExists(user.getEmail());
-        user.setPassword(userGateWay.cryptPassword(user.getPassword()));
-        return userGateWay.createUser(user.correct());
-    };
-    public void verifyUserExists(String email) {
-        Users existingUser = userGateWay.getUserByEmail(email);
+        Users existingUser = userGateWay.getUserByEmail(user.getEmail());
         if (existingUser != null) {
-            throw new NoDuplicateEntityException("User");
+            return existingUser;
         }
+
+        user.setPassword(userGateWay.cryptPassword(user.getPassword()));
+
+        return userGateWay.createUser(user.correct());
     }
 }

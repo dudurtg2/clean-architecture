@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -67,11 +68,11 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthorizationDTO data) {
         try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(data.login(), data.senha())
-            );
-
             Users user = findUserUsecases.execute(data.login());
+
+            if (new BCryptPasswordEncoder().matches(data.senha(), user.getPassword())) {
+                return ResponseEntity.status(401).body("Credenciais inválidas ou autenticação falhou.");
+            }
             return ResponseEntity.ok(
                   jwtTokenProvider.generateTokens(
                           userMapper.toUserEntity(
@@ -91,9 +92,7 @@ public class UserController {
 
             Users user = loginUsersUsecases.execute(data.sub(), data.email(), data.name());
             System.out.println("User: " + user);
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(data.email(), data.sub())
-            );
+
             return ResponseEntity.ok(
                     jwtTokenProvider.generateTokens(
                             userMapper.toUserEntity(
@@ -140,9 +139,13 @@ public class UserController {
         try {
 
             Users user = userDTOMapper.toUser(request);
+            user.setRole(UserRole.NORMAL); // Default role for new users
             Users createdUser = createUserUsecases.execute(user);
-            UsersResponse response = userDTOMapper.toResponse(createdUser);
-            return new ResponseEntity<UsersResponse>(response, HttpStatus.CREATED);
+            return ResponseEntity.ok(  jwtTokenProvider.generateTokens(
+                    userMapper.toUserEntity(
+                            createdUser
+                    ))
+            );
         } catch (Exception e) {
             ExceptionBody body = new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value());
             return new ResponseEntity<ExceptionBody>(body, HttpStatus.BAD_REQUEST);

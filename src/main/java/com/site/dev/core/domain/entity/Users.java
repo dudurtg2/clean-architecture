@@ -1,5 +1,6 @@
 package com.site.dev.core.domain.entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -28,18 +29,18 @@ public class Users {
     private String sub;
     private String password;
     private UserRole role;
-    private LocalDateTime dataNascimento;
+    private LocalDate dataNascimento;
     private String genero;
     private String cpf;
     private String telefone;
 
     public Users correct() {
-        if (cpf != null) {
+        /*if (cpf != null) {
             if (!validCPF()) {
                 throw new IncorrectBodyException();
             }
 
-        }
+        }*/
         if (name == null || name.isBlank()) {
             throw new IncorrectBodyException();
         }

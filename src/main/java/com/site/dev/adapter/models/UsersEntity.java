@@ -1,5 +1,6 @@
 package com.site.dev.adapter.models;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
@@ -46,7 +47,7 @@ public class UsersEntity implements UserDetails {
     @Column(name = "password")
     private String password;
     @Column(name = "data_nascimento")
-    private LocalDateTime dataNascimento;
+    private LocalDate dataNascimento;
     @Column(name = "genero")
     private String genero;
     @Column(name = "role")

@@ -26,6 +26,9 @@ public class GoalsEntity {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "title")
+    private String title;
+
     @Column(name = "data")
     private LocalDate data;
 
