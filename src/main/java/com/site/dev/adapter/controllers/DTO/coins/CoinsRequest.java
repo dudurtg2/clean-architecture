@@ -18,6 +18,10 @@ import java.util.UUID;
 public class  CoinsRequest{
   private UUID uuid;
   private String name;
-  private String symbol;
-  private String image;
+    private String symbol;
+    private String category;
+    private String description;
+    private String subcategory;
+    private String color;
+    private String image;
 }

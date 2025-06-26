@@ -37,9 +37,7 @@ public class Movements {
                 || coins == null) {
             throw new IncorrectBodyException();
         }
-        if (value <= 0 || price < 0) {
-            throw new IncorrectBodyException();
-        }
+    
         return this;
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.site.dev.adapter.mappers.MovementsMapper;
+import com.site.dev.adapter.mappers.CoinsMapper;
 import com.site.dev.adapter.repository.MovementsRepository;
 import com.site.dev.core.applications.gateway.MovementsGateWay;
 import com.site.dev.core.domain.entity.Coins;
@@ -16,10 +17,12 @@ import com.site.dev.core.domain.enums.TipoDespesa;
 public class MovementsRepositoryGateways implements MovementsGateWay {
     private final MovementsRepository movementsRepository;
     private final MovementsMapper movementsMapper;
+    private final CoinsMapper coinsMapper;
     
     @Autowired
-    public MovementsRepositoryGateways(MovementsRepository movementsRepository, MovementsMapper movementsMapper) {
+    public MovementsRepositoryGateways(MovementsRepository movementsRepository, MovementsMapper movementsMapper, CoinsMapper coinsMapper) {
         this.movementsRepository = movementsRepository;
+        this.coinsMapper = coinsMapper;
         this.movementsMapper = movementsMapper;
     }
 
@@ -30,7 +33,7 @@ public class MovementsRepositoryGateways implements MovementsGateWay {
 
     @Override
     public List<Movements> getByCoins(Coins coins) {
-        return movementsMapper.toResponse(movementsRepository.findByCoins(coins));
+        return movementsMapper.toResponse(  movementsRepository.findByCoins(coinsMapper.toCoinsEntity(coins)));
     }
 
     
