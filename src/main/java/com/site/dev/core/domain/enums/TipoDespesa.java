@@ -1,5 +1,9 @@
 package com.site.dev.core.domain.enums;
 public enum TipoDespesa {
+    DEPOSITO,
+    PAGAMENTO,
+    SAQUE,
+    TRANSFERENCIA,
     ALIMENTACAO,
     MERCADO,
     RESTAURANTE,
