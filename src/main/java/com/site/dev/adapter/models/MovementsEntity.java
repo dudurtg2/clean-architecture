@@ -42,8 +42,8 @@ public class MovementsEntity {
     @Column(name = "price")
     private Float price;
 
-    @Column(name = "type_coins")
-    private TypeCoins typeCoins;
+    @Column(name = "description")
+    private String description;
 
     @ManyToOne
     @JoinColumn(name = "coins_uuid")

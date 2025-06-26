@@ -25,20 +25,17 @@ public class Movements {
     private LocalDateTime date;
     private Float value;
     private Float price;
-    private TypeCoins typeCoins;
+    private String description;
     private Coins coins;
 
     public Movements correct() {
         if (date == null
                 || value == null
                 || price == null
-                || typeCoins == null
                 || coins == null) {
             throw new IncorrectBodyException();
         }
-        if (value <= 0 || price < 0) {
-            throw new IncorrectBodyException();
-        }
+
         return this;
     }
 }

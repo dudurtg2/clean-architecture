@@ -16,6 +16,7 @@ public class GoalsRequest {
     private UUID uuid;
     private float goal;
     private String description;
+    private String title;
     private  Coins coins;
     private LocalDate data;
 }

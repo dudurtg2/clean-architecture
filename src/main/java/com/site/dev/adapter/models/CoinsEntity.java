@@ -44,6 +44,9 @@ public class CoinsEntity {
     @Column(name = "symbol")
     private String symbol;
 
+    @Column(name = "color")
+    private String color;
+
     @Column(name = "image")
     private String image;
 

@@ -3,6 +3,8 @@ package com.site.dev.adapter.persistence;
 import java.util.List;
 import java.util.UUID;
 
+import com.site.dev.adapter.mappers.CoinsMapper;
+import com.site.dev.adapter.models.CoinsEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,11 +18,14 @@ import com.site.dev.core.domain.enums.TypeCoins;
 public class MovementsRepositoryGateways implements MovementsGateWay {
     private final MovementsRepository movementsRepository;
     private final MovementsMapper movementsMapper;
+    private final CoinsMapper coinsMapper;
     
     @Autowired
-    public MovementsRepositoryGateways(MovementsRepository movementsRepository, MovementsMapper movementsMapper) {
+    public MovementsRepositoryGateways(MovementsRepository movementsRepository, MovementsMapper movementsMapper,
+            CoinsMapper coinsMapper) {
         this.movementsRepository = movementsRepository;
         this.movementsMapper = movementsMapper;
+        this.coinsMapper = coinsMapper;
     }
 
     @Override
@@ -30,13 +35,11 @@ public class MovementsRepositoryGateways implements MovementsGateWay {
 
     @Override
     public List<Movements> getByCoins(Coins coins) {
-        return movementsMapper.toResponse(movementsRepository.findByCoins(coins));
+
+        return movementsMapper.toResponse(movementsRepository.findByCoins(coinsMapper.toCoinsEntity(coins) ));
     }
 
-    @Override
-    public List<Movements> getByTypeCoins(TypeCoins typeCoins) {
-        return movementsMapper.toResponse(movementsRepository.findByTypeCoins(typeCoins));
-    }
+
 
     @Override
     public Movements getByUUID(UUID uuid) {

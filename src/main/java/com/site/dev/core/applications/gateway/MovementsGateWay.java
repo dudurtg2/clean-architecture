@@ -11,7 +11,7 @@ public interface MovementsGateWay {
     Movements create(Movements movements);
     List<Movements> getAll();
     List<Movements> getByCoins(Coins coins);
-    List<Movements> getByTypeCoins(TypeCoins typeCoins);
+
     Movements getByUUID(UUID uuid);
     void delete(UUID uuid);
     Movements update(Movements movements);

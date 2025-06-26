@@ -26,8 +26,6 @@ public class FindMovementsUsecases {
         return movementsGateWay.getByCoins(coins);
     }
 
-    public List<Movements> execute(TypeCoins typeCoins) {
-        return movementsGateWay.getByTypeCoins(typeCoins);
-    }
+
 
 }
