@@ -24,6 +24,7 @@ import com.site.dev.core.applications.usecases.movements.DeleteMovementsUsecases
 import com.site.dev.core.applications.usecases.movements.FindMovementsUsecases;
 import com.site.dev.core.applications.usecases.movements.UpdateMovementsUsecases;
 import com.site.dev.core.domain.entity.Movements;
+import com.site.dev.core.domain.enums.TipoDespesa;
 import com.site.dev.services.CollectEmailForTokenService;
 
 @RestController
@@ -96,6 +97,17 @@ public class MovementsController {
     ResponseEntity<?> findByCoins(@PathVariable UUID uuid) {
         try {
             List<Movements> response = findMovementUsecases.execute(findCoinsUsecases.execute(uuid));
+            return new ResponseEntity<List<Movements>>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            ExceptionBody body = new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value());
+            return new ResponseEntity<ExceptionBody>(body, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+     @GetMapping("/find/tipoDespesa/{tipoDespesa}")
+    ResponseEntity<?> findByCoins(@PathVariable TipoDespesa tipoDespesa) {
+        try {
+            List<Movements> response = findMovementUsecases.execute(tipoDespesa);
             return new ResponseEntity<List<Movements>>(response, HttpStatus.OK);
         } catch (Exception e) {
             ExceptionBody body = new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value());

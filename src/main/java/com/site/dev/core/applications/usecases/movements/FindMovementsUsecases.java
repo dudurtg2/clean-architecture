@@ -6,6 +6,7 @@ import java.util.UUID;
 import com.site.dev.core.applications.gateway.MovementsGateWay;
 import com.site.dev.core.domain.entity.Coins;
 import com.site.dev.core.domain.entity.Movements;
+import com.site.dev.core.domain.enums.TipoDespesa;
 import com.site.dev.core.domain.enums.TypeCoins;
 public class FindMovementsUsecases {
     private MovementsGateWay movementsGateWay;
@@ -26,8 +27,8 @@ public class FindMovementsUsecases {
         return movementsGateWay.getByCoins(coins);
     }
 
-    public List<Movements> execute(TypeCoins typeCoins) {
-        return movementsGateWay.getByTypeCoins(typeCoins);
+    public List<Movements> execute(TipoDespesa tipoDespesa) {
+        return movementsGateWay.getByTipoDespesa(tipoDespesa);
     }
 
 }

@@ -23,6 +23,7 @@ public class Coins {
     private String category;
     private String description;
     private String subcategory;
+    private String color;
     private String image;
     private Users user;
 

@@ -23,7 +23,8 @@ public class UpdateMovementsUsecases {
     public void validateNewBory(Movements movements) {
         Movements movementsInBD = movementsGateWay.getByUUID(movements.getUuid());
         movements.setCoins(movements.getCoins() == null ? movementsInBD.getCoins() : movements.getCoins());
-        movements.setTypeCoins(movements.getTypeCoins() == null ? movementsInBD.getTypeCoins() : movements.getTypeCoins());
+        movements.setTipoDespesa(movements.getTipoDespesa() == null ? movementsInBD.getTipoDespesa() : movements.getTipoDespesa());
+        movements.setDescription(movements.getDescription() == null ? movementsInBD.getDescription() : movements.getDescription());
         movements.setValue(movements.getValue() == null ? movementsInBD.getValue() : movements.getValue());
         movements.setDate(movements.getDate() == null ? movementsInBD.getDate() : movements.getDate());
         movements.setPrice(movements.getPrice() == null ? movementsInBD.getPrice() : movements.getPrice());

@@ -7,12 +7,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.site.dev.adapter.models.MovementsEntity;
 import com.site.dev.core.domain.entity.Coins;
-import com.site.dev.core.domain.enums.TypeCoins;
+import com.site.dev.core.domain.enums.TipoDespesa;
 
 public interface MovementsRepository extends JpaRepository<MovementsEntity, Long> {
     List<MovementsEntity> findAll();
     MovementsEntity findByUuid(UUID uuid);
-    List<MovementsEntity> findByTypeCoins(TypeCoins typeCoins);
+    List<MovementsEntity> findByTipoDespesa(TipoDespesa tipoDespesa);
     List<MovementsEntity> findByCoins(Coins coins);
     
 }

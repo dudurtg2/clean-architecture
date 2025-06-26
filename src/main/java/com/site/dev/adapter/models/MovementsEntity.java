@@ -3,7 +3,7 @@ package com.site.dev.adapter.models;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import com.site.dev.core.domain.enums.TypeCoins;
+import com.site.dev.core.domain.enums.TipoDespesa;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -42,8 +42,11 @@ public class MovementsEntity {
     @Column(name = "price")
     private Float price;
 
-    @Column(name = "type_coins")
-    private TypeCoins typeCoins;
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "tipo_despesa")
+    private TipoDespesa tipoDespesa;
 
     @ManyToOne
     @JoinColumn(name = "coins_uuid")

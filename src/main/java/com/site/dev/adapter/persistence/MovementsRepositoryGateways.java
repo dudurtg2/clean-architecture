@@ -11,7 +11,7 @@ import com.site.dev.adapter.repository.MovementsRepository;
 import com.site.dev.core.applications.gateway.MovementsGateWay;
 import com.site.dev.core.domain.entity.Coins;
 import com.site.dev.core.domain.entity.Movements;
-import com.site.dev.core.domain.enums.TypeCoins;
+import com.site.dev.core.domain.enums.TipoDespesa;
 @Component
 public class MovementsRepositoryGateways implements MovementsGateWay {
     private final MovementsRepository movementsRepository;
@@ -33,9 +33,12 @@ public class MovementsRepositoryGateways implements MovementsGateWay {
         return movementsMapper.toResponse(movementsRepository.findByCoins(coins));
     }
 
+    
+
+
     @Override
-    public List<Movements> getByTypeCoins(TypeCoins typeCoins) {
-        return movementsMapper.toResponse(movementsRepository.findByTypeCoins(typeCoins));
+    public List<Movements> getByTipoDespesa(TipoDespesa tipoDespesa) {
+        return movementsMapper.toResponse(movementsRepository.findByTipoDespesa(tipoDespesa));
     }
 
     @Override

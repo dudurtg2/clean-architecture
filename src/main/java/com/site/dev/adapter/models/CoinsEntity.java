@@ -38,6 +38,9 @@ public class CoinsEntity {
     @Column(name = "subcategory")
     private String subcategory;
 
+    @Column(name = "color")
+    private String color;
+
     @Column(name = "description")
     private String description;
 
