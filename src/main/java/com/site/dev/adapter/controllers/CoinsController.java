@@ -112,6 +112,49 @@ public class CoinsController {
         }
     }
 
+    @GetMapping("/find/crypto")
+    ResponseEntity<?> findByCrypto(
+            HttpServletRequest servletRequest) {
+        try {
+            List<Coins> coins = findCoinsUsecases.execute("moeda",TypeCoinSearch.CRYPTO, findUsersUsecases.execute(collectEmailForTokenService.execute(servletRequest)));
+            List<CoinsResponse> coinsResponse = coinsMapper.toResponses(coins);
+            return new ResponseEntity<List<CoinsResponse>>(coinsResponse, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<ExceptionBody>(new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value()),
+                    HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/find/goal")
+    ResponseEntity<?> findByGoal(
+            HttpServletRequest servletRequest) {
+        try {
+            List<Coins> coins = findCoinsUsecases.execute("moeda", TypeCoinSearch.GOAL, findUsersUsecases.execute(collectEmailForTokenService.execute(servletRequest)));
+            List<CoinsResponse> coinsResponse = coinsMapper.toResponses(coins);
+            return new ResponseEntity<List<CoinsResponse>>(coinsResponse, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<ExceptionBody>(new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value()),
+                    HttpStatus.BAD_REQUEST);
+        }
+        
+    }
+
+    @GetMapping("/find/active")
+    ResponseEntity<?> findByActive(
+            HttpServletRequest servletRequest) {
+        try {
+            List<Coins> coins = findCoinsUsecases.execute("moeda", TypeCoinSearch
+                    .ACTIVE, findUsersUsecases.execute(collectEmailForTokenService.execute(servletRequest)));
+            List<CoinsResponse> coinsResponse = coinsMapper.toResponses(coins);
+            return new ResponseEntity<List<CoinsResponse>>(coinsResponse, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<ExceptionBody>(new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value()),
+                    HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
+    
     @GetMapping("/find/{uuid}")
     ResponseEntity<?> findUser(@PathVariable UUID uuid) {
         try {

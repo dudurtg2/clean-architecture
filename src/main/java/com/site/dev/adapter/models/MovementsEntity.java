@@ -42,7 +42,7 @@ public class MovementsEntity {
     @Column(name = "price")
     private Float price;
 
-    @Column(name = "description")
+    @Column(name = "description", columnDefinition = "text")
     private String description;
 
     @Column(name = "tipo_despesa")

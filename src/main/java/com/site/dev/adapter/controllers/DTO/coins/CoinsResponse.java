@@ -24,5 +24,8 @@ public class CoinsResponse {
     private String description;
     private String subcategory;
     private String color;
+    private Boolean isCrypto;
+    private Boolean isGoal;
+    private Boolean isActive;
     private String image;
 }

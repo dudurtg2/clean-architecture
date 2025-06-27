@@ -62,7 +62,7 @@ public class Users {
     }
 
     
-    private  boolean validCPF() {
+    private  Boolean validCPF() {
         if (cpf == null || cpf.length() != 11) {
             return false;
         }

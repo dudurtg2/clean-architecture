@@ -6,6 +6,7 @@ import java.util.UUID;
 import com.site.dev.adapter.controllers.dto.movements.MovementsRequest;
 import com.site.dev.adapter.mappers.MovementsMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,9 +24,14 @@ import com.site.dev.core.applications.usecases.movements.CreateMovementsUsecases
 import com.site.dev.core.applications.usecases.movements.DeleteMovementsUsecases;
 import com.site.dev.core.applications.usecases.movements.FindMovementsUsecases;
 import com.site.dev.core.applications.usecases.movements.UpdateMovementsUsecases;
+import com.site.dev.core.applications.usecases.users.FindUsersUsecases;
 import com.site.dev.core.domain.entity.Movements;
+import com.site.dev.core.domain.entity.Users;
 import com.site.dev.core.domain.enums.TipoDespesa;
+import com.site.dev.core.domain.enums.TypeCoinSearch;
 import com.site.dev.services.CollectEmailForTokenService;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api/movements")
@@ -34,6 +40,7 @@ public class MovementsController {
     private final CreateMovementsUsecases createMovementUsecases;
     private final FindMovementsUsecases findMovementUsecases;
     private final FindCoinsUsecases findCoinsUsecases;
+    private final FindUsersUsecases findUsersUsecases;
     private final DeleteMovementsUsecases deleteMovementUsecases;
     private final UpdateMovementsUsecases updateMovementUsecases;
     private final MovementsMapper movementsmapper;
@@ -45,10 +52,11 @@ public class MovementsController {
             FindMovementsUsecases findMovementUsecases,
             MovementsMapper movementsmapper,
             FindCoinsUsecases findCoinsUsecases, CollectEmailForTokenService collectEmailForTokenService,
-            DeleteMovementsUsecases deleteMovementsUsecases, UpdateMovementsUsecases updateMovementsUsecases) {
+            DeleteMovementsUsecases deleteMovementsUsecases, UpdateMovementsUsecases updateMovementsUsecases, FindUsersUsecases findUsersUsecases) {
         this.createMovementUsecases = createMovementUsecases;
         this.movementsmapper = movementsmapper;
         this.findMovementUsecases = findMovementUsecases;
+        this.findUsersUsecases = findUsersUsecases;
 
         this.findCoinsUsecases = findCoinsUsecases;
         this.collectEmailForTokenService = collectEmailForTokenService;
@@ -83,16 +91,55 @@ public class MovementsController {
     }
 
     @GetMapping("/findAll")
-    ResponseEntity<?> findAll() {
+    ResponseEntity<?> findAll( HttpServletRequest servletRequest) {
         try {
-            List<Movements> movements = findMovementUsecases.execute();
+            Users user =  findUsersUsecases.execute(collectEmailForTokenService.execute(servletRequest));
+            List<Movements> movements = findMovementUsecases.execute().stream()
+                    .filter(novs -> novs.getCoins().getUser().equals(user))
+                    .toList();
             return new ResponseEntity<List<Movements>>(movements, HttpStatus.OK);
         } catch (Exception e) {
             ExceptionBody body = new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value());
             return new ResponseEntity<ExceptionBody>(body, HttpStatus.BAD_REQUEST);
         }
     }
+    @GetMapping("/find/coins/goals")
+    ResponseEntity<?> findByCoins( HttpServletRequest servletRequest) {
+        try {
+            Users user =  findUsersUsecases.execute(collectEmailForTokenService.execute(servletRequest));
+            List<Movements> response = findMovementUsecases.execute(TypeCoinSearch.GOAL, user);
+            return new ResponseEntity<List<Movements>>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            ExceptionBody body = new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value());
+            return new ResponseEntity<ExceptionBody>(body, HttpStatus.BAD_REQUEST);
+        }
+    }
 
+    @GetMapping("/find/coins/crypto")
+    ResponseEntity<?> findByCoinsCrypto(HttpServletRequest servletRequest) {
+        try {
+            Users user =  findUsersUsecases.execute(collectEmailForTokenService.execute(servletRequest));
+            List<Movements> response = findMovementUsecases.execute(TypeCoinSearch.CRYPTO, user);
+            return new ResponseEntity<List<Movements>>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            ExceptionBody body = new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value());
+            return new ResponseEntity<ExceptionBody>(body, HttpStatus.BAD_REQUEST);
+
+        }
+    }
+
+    @GetMapping("/find/coins/active")
+    ResponseEntity<?> findByCoinsActive(HttpServletRequest servletRequest) {
+        try {
+            Users user =  findUsersUsecases.execute(collectEmailForTokenService.execute(servletRequest));
+            List<Movements> response = findMovementUsecases.execute(TypeCoinSearch.ACTIVE, user);
+            return new ResponseEntity<List<Movements>>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            ExceptionBody body = new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value());
+            return new ResponseEntity<ExceptionBody>(body, HttpStatus.BAD_REQUEST);
+
+        }
+    }
     @GetMapping("/find/coins/{uuid}")
     ResponseEntity<?> findByCoins(@PathVariable UUID uuid) {
         try {
@@ -105,9 +152,12 @@ public class MovementsController {
     }
 
      @GetMapping("/find/tipoDespesa/{tipoDespesa}")
-    ResponseEntity<?> findByCoins(@PathVariable TipoDespesa tipoDespesa) {
+    ResponseEntity<?> findByCoins(@PathVariable TipoDespesa tipoDespesa, HttpServletRequest servletRequest) {
         try {
-            List<Movements> response = findMovementUsecases.execute(tipoDespesa);
+             Users user =  findUsersUsecases.execute(collectEmailForTokenService.execute(servletRequest));
+            List<Movements> response = findMovementUsecases.execute(tipoDespesa).stream()
+                    .filter(movements -> movements.getCoins().getUser().equals(user))
+                    .toList();
             return new ResponseEntity<List<Movements>>(response, HttpStatus.OK);
         } catch (Exception e) {
             ExceptionBody body = new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value());

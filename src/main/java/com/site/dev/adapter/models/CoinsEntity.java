@@ -41,8 +41,14 @@ public class CoinsEntity {
     @Column(name = "color")
     private String color;
 
-    @Column(name = "description")
+    @Column(name = "description", columnDefinition = "text")
     private String description;
+    @Column(name = "is_crypto")
+    private Boolean isCrypto;
+    @Column(name = "is_goal")
+    private Boolean isGoal;
+    @Column(name = "is_active")
+    private Boolean isActive;
 
     @Column(name = "symbol")
     private String symbol;

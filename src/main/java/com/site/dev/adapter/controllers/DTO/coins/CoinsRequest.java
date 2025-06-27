@@ -22,6 +22,9 @@ public class  CoinsRequest{
     private String category;
     private String description;
     private String subcategory;
+    private Boolean isCrypto;
+    private Boolean isGoal;
+    private Boolean isActive;
     private String color;
     private String image;
 }

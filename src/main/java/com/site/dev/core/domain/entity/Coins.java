@@ -25,6 +25,9 @@ public class Coins {
     private String subcategory;
     private String color;
     private String image;
+    private Boolean isCrypto;
+    private Boolean isGoal;
+    private Boolean isActive;
     private Users user;
 
     public Coins correct() {

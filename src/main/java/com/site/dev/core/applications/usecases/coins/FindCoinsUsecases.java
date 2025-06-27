@@ -23,6 +23,12 @@ public class FindCoinsUsecases {
                 return coinsGateWay.getBySymbol(index).stream().filter(coins -> coins.getUser().equals(users)).toList();
             case CATEGORY:
                 return coinsGateWay.getByCategory(index).stream().filter(coins -> coins.getUser().equals(users)).toList();
+            case CRYPTO:
+                return coinsGateWay.getAll().stream().filter(coins -> coins.getUser().equals(users)).filter(coins -> coins.getIsCrypto() == true).toList();
+            case GOAL:
+                return coinsGateWay.getAll().stream().filter(coins -> coins.getUser().equals(users)).filter(coins -> coins.getIsGoal() == true).toList();
+            case ACTIVE:
+                return coinsGateWay.getAll().stream().filter(coins -> coins.getUser().equals(users)).filter(coins -> coins.getIsActive() == true).toList();
 
             default:
                 return null;
@@ -36,5 +42,7 @@ public class FindCoinsUsecases {
     public List<Coins> execute(Users users) {
         return coinsGateWay.getAll().stream().filter(coins -> coins.getUser().equals(users)).toList();
     }
+
+    
 
 }
