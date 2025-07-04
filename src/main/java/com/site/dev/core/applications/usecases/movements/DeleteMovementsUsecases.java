@@ -7,6 +7,7 @@ import java.util.UUID;
 
 public class DeleteMovementsUsecases {
     private MovementsGateWay movementsGateWay;
+    
 
     public DeleteMovementsUsecases(MovementsGateWay movementsGateWay) {
         this.movementsGateWay = movementsGateWay;
