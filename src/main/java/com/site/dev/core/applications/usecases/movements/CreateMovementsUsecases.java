@@ -5,6 +5,7 @@ import com.site.dev.core.domain.entity.Movements;
 import com.site.dev.core.domain.exception.NoDuplicateEntityException;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 public class CreateMovementsUsecases {
     private MovementsGateWay movementsGateWay;
@@ -18,7 +19,7 @@ public class CreateMovementsUsecases {
         if (movementsGateWay.getByUUID(movements.getUuid()) != null) {
             throw new NoDuplicateEntityException("Movements");
         }
-        movements.setDate(LocalDateTime.now());
+        movements.setDate(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
         return movementsGateWay.create(movements.correct());
     }
 

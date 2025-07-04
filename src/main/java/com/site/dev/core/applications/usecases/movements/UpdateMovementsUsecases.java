@@ -1,5 +1,6 @@
 package com.site.dev.core.applications.usecases.movements;
 
+import com.site.dev.adapter.controllers.dto.movements.MovementsRequest;
 import com.site.dev.core.applications.gateway.MovementsGateWay;
 import com.site.dev.core.domain.entity.Movements;
 import com.site.dev.core.domain.exception.NotExistsEntityException;

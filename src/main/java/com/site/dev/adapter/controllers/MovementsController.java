@@ -166,9 +166,9 @@ public class MovementsController {
     }
 
     @PutMapping("/update/{uuid}")
-    ResponseEntity<?> update(@RequestBody Movements request, @PathVariable UUID uuid) {
+    ResponseEntity<?> update(@RequestBody MovementsRequest request, @PathVariable UUID uuid) {
         try {
-            Movements movements = updateMovementUsecases.execute(uuid, request);
+            Movements movements = updateMovementUsecases.execute(uuid, movementsmapper.toMovements(request));
             return new ResponseEntity<Movements>(movements, HttpStatus.OK);
         } catch (Exception e) {
             ExceptionBody body = new ExceptionBody(e.getMessage(), HttpStatus.BAD_REQUEST.value());
