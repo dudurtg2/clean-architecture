@@ -4,6 +4,7 @@ import com.site.dev.core.domain.entity.Users;
 import com.site.dev.core.domain.exception.IncorrectBodyException;
 import com.site.dev.core.domain.exception.NoDuplicateEntityException;
 import com.site.dev.core.applications.gateway.UsersGateWay;
+import com.site.dev.core.domain.exception.NotExistsEntityException;
 
 public class UpdateUsersUsecases {
     private UsersGateWay userGateWay;
@@ -21,8 +22,8 @@ public class UpdateUsersUsecases {
 
     public void verifyUserExists(String email) {
         Users existingUser = userGateWay.getUserByEmail(email);
-        if (existingUser != null) {
-            throw new NoDuplicateEntityException("User");
+        if (existingUser == null) {
+            throw new NotExistsEntityException("User");
         }
     }
    

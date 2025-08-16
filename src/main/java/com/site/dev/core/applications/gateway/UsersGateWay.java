@@ -13,4 +13,5 @@ public interface UsersGateWay {
     Users update(Users user);
     void delete(UUID uuid);
     String cryptPassword(String password);
+    Users getUserByApiKey(String apiKey);
 }

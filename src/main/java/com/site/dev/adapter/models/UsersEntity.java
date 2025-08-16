@@ -58,6 +58,8 @@ public class UsersEntity implements UserDetails {
     private String telefone;
     @Column(name = "provider")
     private String provider;
+    @Column(name = "apiKey")
+    private String apiKey;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

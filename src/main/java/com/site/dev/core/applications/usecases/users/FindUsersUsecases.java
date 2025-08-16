@@ -22,6 +22,9 @@ public class FindUsersUsecases {
     public Users execute(String email){
         return userGateWay.getUserByEmail(email);
     }
+    public Users authApiKey(String apiKey){
+        return userGateWay.getUserByApiKey(apiKey);
+    }
 
     public List<Users> execute(){
         return userGateWay.getAllUsers();

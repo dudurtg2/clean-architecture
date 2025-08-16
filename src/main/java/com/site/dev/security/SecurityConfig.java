@@ -40,7 +40,7 @@ public class SecurityConfig {
                                            CustomOAuth2UserService oauth2UserService,
                                            OAuth2SuccessHandler successHandler) throws Exception {
 
-        JwtAuthenticationFilter jwtFilter = new JwtAuthenticationFilter(findUsersUsecases,tokenProvider, userMapper);
+        JwtAuthenticationFilter jwtFilter = new JwtAuthenticationFilter(tokenProvider,findUsersUsecases, userMapper);
 
         http
                 .csrf().disable()

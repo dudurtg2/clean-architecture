@@ -54,4 +54,9 @@ public class UserRepositoryGateways implements UsersGateWay {
     public String cryptPassword(String password) {
         return new BCryptPasswordEncoder().encode(password);
     }
+
+    @Override
+    public Users getUserByApiKey(String apiKey) {
+        return userMapper.toUser(userRepository.findByApiKey(apiKey));
+    }
 }

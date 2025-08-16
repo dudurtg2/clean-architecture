@@ -16,15 +16,16 @@ public class LoginUsersUsecases {
         Users user = userGateWay.getUserByEmail(email);
 
         if (user == null) {
-            throw new IllegalArgumentException("User not found with email: " + email);
+
+            return userGateWay.createUser((Users.builder()
+                    .email(email)
+                    .name(nome)
+                    .sub(sub)
+                    .role(UserRole.NORMAL)
+                    .password(sub)
+                    .build()));
         }
-        return userGateWay.createUser((Users.builder()
-                .email(email)
-                .name(nome)
-                .sub(sub)
-                .role(UserRole.NORMAL)
-                .password(sub)
-                .build()));
+        return user;
     }
 
     public Users execute(String sub, String email, String nome) {
